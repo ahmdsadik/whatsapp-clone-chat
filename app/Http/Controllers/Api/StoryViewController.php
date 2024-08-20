@@ -3,38 +3,32 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Story\StoryViewRequest;
-use App\Http\Resources\StoryViewResource;
-use App\Models\StoryView;
+use App\Models\Story;
+use App\Services\StoryViewService;
+use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\Log;
 
 class StoryViewController extends Controller
 {
-    public function index()
+    public function __construct(
+        private readonly StoryViewService $storyViewService
+    )
     {
-        return StoryViewResource::collection(StoryView::all());
     }
 
-    public function store(StoryViewRequest $request)
+    public function viewStory(Story $story)
     {
-        return new StoryViewResource(StoryView::create($request->validated()));
-    }
+        try {
 
-    public function show(StoryView $storyView)
-    {
-        return new StoryViewResource($storyView);
-    }
+            $this->storyViewService->viewStory($story);
 
-    public function update(StoryViewRequest $request, StoryView $storyView)
-    {
-        $storyView->update($request->validated());
+            $this->successResponse(message: 'Story viewed successfully');
 
-        return new StoryViewResource($storyView);
-    }
-
-    public function destroy(StoryView $storyView)
-    {
-        $storyView->delete();
-
-        return response()->json();
+        } catch (UniqueConstraintViolationException) {
+            return $this->errorResponse('User Can\'t view story twice.');
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getMessage());
+            $this->errorResponse('error happened while viewing story');
+        }
     }
 }

@@ -15,8 +15,7 @@ class StoryViewRequest extends FormRequest
     {
         return [
             'story_id' => ['required', 'exists:stories'],
-            'user_id' => ['required', 'exists:users'],
-            'viewed_at' => ['required', 'date'],
+            'mobile_number' => ['required', 'exists:users,mobile_number'],
         ];
     }
 }

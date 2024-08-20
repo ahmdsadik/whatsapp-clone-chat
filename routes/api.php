@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ConversationParticipantController;
 use App\Http\Controllers\Api\ConversationParticipantRoleController;
 use App\Http\Controllers\Api\LinkedDeviceController;
 use App\Http\Controllers\Api\StoryController;
+use App\Http\Controllers\Api\StoryViewController;
 use App\Http\Controllers\Api\UserContactController;
 use App\Http\Controllers\Api\UserProfileController;
 use App\Http\Controllers\Api\UserStoryPrivacyController;
@@ -49,7 +50,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [StoryController::class, 'store']);
         Route::delete('{story}', [StoryController::class, 'destroy']);
 
-        Route::post('update-privacy', UserStoryPrivacyController::class);
+        ################## User Stories Views Routes ##################
+        Route::post('{story}/view', [StoryViewController::class, 'viewStory']);
+
+        ################## User Stories Privacy Routes ##################
+        Route::post('privacy', UserStoryPrivacyController::class);
     });
 
     ################## Conversations Routes ##################
@@ -72,7 +77,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('{conversation}/participants/role')->group(function () {
             Route::post('/', ConversationParticipantRoleController::class);
         });
-
     });
-
 });

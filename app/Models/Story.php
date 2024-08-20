@@ -64,7 +64,7 @@ class Story extends Model implements HasMedia
         return $this->hasMany(StoryPrivacyUser::class, 'story_id');
     }
 
-    public function views(): HasMany
+    public function hasViews(): HasMany
     {
         return $this->hasMany(StoryView::class, 'story_id');
     }
@@ -73,7 +73,7 @@ class Story extends Model implements HasMedia
     {
         return $this->belongsToMany(User::class, 'story_views', 'story_id', 'user_id')
             ->withPivot(['viewed_at'])
-            ->as('details')
+            ->as('info')
             ->using(StoryView::class);
     }
 
