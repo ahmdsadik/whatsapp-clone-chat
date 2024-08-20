@@ -84,6 +84,12 @@ class Conversation extends Model implements HasMedia
             ->withCasts(['left_at' => 'datetime']);
     }
 
+    /**
+     * Check if a given user is admin or owner in conversation
+     *
+     * @param $user_id
+     * @return bool
+     */
     public function isAdmin($user_id): bool
     {
         return $this->hasParticipants()
@@ -95,6 +101,12 @@ class Conversation extends Model implements HasMedia
             ->exists();
     }
 
+    /**
+     * Check if a given users are admins in conversation
+     *
+     * @param $users_ids
+     * @return bool
+     */
     public function areAdmins($users_ids): bool
     {
         return $this->hasParticipants()
@@ -105,15 +117,26 @@ class Conversation extends Model implements HasMedia
                 ->count() === count($users_ids);
     }
 
+    /**
+     * Check if these ids of participants are in the conversation
+     *
+     * @param array $participant_ids
+     * @return bool
+     */
     public function isParticipant(array $participant_ids): bool
     {
-        $matchingParticipantsCount = $this->hasParticipants()
-            ->whereIn('user_id', $participant_ids)
-            ->count();
-
-        return $matchingParticipantsCount === count($participant_ids);
+        return $this->hasParticipants()
+                ->whereIn('user_id', $participant_ids)
+                ->count() === count($participant_ids);
     }
 
+    /**
+     * Check if user can give specific role
+     *
+     * @param $participant_id
+     * @param ParticipantRole $role
+     * @return bool
+     */
     public function userCanAssignRole($participant_id, ParticipantRole $role): bool
     {
         return $this->hasParticipants()
@@ -122,6 +145,12 @@ class Conversation extends Model implements HasMedia
             ->exists();
     }
 
+    /**
+     * Check if the conversation allowing specific permission
+     *
+     * @param ConversationPermissionEnum $permission
+     * @return bool
+     */
     public function isAllowing(ConversationPermissionEnum $permission): bool
     {
         return $this->permissions()->where($permission->value, true)->exists();
