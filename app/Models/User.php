@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\StoryPrivacy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -75,7 +77,7 @@ class User extends Authenticatable implements HasMedia
 
     public function conversations(): BelongsToMany
     {
-        return $this->belongsToMany(Conversation::class, 'participants', 'user_id', 'conversation_id')
+        return $this->belongsToMany(Conversation::class, 'participants', 'user_id', 'conversation_id', 'id', 'id')
             ->withPivot(['role', 'join_at'])
             ->as('info')
             ->using(Participant::class);
@@ -89,5 +91,32 @@ class User extends Authenticatable implements HasMedia
     public function stories(): HasMany
     {
         return $this->hasMany(Story::class, 'user_id');
+    }
+
+    public function authorizedStories(): HasMany
+    {
+        return $this->hasMany(Story::class, 'user_id')
+            ->where(function (Builder $builder) {
+                $builder->where('privacy', StoryPrivacy::ALL_CONTACTS)
+                    ->orWhere(function (Builder $builder) {
+                        $builder->where('privacy', StoryPrivacy::ALL_CONTACTS_EXCEPT)
+                            ->whereDoesntHave('privacyUsers', function (Builder $builder) {
+                                $builder->where('user_id', auth()->id());
+                            });
+                    })
+                    ->orWhere(function (Builder $builder) {
+                        $builder->where('privacy', StoryPrivacy::ONLY_CONTACTS)
+                            ->whereHas('privacyUsers', function (Builder $builder) {
+                                $builder->where('user_id', auth()->id());
+                            });
+                    });
+            })
+            ->orderBy('created_at')
+            ->with('media');
+    }
+
+    public function storiesPrivacy(): HasMany
+    {
+        return $this->hasMany(UserStoryPrivacy::class, 'user_id');
     }
 }

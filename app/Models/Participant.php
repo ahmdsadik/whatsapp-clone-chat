@@ -16,14 +16,8 @@ class Participant extends Pivot
         'conversation_id',
         'user_id',
         'role',
+        'join_at'
     ];
-
-    #################### Relations ####################
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     protected function casts(): array
     {
@@ -31,5 +25,12 @@ class Participant extends Pivot
             'join_at' => 'datetime',
             'role' => ParticipantRole::class
         ];
+    }
+
+    #################### Relations ####################
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

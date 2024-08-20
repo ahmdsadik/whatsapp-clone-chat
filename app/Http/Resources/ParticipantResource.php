@@ -11,9 +11,9 @@ class ParticipantResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => UserResource::make()($this->whenLoaded('user')),
-            'role' => $this->role->label(),
-            'join_at' => $this->join_at->diffForHumans(),
+            'user' => UserResource::make($this),
+            'role' => $this->info->role->label(),
+            'join_at' => $this->info->join_at->diffForHumans(),
         ];
     }
 }

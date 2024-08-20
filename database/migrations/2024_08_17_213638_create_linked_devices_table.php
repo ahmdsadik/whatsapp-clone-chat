@@ -9,13 +9,11 @@ return new class extends Migration {
     {
         Schema::create('linked_devices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->index()->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('token_id')->constrained('personal_access_tokens')->cascadeOnDelete();
             $table->string('device_name');
             $table->string('channel_name')->unique();
-            $table->foreignId('token_id')->index()->constrained('personal_access_tokens')->cascadeOnDelete();
             $table->timestamp('linked_at')->useCurrent();
-
-
         });
     }
 

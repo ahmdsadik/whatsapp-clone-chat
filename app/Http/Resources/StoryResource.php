@@ -14,9 +14,9 @@ class StoryResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => strtolower($this->type->name),
-            'duration' => $this->when($this->type === StoryType::VIDEO, $this->duration),
+            'duration' => $this->when($this->type === StoryType::VIDEO, $this->duration ?? ''),
             'text' => $this->text ?? '',
-            'media' => MediaResource::make($this->media_file),
+            'media' => MediaResource::collection($this->whenLoaded('media')),
             'created_at' => $this->created_at->diffForHumans(),
         ];
     }

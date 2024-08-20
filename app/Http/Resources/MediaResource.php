@@ -17,7 +17,7 @@ class MediaResource extends JsonResource
             'type' => $this->type,
             'extension' => $this->extension,
             'url' => $this->original_url,
-            'size' => number_format($this->size / 1000, 2),
+            'size' => number_format($this->size / 1000_000, 2) . ' MB',
         ];
     }
 }

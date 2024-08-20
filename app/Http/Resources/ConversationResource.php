@@ -14,8 +14,10 @@ class ConversationResource extends JsonResource
             'id' => $this->id,
             'label' => $this->label ?? '',
             'type' => $this->type ?? '',
-            'createdBy' => new UserResource($this->whenLoaded('owner')),
+            'createdBy' => $this->when($this->created_by, UserResource::make($this->whenLoaded('owner'))),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'avatar' => MediaResource::collection($this->whenLoaded('media')),
+            'participants' => ConversationParticipantsResource::collection($this->whenLoaded('participants')),
         ];
     }
 }

@@ -9,9 +9,11 @@ class StoryObserver
 {
     public function created(Story $story): void
     {
+        // TODO:: Broadcast
     }
 
     public function deleted(Story $story): void
     {
+        // TODO:: Broadcast
     }
 }

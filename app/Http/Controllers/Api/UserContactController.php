@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\UserContactsDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Contact\InsertUserContactRequest;
-use App\Http\Resources\ContactResource;
+use App\Services\UserContactService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class UserContactController extends Controller
 {
+    public function __construct(
+        private readonly UserContactService $userContactService
+    )
+    {
+    }
+
     /**
      * Insert Contacts
      *
@@ -19,17 +26,7 @@ class UserContactController extends Controller
     public function insertContacts(InsertUserContactRequest $request)
     {
         try {
-            $user = auth()->user();
-
-            $contacts = [];
-
-            foreach ($request->contacts as $contact) {
-                $contacts['user_id'] = $user->id;
-                $contacts['mobile_number'] = $contact['mobile_number'];
-                $contacts['name'] = $contact['name'];
-            }
-
-            $user->contacts()->insertOrIgnore($contacts);
+            $this->userContactService->insertContacts(UserContactsDTO::fromFormRequest($request));
 
             return $this->successResponse(message: 'User contacts updated successfully!');
 
@@ -47,23 +44,13 @@ class UserContactController extends Controller
     public function contactsInfo()
     {
         try {
-            $user = auth()->user()->load('contacts.registeredUser.media');
 
-            $registeredUsers = [];
-            $notRegisteredUsers = [];
-
-            foreach ($user->contacts as $contact) {
-                if ($contact->registeredUser) {
-                    $registeredUsers[] = ContactResource::make($contact);
-                } else {
-                    $notRegisteredUsers[] = ContactResource::make($contact);
-                }
-            }
+            [$registeredContacts, $notRegisteredContacts] = $this->userContactService->UserContactsDetails();
 
             return $this->successResponse(
                 [
-                    'registeredUsers' => $registeredUsers,
-                    'notRegisteredUsers' => $notRegisteredUsers
+                    'registeredContacts' => $registeredContacts,
+                    'notRegisteredUsers' => $notRegisteredContacts
                 ]
             );
 

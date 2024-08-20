@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\GenerateLinkChannelAction;
+use App\DTO\LinkedDeviceDTO;
+use App\Exceptions\InvalidChannelLinkException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LinkedDevice\LinkDeviceRequest;
 use App\Http\Requests\LinkedDevice\UnlinkDeviceRequest;
-use App\Http\Resources\LinkedDeviceResource;
 use App\Models\LinkedDevice;
-use Carbon\Carbon;
+use App\Services\LinkedDeviceService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class LinkedDeviceController extends Controller
 {
+    public function __construct(
+        private readonly LinkedDeviceService $linkedDeviceService,
+    )
+    {
+    }
+
     /**
      * Retrieve user's linked devices
      *
@@ -22,16 +29,15 @@ class LinkedDeviceController extends Controller
     public function index()
     {
         try {
-            $linked_devices = auth()->user()->linkedDevices()->with(['token:id,last_used_at'])->get();
 
             return $this->successResponse([
-                'linked_devices' => LinkedDeviceResource::collection($linked_devices),
+                'linked_devices' => $this->linkedDeviceService->allLinkedDevices(),
             ], 'Linked devices retrieved Successfully!');
+
         } catch (\Throwable $throwable) {
-            Log::error($throwable->getMessage());
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened While trying to retrieve linked devices.');
         }
-
     }
 
     /**
@@ -43,16 +49,14 @@ class LinkedDeviceController extends Controller
     {
         try {
             // Generate channel name valid for a minute
-            $random_bytes = bin2hex(random_bytes(16));
-            $timestamp = Carbon::now()->addMinute()->timestamp;
-            $channelName = "{$random_bytes}_{$timestamp}";
+            $channelName = (new GenerateLinkChannelAction())->execute();
 
             return $this->successResponse([
                 'channel_name' => $channelName,
             ], 'Link Channel Generated Successfully!');
 
         } catch (\Throwable $throwable) {
-            Log::error($throwable->getMessage());
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened While creating link channel.');
         }
     }
@@ -66,34 +70,17 @@ class LinkedDeviceController extends Controller
     public function linkDevice(LinkDeviceRequest $request)
     {
         try {
-            // Check Channel name
-            $timestamp = explode('_', $request->validated('channel_name'))[1] ?? '';
 
-            if (!Carbon::now()->lessThanOrEqualTo(Carbon::createFromTimestamp($timestamp))) {
-                return $this->errorResponse('Invalid Qr. try another one');
-            }
-
-            // Generate token
-            $user = auth()->user();
-            $access_token = $user->createToken($request->validated('device_name'));
-            $access_token_id = $access_token->accessToken->id;
-            $token = $access_token->plainTextToken;
-
-            // Prepare data to store
-            $data = [
-                ...$request->validated(),
-                'token_id' => $access_token_id,
-            ];
-
-
-            $user->linkedDevices()->create($data);
+            $this->linkedDeviceService->linkDevice(LinkedDeviceDTO::fromApiFormRequest($request));
 
             // TODO:: Broadcast Token To web to login in
 
             return $this->successResponse(message: 'Device Linked Successfully!');
+        } catch (InvalidChannelLinkException $channelException) {
+            return $this->errorResponse($channelException->getMessage());
         } catch (\Throwable $throwable) {
-            Log::error($throwable->getMessage());
-            return $this->errorResponse('Error happened While linking your device.');
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+            return $this->errorResponse('Error happened while linking your device.');
         }
     }
 
@@ -110,14 +97,11 @@ class LinkedDeviceController extends Controller
 
         try {
             // Delete Linked device and token
-            DB::transaction(function () use ($linkedDevice) {
-                $linkedDevice->token()->delete();
-                $linkedDevice->delete();
-            });
+            $this->linkedDeviceService->unlinkDevice($linkedDevice);
 
             return $this->successResponse(message: 'Device Unlinked Successfully!');
         } catch (\Throwable $throwable) {
-            Log::error($throwable->getMessage());
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error While trying to unlink device');
         }
     }

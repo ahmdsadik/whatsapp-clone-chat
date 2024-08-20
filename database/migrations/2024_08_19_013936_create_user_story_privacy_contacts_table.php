@@ -7,16 +7,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('story_privacy_users', function (Blueprint $table) {
+        Schema::create('user_story_privacy_contacts', function (Blueprint $table) {
+            $table->foreignId('user_story_privacy_id')->constrained('user_story_privacies')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignUuid('story_id')->constrained()->cascadeOnDelete();
 
-            $table->primary(['user_id', 'story_id']);
+            $table->primary(['user_id', 'user_story_privacy_id']);
+
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('story_privacy_users');
+        Schema::dropIfExists('user_story_privacy_contacts');
     }
 };

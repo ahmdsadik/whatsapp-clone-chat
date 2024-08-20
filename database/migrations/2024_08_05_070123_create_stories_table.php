@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->enum('type', StoryType::values());
             $table->string('text')->nullable();
             $table->string('duration')->nullable();
-            $table->enum('privacy', StoryPrivacy::values());
+            $table->enum('privacy', StoryPrivacy::values())->comment(StoryPrivacy::comment());
             $table->timestamp('created_at')->useCurrent();
         });
     }

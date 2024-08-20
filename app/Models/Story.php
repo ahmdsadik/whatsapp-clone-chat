@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -51,6 +52,8 @@ class Story extends Model implements HasMedia
         return $this->getFirstMedia('media');
     }
 
+    #################### Relations ####################
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -59,5 +62,28 @@ class Story extends Model implements HasMedia
     public function privacyUsers(): HasMany
     {
         return $this->hasMany(StoryPrivacyUser::class, 'story_id');
+    }
+
+    public function views(): HasMany
+    {
+        return $this->hasMany(StoryView::class, 'story_id');
+    }
+
+    public function viewers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'story_views', 'story_id', 'user_id')
+            ->withPivot(['viewed_at'])
+            ->as('details')
+            ->using(StoryView::class);
+    }
+
+//    public function privacyContacts(): HasMany
+//    {
+//        return $this->hasMany();
+//    }
+
+    public function privacyContacts(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'story_privacy_contacts', 'story_id', 'user_id');
     }
 }

@@ -11,10 +11,14 @@ class StoryPrivacyUser extends Pivot
 {
     public $timestamps = false;
 
+    protected $table = 'story_privacy_contacts';
+
     protected $fillable = [
         'user_id',
         'story_id',
     ];
+
+    #################### Relations ####################
 
     public function user(): BelongsTo
     {

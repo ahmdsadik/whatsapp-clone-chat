@@ -8,4 +8,14 @@ trait EnumHelpers
     {
         return array_column(self::cases(), 'value');
     }
+
+    public static function comment(): string
+    {
+        $comment = '';
+        foreach (self::cases() as $case) {
+            $comment .= "{$case->value} => {$case->label()}, ";
+        }
+
+        return rtrim($comment, ', ');
+    }
 }

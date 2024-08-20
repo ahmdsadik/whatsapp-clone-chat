@@ -88,7 +88,7 @@ class UserProfileController extends Controller
             $user = Auth::user()->load('registeredContacts');
 
             $validatedData = $request->validated();
-            unset($validatedData['avatar']); // Remove 'image' key
+            unset($validatedData['avatar']); // Remove 'avatar' key
 
             if ($request->hasFile('avatar')) {
                 $user->addMediaFromRequest('avatar')

@@ -2,51 +2,88 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\ConversationDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Conversation\CreateConversationsRequest;
+use App\Http\Requests\Conversation\UpdateConversationRequest;
 use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
-use Illuminate\Http\Request;
+use App\Services\ConversationService;
+use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\Log;
 
 class ConversationController extends Controller
 {
-    public function index()
+
+    public function __construct(
+        private readonly ConversationService $conversationService
+    )
     {
-        return ConversationResource::collection(Conversation::all());
     }
 
-    public function store(Request $request)
+    public function index()
     {
-        $data = $request->validate([
-            'label' => ['required'],
-            'type' => ['required'],
-            'limit' => ['required'],
-        ]);
+        try {
+            return $this->successResponse([
+                'conversations' => $this->conversationService->userConversations()
+            ],
+                'conversations retrieved successfully'
+            );
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+            return $this->errorResponse('Error happened While trying to retrieve conversations.');
+        }
+    }
 
-        return new ConversationResource(Conversation::create($data));
+    public function store(CreateConversationsRequest $request)
+    {
+        try {
+
+            return $this->successResponse([
+                'conversation_id' => $this->conversationService->createConversation(ConversationDTO::fromFormRequest($request)),
+            ],
+                'Conversation Created Successfully'
+            );
+
+        } catch (UniqueConstraintViolationException) {
+            return $this->errorResponse('Can\'t add the same participant twice.');
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+            return $this->errorResponse('Error happened While trying to create conversation.');
+        }
     }
 
     public function show(Conversation $conversation)
     {
-        return new ConversationResource($conversation);
+        return ConversationResource::make($conversation);
     }
 
-    public function update(Request $request, Conversation $conversation)
+    public function update(UpdateConversationRequest $request, Conversation $conversation)
     {
-        $data = $request->validate([
-            'label' => ['required'],
-            'type' => ['required'],
-            'limit' => ['required'],
-        ]);
+        try {
 
-        $conversation->update($data);
+            return $this->successResponse([
+                'conversation_id' => $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request), $conversation),
+            ],
+                'Conversation Updated Successfully'
+            );
 
-        return new ConversationResource($conversation);
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+            return $this->errorResponse('Error happened While trying to create conversation.');
+        }
     }
 
     public function destroy(Conversation $conversation)
     {
-        $conversation->delete();
+        try {
+            $this->conversationService->deleteConversation($conversation);
 
-        return response()->json();
+            return $this->successResponse(message: 'Conversation Deleted Successfully');
+
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+            return $this->errorResponse('Error happened While trying to delete conversation.');
+        }
     }
 }

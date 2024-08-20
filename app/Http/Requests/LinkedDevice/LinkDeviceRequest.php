@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\LinkedDevice;
 
+use App\Rules\ValidChannelRule;
 use App\Traits\ApiValidation;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\ValidationException;
 
 class LinkDeviceRequest extends FormRequest
 {
@@ -19,7 +19,7 @@ class LinkDeviceRequest extends FormRequest
     {
         return [
             'device_name' => ['required', 'string', 'max:254'],
-            'channel_name' => ['required', 'string', 'max:48'],
+            'channel_name' => ['required', 'string', 'max:48', new ValidChannelRule],
         ];
     }
 }

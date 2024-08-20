@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OTP\ResendOTPRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\OTP\OTP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class OTPController extends Controller
 {
-    public function resendOtp(ResendOTPRequest $request, OtpGenerator $otpGenerator)
+    public function resendOtp(ResendOTPRequest $request, OTP $otp)
     {
 
         try {
@@ -23,7 +24,7 @@ class OTPController extends Controller
 
             $mobile_number = implode('', $phone_parts);
 
-            $otp = $otpGenerator->generateOtp($request->mobile_number);
+            $otp = $otp->generate($request->mobile_number);
             OpenApiService::sendSms($mobile_number, $otp->token);
 
             return $this->successResponse(message: 'OTP sent');
@@ -32,7 +33,7 @@ class OTPController extends Controller
         }
     }
 
-    public function verifyOTP(Request $request, OtpGenerator $otpGenerator)
+    public function verifyOTP(Request $request, OTP $otp)
     {
         $validator = Validator::make($request->all(), [
             'otp' => 'required',
@@ -50,7 +51,7 @@ class OTPController extends Controller
                 return $this->errorResponse('User does not exist');
             }
 
-            // $otp = $otpGenerator->validate($user->mobile_number, $request->otp);
+            // $otp = $otp->validate($user->mobile_number, $request->otp);
 
 
             // if (!$otp->status) {

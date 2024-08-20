@@ -12,7 +12,6 @@ class LinkedDeviceResource extends JsonResource
     {
         return [
             'device_name' => $this->device_name,
-            'channel_name' => $this->channel_name,
             'last_active' => $this->token->last_used_at?->diffForHumans() ?? '',
             'linked_at' => $this->linked_at->format('Y-m-d H:i:s'),
         ];

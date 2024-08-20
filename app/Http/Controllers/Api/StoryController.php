@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\StoryDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Story\CreateStoryRequest;
 use App\Http\Requests\Story\DeleteStoryRequest;
-use App\Http\Resources\StoryResource;
 use App\Models\Story;
+use App\Services\StoryService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class StoryController extends Controller
 {
+    public function __construct(
+        private readonly StoryService $storyService
+    )
+    {
+    }
+
     /**
      * Retrieve user's authorized stories
      *
@@ -21,12 +28,12 @@ class StoryController extends Controller
     public function index()
     {
         try {
-            $stories = auth()->user()->stories()->with(['media'])->get();
 
             return $this->successResponse([
-                'stories' => StoryResource::collection($stories),
+                'stories' => $this->storyService->authorizedStories(),
             ], 'Stories retrieved Successfully!');
-        } catch (\Throwable $throwable) {
+
+        } catch (Throwable $throwable) {
             Log::error($throwable->getMessage());
             return $this->errorResponse('Error happened While trying to retrieve Stories.');
         }
@@ -40,19 +47,12 @@ class StoryController extends Controller
      */
     public function store(CreateStoryRequest $request)
     {
-        // TODO:: broadcast the new story
         try {
-            DB::transaction(function () use ($request) {
-                $story = auth()->user()->stories()->create($request->validated());
 
-                if ($request->hasFile('media')) {
-                    $story->addMediaFromRequest('media')
-                        ->toMediaCollection('media');
-                }
-            });
+            $this->storyService->createStory(StoryDTO::fromFormRequest($request));
 
             return $this->successResponse(message: 'Story published Successfully!');
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             Log::error($throwable->getMessage());
             return $this->errorResponse('Error happened While trying to publish user\'s Story.');
         }
@@ -69,10 +69,10 @@ class StoryController extends Controller
     {
         // TODO:: broadcast the deleted story
         try {
-            $story->delete();
+            $this->storyService->deleteStory($story);
 
             return $this->successResponse(message: 'Story deleted Successfully!');
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             Log::error($throwable->getMessage());
             return $this->errorResponse('Error happened While trying to delete user\'s Story.');
         }

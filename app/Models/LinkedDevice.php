@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
+use App\Observers\LinkedDeviceObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Sanctum\PersonalAccessToken;
 
+#[ObservedBy(LinkedDeviceObserver::class)]
 class LinkedDevice extends Model
 {
     public $timestamps = false;
 
     protected $fillable = [
         'user_id',
+        'token_id',
         'device_name',
         'channel_name',
-        'token_id',
+        'linked_at',
     ];
 
     protected function casts(): array
@@ -33,6 +37,9 @@ class LinkedDevice extends Model
 
     public function token(): BelongsTo
     {
-        return $this->belongsTo(PersonalAccessToken::class);
+        return $this->belongsTo(PersonalAccessToken::class, 'token_id');
     }
 }
+
+
+
