@@ -21,7 +21,6 @@ class ConversationPermission extends Model
     protected function casts(): array
     {
         return [
-            'conversation_id' => 'bool',
             'edit_group_settings' => 'bool',
             'send_messages' => 'bool',
             'add_other_members' => 'bool',

@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 
@@ -9,9 +10,13 @@ class CheckRemoveParticipantAction
 {
     /**
      * @throws UserNotHavePermissionException
+     * @throws ParticipantNotExistsInConversationException
      */
     public function execute(Conversation $conversation, int $participant_id): void
     {
+
+        $this->checkIfUserIsParticipant($conversation);
+
         if ($conversation->created_by !== auth()->id()) {
             $this->checkIfUserHasPermission($conversation, $participant_id);
 
@@ -36,6 +41,16 @@ class CheckRemoveParticipantAction
     {
         if ($conversation->areAdmins([$participant_id, auth()->id()])) {
             throw new UserNotHavePermissionException();
+        }
+    }
+
+    /**
+     * @throws ParticipantNotExistsInConversationException
+     */
+    private function checkIfUserIsParticipant(Conversation $conversation)
+    {
+        if (!$conversation->isParticipant([auth()->id()])) {
+            throw new ParticipantNotExistsInConversationException();
         }
     }
 }

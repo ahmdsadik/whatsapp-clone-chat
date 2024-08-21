@@ -15,7 +15,8 @@ class ConversationParticipantController extends Controller
     public function __construct(
         private readonly ConversationParticipantService $conversationParticipantService
     )
-    {}
+    {
+    }
 
     public function participants(Conversation $conversation)
     {
@@ -61,6 +62,20 @@ class ConversationParticipantController extends Controller
                 'participants' => $this->conversationParticipantService->conversationParticipants($conversation)
             ],
                 'Participant was removed successfully.'
+            );
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+            return $this->errorResponse('Error happened While trying to remove participant.');
+        }
+    }
+
+    public function participantLeave(Conversation $conversation)
+    {
+        try {
+            $this->conversationParticipantService->participantLeave($conversation);
+
+            return $this->successResponse(
+                message: 'Participant left Conversation successfully.'
             );
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);

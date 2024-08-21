@@ -3,14 +3,18 @@
 namespace App\Services;
 
 use App\Actions\CheckAddParticipantPermissionAction;
+use App\Actions\CheckParticipantLeaveAction;
 use App\Actions\CheckRemoveParticipantAction;
+use App\Actions\ConversationNeedsAdminsCheckAction;
 use App\Enums\ParticipantRole;
+use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Resources\ParticipantResource;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 
 class ConversationParticipantService
 {
@@ -35,15 +39,19 @@ class ConversationParticipantService
 
         (new CheckAddParticipantPermissionAction())->execute($conversation);
 
-        $conversation->participants()->attach($users_ids, ['role' => ParticipantRole::MEMBER]);
-        $conversation->previousParticipants()->detach($users_ids);
+        DB::transaction(function () use ($conversation, $users_ids) {
+
+            $conversation->participants()->attach($users_ids, ['role' => ParticipantRole::MEMBER]);
+            $conversation->previousParticipants()->detach($users_ids);
+
+        });
 
         // TODO:: Broadcast to new participants
 
     }
 
     /**
-     * @throws UserNotHavePermissionException
+     * @throws UserNotHavePermissionException|ParticipantNotExistsInConversationException
      */
     public function removeParticipant(FormRequest $request, Conversation $conversation): void
     {
@@ -52,10 +60,33 @@ class ConversationParticipantService
 
         (new CheckRemoveParticipantAction())->execute($conversation, $participant_id);
 
-        $conversation->participants()->detach($participant_id);
-        $conversation->previousParticipants()->attach($participant_id);
+        DB::transaction(function () use ($conversation, $participant_id) {
+
+            $conversation->participants()->detach($participant_id);
+            $conversation->previousParticipants()->attach($participant_id);
+
+        });
 
         // TODO: Broadcast
 
+    }
+
+    /**
+     * @throws ParticipantNotExistsInConversationException
+     */
+    public function participantLeave(Conversation $conversation): void
+    {
+
+        (new CheckParticipantLeaveAction())->execute($conversation);
+
+        DB::transaction(function () use ($conversation) {
+
+            $conversation->participants()->detach(auth()->id());
+            $conversation->previousParticipants()->attach(auth()->id());
+
+            (new ConversationNeedsAdminsCheckAction())->execute($conversation);
+        });
+
+        // TODO: Broadcast
     }
 }
