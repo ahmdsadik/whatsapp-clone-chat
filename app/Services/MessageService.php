@@ -53,4 +53,13 @@ class MessageService
             $message->delete();
         });
     }
+
+    public function viewMessage(Message $message): void
+    {
+        if ($message->user_id !== auth()->id()) {
+            throw new UserNotHavePermissionException('User Cannot view this Message');
+        }
+
+        $message->views()->attach(auth()->id());
+    }
 }
