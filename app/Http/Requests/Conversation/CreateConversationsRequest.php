@@ -20,6 +20,7 @@ class CreateConversationsRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string', 'max:254'],
+            'description' => ['required', 'string', 'max:254'],
             'avatar' => ['nullable', 'image'],
             'permissions' => ['required', 'array', 'size:3'],
             'permissions.*' => ['required', Rule::enum(ConversationPermission::class)],

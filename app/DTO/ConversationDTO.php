@@ -8,6 +8,7 @@ class ConversationDTO extends BaseDTO
 {
     public function __construct(
         public string $label,
+        public ?string $description,
         public  $avatar,
         public array  $participants,
         public array  $permissions
@@ -19,6 +20,7 @@ class ConversationDTO extends BaseDTO
     {
         return new self(
             $formRequest->validated('label'),
+            $formRequest->validated('description'),
             $formRequest->validated('avatar'),
             $formRequest->validated('participants'),
             $formRequest->validated('permissions')

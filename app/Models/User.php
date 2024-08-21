@@ -6,7 +6,6 @@ namespace App\Models;
 use App\Enums\StoryPrivacy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -75,12 +74,10 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Contact::class)->has('registeredUser');
     }
 
-    public function conversations(): BelongsToMany
+    public function conversations(): HasMany
     {
-        return $this->belongsToMany(Conversation::class, 'participants', 'user_id', 'conversation_id', 'id', 'id')
-            ->withPivot(['role', 'join_at'])
-            ->as('info')
-            ->using(Participant::class);
+        return $this->hasMany(Conversation::class, 'user_id')
+            ->orderByDesc('created_at');
     }
 
     public function linkedDevices(): HasMany
