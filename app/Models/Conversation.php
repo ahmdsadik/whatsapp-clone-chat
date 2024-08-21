@@ -27,6 +27,7 @@ class Conversation extends Model implements HasMedia
 
     protected $fillable = [
         'label',
+        'description',
         'created_by',
         'type',
         'limit',
@@ -84,6 +85,19 @@ class Conversation extends Model implements HasMedia
             ->withCasts(['left_at' => 'datetime']);
     }
 
+    public function oldestParticipant(): HasOne
+    {
+        return $this->hasOne(Participant::class, 'conversation_id')
+            ->where('role', ParticipantRole::MEMBER)
+            ->orderBy('join_at');
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'conversation_id')
+            ->orderBy('created_at');
+    }
+
     /**
      * Check if a given user is admin or owner in conversation
      *
@@ -118,7 +132,20 @@ class Conversation extends Model implements HasMedia
     }
 
     /**
-     * Check if these ids of participants are in the conversation
+     * Check if Conversation has participants with role admin
+     *
+     * @return bool
+     */
+    public function hasAdmins(): bool
+    {
+        return $this->hasParticipants()
+                ->where(function (Builder $query) {
+                    $query->where('role', ParticipantRole::ADMIN);
+                })->count() > 0;
+    }
+
+    /**
+     * Check if these ids of participants are in the conversation participants
      *
      * @param array $participant_ids
      * @return bool
@@ -154,5 +181,13 @@ class Conversation extends Model implements HasMedia
     public function isAllowing(ConversationPermissionEnum $permission): bool
     {
         return $this->permissions()->where($permission->value, true)->exists();
+    }
+
+    public function makeAdmin($participant_id): void
+    {
+        $this->hasParticipants()->create([
+            'user_id' => $participant_id,
+            'role' => ParticipantRole::ADMIN,
+        ]);
     }
 }
