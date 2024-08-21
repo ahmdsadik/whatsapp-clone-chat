@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\ConversationParticipantController;
 use App\Http\Controllers\Api\ConversationParticipantRoleController;
 use App\Http\Controllers\Api\LinkedDeviceController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\StoryController;
 use App\Http\Controllers\Api\StoryViewController;
 use App\Http\Controllers\Api\UserContactController;
@@ -17,7 +18,7 @@ Route::post('login', [AuthenticationController::class, 'login']);
 
 
 Route::get('test/{conversation}', function (\App\Models\Conversation $conversation) {
-    dd($conversation->isAllowing(\App\Enums\ConversationPermission::ADD_OTHER_PARTICIPANTS));
+    dd($conversation->oldestParticipant->toArray());
 
 })->middleware('auth:sanctum');
 
@@ -77,5 +78,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('{conversation}/participants/role')->group(function () {
             Route::post('/', ConversationParticipantRoleController::class);
         });
+    });
+
+    ################## Messages Routes ##################
+    Route::prefix('messages')->group(function () {
+        Route::get('/{conversation}', [MessageController::class, 'index']);
+        Route::post('/', [MessageController::class, 'store']);
+        Route::post('/{message}/delete', [MessageController::class, 'destroy']);
+        Route::post('/{message}/view', [MessageController::class, 'view']);
     });
 });
