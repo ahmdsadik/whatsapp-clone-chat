@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConversationParticipant\AddParticipantRequest;
 use App\Http\Requests\ConversationParticipant\RemoveParticipantRequest;
@@ -77,6 +78,8 @@ class ConversationParticipantController extends Controller
             return $this->successResponse(
                 message: 'Participant left Conversation successfully.'
             );
+        } catch (ParticipantNotExistsInConversationException $exception) {
+            return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened While trying to remove participant.');
