@@ -12,7 +12,7 @@ class CheckRemoveParticipantAction
      * @throws UserNotHavePermissionException
      * @throws ParticipantNotExistsInConversationException
      */
-    public function execute(Conversation $conversation, int $participant_id): void
+    public function execute(Conversation $conversation, $participant_id): void
     {
 
         $this->checkIfUserIsParticipant($conversation);
@@ -28,7 +28,7 @@ class CheckRemoveParticipantAction
     /**
      * @throws UserNotHavePermissionException
      */
-    private function checkIfUserHasPermission(Conversation $conversation, int $participant_id): void
+    private function checkIfUserHasPermission(Conversation $conversation, $participant_id): void
     {
         if (!$conversation->isAdmin(auth()->id()) || $conversation->isOwner($participant_id)) {
             throw new UserNotHavePermissionException();
@@ -38,7 +38,7 @@ class CheckRemoveParticipantAction
     /**
      * @throws UserNotHavePermissionException
      */
-    private function checkIfBothAreAdmins(Conversation $conversation, int $participant_id): void
+    private function checkIfBothAreAdmins(Conversation $conversation, $participant_id): void
     {
         if ($conversation->areAdmins([$participant_id, auth()->id()])) {
             throw new UserNotHavePermissionException();

@@ -59,18 +59,17 @@ class ConversationParticipantService
      */
     public function removeParticipant(FormRequest $request, Conversation $conversation): void
     {
-        $participant = User::where('mobile_number', $request->validated('participant'))->get(['id'])->first();
-        $participant_id = $participant->id;
+        $participant = User::firstWhere('mobile_number', $request->validated('participant'));
 
-        (new CheckRemoveParticipantAction())->execute($conversation, $participant_id);
+        (new CheckRemoveParticipantAction())->execute($conversation, $participant->id);
 
-        DB::transaction(function () use ($conversation, $participant_id) {
+        DB::transaction(function () use ($conversation, $participant) {
 
-            $conversation->participants()->detach($participant_id);
-            $conversation->previousParticipants()->attach($participant_id);
+            $conversation->participants()->detach($participant->id);
+            $conversation->previousParticipants()->attach($participant->id);
 
             // TODO: Broadcast
-            broadcast(new ParticipantRemovedEvent($conversation, $participant_id, auth()->user()));
+            broadcast(new ParticipantRemovedEvent($conversation, $participant, auth()->user()));
         });
     }
 
@@ -87,10 +86,10 @@ class ConversationParticipantService
             $conversation->participants()->detach(auth()->id());
             $conversation->previousParticipants()->attach(auth()->id());
 
-            (new ConversationNeedsAdminsCheckAction())->execute($conversation);
-
             // TODO: Broadcast
             broadcast(new ParticipantLeftEvent($conversation, auth()->user()));
+
+            (new ConversationNeedsAdminsCheckAction())->execute($conversation);
         });
     }
 }

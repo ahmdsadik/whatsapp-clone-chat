@@ -73,6 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', [ConversationParticipantController::class, 'participants']);
             Route::post('/', [ConversationParticipantController::class, 'addParticipant']);
             Route::post('/remove', [ConversationParticipantController::class, 'removeParticipant']);
+            Route::post('/leave', [ConversationParticipantController::class, 'participantLeave']);
         });
 
         ################## Conversations Participants Role Routes ##################

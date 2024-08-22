@@ -21,13 +21,13 @@ class ConversationNeedsAdminsCheckAction
 
     private function makeOldestParticipantAdmin(Conversation $conversation): void
     {
-        $oldParticipants = $conversation->oldestParticipant;
+        $oldParticipant = $conversation->oldestParticipant;
 
-        if ($oldParticipants) {
-            $conversation->makeAdmin($oldParticipants->user_id);
+        if ($oldParticipant) {
+            $conversation->makeAdmin($oldParticipant->user_id);
 
             // TODO:: Broadcast
-            broadcast(new AdminBySystemEvent($conversation, $oldParticipants));
+            broadcast(new AdminBySystemEvent($conversation, $oldParticipant->user));
         }
     }
 }

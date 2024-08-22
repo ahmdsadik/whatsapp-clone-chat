@@ -4,7 +4,6 @@ namespace App\Events\Participant;
 
 use App\Http\Resources\UserResource;
 use App\Models\Conversation;
-use App\Models\Participant;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -16,7 +15,7 @@ class ParticipantRemovedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public Conversation $conversation, public Participant $previousParticipant, public User $user)
+    public function __construct(public Conversation $conversation, public User $previousParticipant, public User $user)
     {
         $this->conversation->loadMissing('hasParticipants');
     }
