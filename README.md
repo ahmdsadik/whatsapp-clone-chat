@@ -20,13 +20,6 @@ This is a full-featured WhatsApp Clone built with Laravel and Pusher. The applic
 - **MySQL**: Database management.
 - **Laravel Sanctum**: API authentication.
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/whatsapp-clone.git
-
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
