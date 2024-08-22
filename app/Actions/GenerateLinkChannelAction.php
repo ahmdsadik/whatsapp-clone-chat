@@ -16,7 +16,7 @@ class GenerateLinkChannelAction
     {
         $random_bytes = bin2hex(random_bytes(16));
 
-        $timestamp = Carbon::now()->addMinute()->timestamp;
+        $timestamp = Carbon::now()->addMinutes(config('linkchannel.channel_time'))->timestamp;
 
         return "{$random_bytes}_{$timestamp}";
     }
