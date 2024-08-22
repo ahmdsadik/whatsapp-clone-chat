@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Actions\BroadcastLinkedTokenAction;
 use App\DTO\LinkedDeviceDTO;
+use App\Events\LinkedDevice\DeviceLinkedEvent;
+use App\Events\LinkedDevice\DeviceUnlinkedEvent;
 use App\Exceptions\InvalidChannelLinkException;
 use App\Http\Resources\LinkedDeviceResource;
 use App\Models\LinkedDevice;
@@ -31,21 +32,25 @@ class LinkedDeviceService
      */
     public function linkDevice(LinkedDeviceDTO $linkedDeviceDTO): void
     {
-        // Generate token
-        $user = auth()->user();
-        $access_token = $user->createToken($linkedDeviceDTO->device_name);
-        $access_token_id = $access_token->accessToken->id;
-        $token = $access_token->plainTextToken;
+        DB::transaction(function () use ($linkedDeviceDTO) {
+            // Generate token
+            $user = auth()->user();
+            $access_token = $user->createToken($linkedDeviceDTO->device_name);
+            $access_token_id = $access_token->accessToken->id;
+            $token = $access_token->plainTextToken;
 
-        // Prepare data to store
-        $data = [
-            ...$linkedDeviceDTO->toArray(),
-            'token_id' => $access_token_id,
-        ];
+            // Prepare data to store
+            $data = [
+                ...$linkedDeviceDTO->toArray(),
+                'token_id' => $access_token_id,
+            ];
 
-        $user->linkedDevices()->create($data);
+            $user->linkedDevices()->create($data);
 
-        (new BroadcastLinkedTokenAction())->execute($token);
+            broadcast(new DeviceLinkedEvent($linkedDeviceDTO->channel_name, $token));
+
+//            (new BroadcastLinkedTokenAction())->execute($linkedDeviceDTO->channel_name, $token);
+        });
     }
 
     /**
@@ -59,6 +64,8 @@ class LinkedDeviceService
         DB::transaction(function () use ($linkedDevice) {
             $linkedDevice->token()->delete();
             $linkedDevice->delete();
+
+            broadcast(new DeviceUnlinkedEvent($linkedDevice->channel_name));
         });
     }
 }

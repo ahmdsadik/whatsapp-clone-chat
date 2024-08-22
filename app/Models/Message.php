@@ -15,7 +15,6 @@ class Message extends Model implements HasMedia
 
     public $timestamps = false;
     public $incrementing = false;
-    protected $primaryKey = 'id';
 
     protected $fillable = [
         'user_id',
@@ -23,6 +22,8 @@ class Message extends Model implements HasMedia
         'text',
         'type',
     ];
+
+    protected $touches = ['conversation'];
 
     protected function casts(): array
     {

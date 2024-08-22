@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('user_story_privacies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->index()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->index()->constrained()->cascadeOnDelete();
             $table->enum('privacy', StoryPrivacy::values())->comment(StoryPrivacy::comment());
         });
     }

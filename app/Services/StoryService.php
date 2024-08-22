@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
-use App\Actions\BroadcastStoryAction;
 use App\Actions\ProcessStoryMediaAction;
 use App\Actions\SetStoryPrivacyContactsAction;
 use App\DTO\StoryDTO;
 use App\Enums\StoryPrivacy;
+use App\Events\Story\NewStoryEvent;
+use App\Events\Story\StoryDeletedEvent;
 use App\Http\Resources\ContactsStoriesResource;
 use App\Models\Story;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -40,12 +41,13 @@ class StoryService
                 (new SetStoryPrivacyContactsAction())->execute($story, $storyDTO->privacy);
             }
 
+            // TODO:: Broadcast the story
+            broadcast(new NewStoryEvent($story, auth()->user()));
+
             return $story;
         });
 
-        // TODO:: Broadcast the story
-
-        (new BroadcastStoryAction())->execute($story);
+//        (new BroadcastStoryAction())->execute($story);
 
     }
 
@@ -54,5 +56,6 @@ class StoryService
         $story->delete();
 
         // TODO::Broadcast the deleted story
+        broadcast(new StoryDeletedEvent($story, auth()->user()));
     }
 }

@@ -9,7 +9,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('participants', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('conversation_id')->constrained()->cascadeOnDelete();
             $table->enum('role', ParticipantRole::values())->default(ParticipantRole::MEMBER->value)->comment(ParticipantRole::comment());
             $table->timestamp('join_at')->useCurrent();

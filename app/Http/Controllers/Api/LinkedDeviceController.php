@@ -10,6 +10,7 @@ use App\Http\Requests\LinkedDevice\LinkDeviceRequest;
 use App\Http\Requests\LinkedDevice\UnlinkDeviceRequest;
 use App\Models\LinkedDevice;
 use App\Services\LinkedDeviceService;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -78,7 +79,10 @@ class LinkedDeviceController extends Controller
             return $this->successResponse(message: 'Device Linked Successfully!');
         } catch (InvalidChannelLinkException $channelException) {
             return $this->errorResponse($channelException->getMessage());
+        } catch (UniqueConstraintViolationException) {
+            return $this->errorResponse('This channel already linked.!');
         } catch (\Throwable $throwable) {
+            dd($throwable);
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened while linking your device.');
         }

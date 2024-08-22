@@ -6,6 +6,9 @@ use App\Actions\GetConversationOrMakeAction;
 use App\Actions\ProcessMessageMediaAction;
 use App\DTO\NewMessageDTO;
 use App\Enums\ConversationPermission;
+use App\Events\Message\MessageDeletedEvent;
+use App\Events\Message\MessageViewedEvent;
+use App\Events\Message\NewMessageEvent;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
@@ -42,6 +45,10 @@ class MessageService
                 $message->load('media');
             }
 
+            $conversation->update(['last_message_id' => $message->id]);
+
+            broadcast(new NewMessageEvent($conversation, $message, auth()->user()));
+
             return $message;
         });
 
@@ -56,6 +63,9 @@ class MessageService
 
         DB::transaction(function () use ($message) {
             $message->delete();
+
+            broadcast(new MessageDeletedEvent($message->conversation, $message));
+
         });
     }
 
@@ -66,5 +76,7 @@ class MessageService
         }
 
         $message->views()->attach(auth()->id());
+
+        broadcast(new MessageViewedEvent($message, auth()->user()));
     }
 }

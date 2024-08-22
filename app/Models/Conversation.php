@@ -99,6 +99,11 @@ class Conversation extends Model implements HasMedia
             ->orderBy('created_at');
     }
 
+    public function lastMessage(): BelongsTo
+    {
+        return $this->belongsTo(Message::class);
+    }
+
     /**
      * Check if a given user is the owner of the  conversation
      *
@@ -205,7 +210,7 @@ class Conversation extends Model implements HasMedia
     }
 
     /**
-     * Make a given participant an admin
+     * Make a given participant admin
      *
      * @param $participant_id
      * @return void

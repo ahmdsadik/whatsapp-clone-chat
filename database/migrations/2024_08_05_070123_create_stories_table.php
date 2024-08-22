@@ -11,7 +11,7 @@ return new class extends Migration {
     {
         Schema::create('stories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->enum('type', StoryType::values());
             $table->string('text')->nullable();
             $table->string('duration')->nullable();

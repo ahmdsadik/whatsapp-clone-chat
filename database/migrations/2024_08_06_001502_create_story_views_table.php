@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('story_views', function (Blueprint $table) {
             $table->foreignUuid('story_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->timestamp('viewed_at')->useCurrent();
 
             $table->primary(['story_id', 'user_id']);

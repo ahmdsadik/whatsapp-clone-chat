@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('label')->nullable();
             $table->string('description')->nullable();
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->enum('type', ConversationType::values())->comment(ConversationType::comment());
             $table->unsignedSmallInteger('limit')->nullable();
             $table->softDeletes();

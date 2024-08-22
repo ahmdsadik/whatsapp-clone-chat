@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('user_story_privacy_contacts', function (Blueprint $table) {
             $table->foreignId('user_story_privacy_id')->constrained('user_story_privacies')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
 
             $table->primary(['user_id', 'user_story_privacy_id']);
 

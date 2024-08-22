@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\TestEvent;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\ConversationParticipantController;
@@ -17,11 +18,9 @@ use Illuminate\Support\Facades\Route;
 ################## Login and register users route ##################
 Route::post('login', [AuthenticationController::class, 'login']);
 
-
-Route::get('test/{conversation}', function (\App\Models\Conversation $conversation) {
-    dd($conversation->oldestParticipant->toArray());
-
-})->middleware('auth:sanctum');
+Route::get('test',function (){
+    broadcast(new \App\Events\HelloEvent("Hello Ahmed"));
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthenticationController::class, 'logout']);

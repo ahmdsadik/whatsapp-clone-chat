@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('conversation_previous_participants', function (Blueprint $table) {
             $table->foreignUuid('conversation_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->timestamp('left_at')->useCurrent();
 
             $table->primary(['conversation_id', 'user_id']);

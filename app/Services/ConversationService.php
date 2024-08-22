@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
-use App\Actions\BroadcastConversationAction;
 use App\Actions\ProcessConversationAvatarAction;
 use App\DTO\ConversationDTO;
 use App\Enums\ConversationPermission;
 use App\Enums\ConversationType;
 use App\Enums\ParticipantRole;
+use App\Events\Conversation\ConversationInfoUpdatedEvent;
+use App\Events\Conversation\NewConversationEvent;
+use App\Events\Conversation\PermissionUpdatedEvent;
 use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Resources\ConversationResource;
@@ -46,10 +48,13 @@ class ConversationService
 
             $conversation->hasParticipants()->insert($participants->toArray());
 
+            // TODO:: Broadcast Conversation creation
+            broadcast(new NewConversationEvent($conversation));
+
             return $conversation;
         });
 
-        // TODO:: Broadcast Conversation creation
+
 //        (new BroadcastConversationAction())->execute($conversation);
 
         return ConversationResource::make($conversation->loadMissing(['participants.media', 'permissions']));
@@ -70,11 +75,14 @@ class ConversationService
                 (new ProcessConversationAvatarAction())->handle($conversation);
             }
 
+            // TODO:: Broadcast Conversation updates
+            broadcast(new ConversationInfoUpdatedEvent($conversation));
+
             return $conversation;
         });
 
-        // TODO:: Broadcast Conversation updates
-        (new BroadcastConversationAction())->update($conversation);
+
+//        (new BroadcastConversationAction())->update($conversation);
 
         return ConversationResource::make($conversation);
     }
@@ -86,6 +94,8 @@ class ConversationService
         }
 
         $conversation->permissions()->update($conversation->permissions);
+
+        broadcast(new PermissionUpdatedEvent($conversation));
     }
 
     public function deleteConversation(Conversation $conversation): void

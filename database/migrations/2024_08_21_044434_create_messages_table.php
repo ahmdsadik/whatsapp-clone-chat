@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUuid('conversation_id')->constrained()->cascadeOnDelete();
             $table->text('text')->nullable();
             $table->enum('type', MessageType::values());

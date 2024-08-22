@@ -6,6 +6,9 @@ use App\Actions\CheckAddParticipantPermissionAction;
 use App\Actions\CheckParticipantLeaveAction;
 use App\Actions\CheckRemoveParticipantAction;
 use App\Actions\ConversationNeedsAdminsCheckAction;
+use App\Events\Participant\NewParticipantEvent;
+use App\Events\Participant\ParticipantLeftEvent;
+use App\Events\Participant\ParticipantRemovedEvent;
 use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Resources\ParticipantResource;
@@ -34,19 +37,21 @@ class ConversationParticipantService
      */
     public function addParticipant(FormRequest $request, Conversation $conversation): void
     {
-        $users_ids = User::whereIn('mobile_number', $request->validated('participants'))->pluck('id')->toArray();
+        $newParticipants = User::whereIn('mobile_number', $request->validated('participants'))->get();
 
         (new CheckAddParticipantPermissionAction())->execute($conversation);
 
-        DB::transaction(function () use ($conversation, $users_ids) {
+        DB::transaction(function () use ($conversation, $newParticipants) {
 
-            $conversation->participants()->attach($users_ids);
-            $conversation->previousParticipants()->detach($users_ids);
+            $participants_ids = $newParticipants->pluck('id')->toArray();
 
+            $conversation->participants()->attach($participants_ids);
+            $conversation->previousParticipants()->detach($participants_ids);
+
+            // TODO:: Broadcast to new participants
+
+            broadcast(new NewParticipantEvent($conversation, $newParticipants, auth()->user()));
         });
-
-        // TODO:: Broadcast to new participants
-
     }
 
     /**
@@ -64,10 +69,9 @@ class ConversationParticipantService
             $conversation->participants()->detach($participant_id);
             $conversation->previousParticipants()->attach($participant_id);
 
+            // TODO: Broadcast
+            broadcast(new ParticipantRemovedEvent($conversation, $participant_id, auth()->user()));
         });
-
-        // TODO: Broadcast
-
     }
 
     /**
@@ -84,9 +88,9 @@ class ConversationParticipantService
             $conversation->previousParticipants()->attach(auth()->id());
 
             (new ConversationNeedsAdminsCheckAction())->execute($conversation);
+
+            // TODO: Broadcast
+            broadcast(new ParticipantLeftEvent($conversation, auth()->user()));
         });
-
-        // TODO: Broadcast
-
     }
 }

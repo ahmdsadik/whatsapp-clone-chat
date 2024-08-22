@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Events\Participant\AdminBySystemEvent;
 use App\Models\Conversation;
 
 class ConversationNeedsAdminsCheckAction
@@ -26,6 +27,7 @@ class ConversationNeedsAdminsCheckAction
             $conversation->makeAdmin($oldParticipants->user_id);
 
             // TODO:: Broadcast
+            broadcast(new AdminBySystemEvent($conversation, $oldParticipants));
         }
     }
 }
