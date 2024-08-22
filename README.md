@@ -7,11 +7,14 @@ This is a full-featured WhatsApp Clone built with Laravel and Pusher. The applic
 - **Real-Time Messaging**: Send and receive messages instantly using Laravel with Pusher.
 - **User Authentication**: Secure login and registration using Laravel’s built-in authentication.
 - **Chat API**: Endpoints for managing conversations, contacts, and messages.
-- **Groups and Contacts**: Create group chats, manage contacts, and interact in private conversations.
+- **Conversations and Contacts**: Create group chats, manage contacts, and interact in private conversations.
+- **Conversations Permissions**: Owners and admins can control message-sending permissions for all users or restrict it to admins only.
 - **Message Viewed Indicators**: Send a message and see if it was viewed or not.
 - **Media Sharing**: Share images and files seamlessly via API.
 - **Typing Indicators**: Real-time typing indicators using WebSockets.
 - **Online Status**: API endpoints to view and manage online status.
+- **Stories**: Users can share stories and control who can view them.
+- **Linked Devices**: Users can link other devices to their accounts.
 
 ## Technologies Used
 
