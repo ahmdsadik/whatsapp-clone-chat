@@ -32,6 +32,7 @@ class PermissionUpdatedEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
+            'conversation' => $this->conversation->id,
             'permissions' => $this->conversation->permissions,
         ];
     }
