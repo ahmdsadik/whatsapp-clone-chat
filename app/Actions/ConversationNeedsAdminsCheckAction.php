@@ -24,6 +24,8 @@ class ConversationNeedsAdminsCheckAction
 
         if ($oldParticipants) {
             $conversation->makeAdmin($oldParticipants->user_id);
+
+            // TODO:: Broadcast
         }
     }
 }

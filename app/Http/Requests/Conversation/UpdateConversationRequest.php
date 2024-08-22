@@ -15,6 +15,7 @@ class UpdateConversationRequest extends FormRequest
     {
         return [
             'label' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,jpg,png'],
         ];
     }

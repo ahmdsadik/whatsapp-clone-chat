@@ -64,7 +64,8 @@ class Conversation extends Model implements HasMedia
         return $this->belongsToMany(User::class, 'participants', 'conversation_id', 'user_id', 'id', 'id')
             ->withPivot(['role', 'join_at'])
             ->as('info')
-            ->using(Participant::class);
+            ->using(Participant::class)
+            ->orderBy('role');
     }
 
     public function hasParticipants(): HasMany
@@ -96,6 +97,22 @@ class Conversation extends Model implements HasMedia
     {
         return $this->hasMany(Message::class, 'conversation_id')
             ->orderBy('created_at');
+    }
+
+    /**
+     * Check if a given user is the owner of the  conversation
+     *
+     * @param $user_id
+     * @return bool
+     */
+    public function isOwner($user_id): bool
+    {
+        return $this->hasParticipants()
+            ->where(function (Builder $query) {
+                $query->where('role', ParticipantRole::OWNER);
+            })
+            ->where('user_id', $user_id)
+            ->exists();
     }
 
     /**
@@ -180,14 +197,24 @@ class Conversation extends Model implements HasMedia
      */
     public function isAllowing(ConversationPermissionEnum $permission): bool
     {
+        if ($this->type === ConversationType::ONE_TO_ONE) {
+            return true;
+        }
+
         return $this->permissions()->where($permission->value, true)->exists();
     }
 
+    /**
+     * Make a given participant an admin
+     *
+     * @param $participant_id
+     * @return void
+     */
     public function makeAdmin($participant_id): void
     {
-        $this->hasParticipants()->create([
-            'user_id' => $participant_id,
-            'role' => ParticipantRole::ADMIN,
-        ]);
+        $this->participants()->updateExistingPivot($participant_id,
+            [
+                'role' => ParticipantRole::ADMIN
+            ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Actions\GetConversationOrMakeAction;
 use App\Actions\ProcessMessageMediaAction;
 use App\DTO\NewMessageDTO;
+use App\Enums\ConversationPermission;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class MessageService
 {
-    public function conversationMessages(Conversation $conversation)
+    public function conversationMessages(Conversation $conversation): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $conversationMessages = $conversation->load(['messages.media', 'messages.user.media']);
 
@@ -25,6 +26,10 @@ class MessageService
 
         $message = DB::transaction(function () use ($messageDTO) {
             $conversation = (new GetConversationOrMakeAction())->execute($messageDTO->to);
+
+            if (!$conversation->isAllowing(ConversationPermission::SEND_MESSAGES)) {
+                throw new UserNotHavePermissionException("Sending Messages is not allowed");
+            }
 
             $message = $conversation->messages()->create([
                 'text' => $messageDTO->text,
@@ -57,7 +62,7 @@ class MessageService
     public function viewMessage(Message $message): void
     {
         if ($message->user_id !== auth()->id()) {
-            throw new UserNotHavePermissionException('User Cannot view this Message');
+            throw new UserNotHavePermissionException('User Cannot view his Message');
         }
 
         $message->views()->attach(auth()->id());

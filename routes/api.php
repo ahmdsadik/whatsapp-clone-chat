@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\ConversationParticipantController;
 use App\Http\Controllers\Api\ConversationParticipantRoleController;
+use App\Http\Controllers\Api\ConversationPermissionController;
 use App\Http\Controllers\Api\LinkedDeviceController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\StoryController;
@@ -66,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [ConversationController::class, 'store']);
         Route::post('/{conversation}', [ConversationController::class, 'update']);
         Route::delete('/{conversation}', [ConversationController::class, 'destroy']);
+        Route::post('/{conversation}/permissions', ConversationPermissionController::class);
 
         ################## Conversations Participants Routes ##################
         Route::prefix('{conversation}/participants')->group(function () {

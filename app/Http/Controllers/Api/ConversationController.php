@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\ConversationDTO;
+use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Conversation\CreateConversationsRequest;
 use App\Http\Requests\Conversation\UpdateConversationRequest;
@@ -40,7 +41,7 @@ class ConversationController extends Controller
         try {
 
             return $this->successResponse([
-                'conversation_id' => $this->conversationService->createConversation(ConversationDTO::fromFormRequest($request)),
+                'conversation' => $this->conversationService->createConversation(ConversationDTO::fromFormRequest($request)),
             ],
                 'Conversation Created Successfully'
             );
@@ -63,11 +64,13 @@ class ConversationController extends Controller
         try {
 
             return $this->successResponse([
-                'conversation_id' => $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request), $conversation),
+                'conversation' => $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request), $conversation),
             ],
                 'Conversation Updated Successfully'
             );
 
+        } catch (UserNotHavePermissionException $exception) {
+            return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened While trying to create conversation.');

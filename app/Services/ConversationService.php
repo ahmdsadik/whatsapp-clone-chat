@@ -5,8 +5,11 @@ namespace App\Services;
 use App\Actions\BroadcastConversationAction;
 use App\Actions\ProcessConversationAvatarAction;
 use App\DTO\ConversationDTO;
+use App\Enums\ConversationPermission;
 use App\Enums\ConversationType;
 use App\Enums\ParticipantRole;
+use App\Exceptions\ParticipantNotExistsInConversationException;
+use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use App\Models\User;
@@ -23,18 +26,16 @@ class ConversationService
     public function createConversation(ConversationDTO $conversationDTO)
     {
         $conversation = DB::transaction(function () use ($conversationDTO) {
-//            $conversation = auth()->user()->conversations()->create($request->validated() + ['type' => ConversationType::ONE_TO_MANY]);
-
             // Create a conversation
-            $conversation = Conversation::create(
-                [
-                    'label' => $conversationDTO->label,
-                    'type' => ConversationType::ONE_TO_MANY,
-                    'created_by' => auth()->id()
-                ]
-            );
+            $conversation = auth()->user()->conversations()->create($conversationDTO->toArray() + ['type' => ConversationType::ONE_TO_MANY]);
 
+            // Set Permissions
             $conversation->permissions()->create($conversationDTO->permissions);
+
+            if ($conversationDTO->avatar) {
+                (new ProcessConversationAvatarAction())->handle($conversation);
+                $conversation->loadMissing('media');
+            }
 
             // Retrieve participants ids
             $users_ids = User::whereIn('mobile_number', $conversationDTO->participants)->pluck('id');
@@ -45,25 +46,23 @@ class ConversationService
 
             $conversation->hasParticipants()->insert($participants->toArray());
 
-
-            if ($conversationDTO->avatar) {
-                (new ProcessConversationAvatarAction())->handle($conversation);
-                $conversation->loadMissing('media');
-            }
-
             return $conversation;
         });
 
         // TODO:: Broadcast Conversation creation
 //        (new BroadcastConversationAction())->execute($conversation);
 
-        return ConversationResource::make($conversation->loadMissing(['participants.media','permissions']));
+        return ConversationResource::make($conversation->loadMissing(['participants.media', 'permissions']));
     }
 
     public function updateConversation(ConversationDTO $conversationDTO, Conversation $conversation)
     {
         // TODO :: CHECK PERMISSION
         $conversation = DB::transaction(function () use ($conversationDTO, $conversation) {
+
+            if (!$conversation->isAllowing(ConversationPermission::EDIT_GROUP_SETTINGS) || !$conversation->isAdmin(auth()->id())) {
+                throw new UserNotHavePermissionException('Only admins can update this conversation');
+            }
 
             $conversation->update($conversationDTO->toArray());
 
@@ -80,8 +79,21 @@ class ConversationService
         return ConversationResource::make($conversation);
     }
 
+    public function updatePermissions(Conversation $conversation): void
+    {
+        if (!$conversation->isAdmin(auth()->id())) {
+            throw new UserNotHavePermissionException('Only admins can update this conversation\'s Permissions');
+        }
+
+        $conversation->permissions()->update($conversation->permissions);
+    }
+
     public function deleteConversation(Conversation $conversation): void
     {
+        if (!$conversation->isParticipant([auth()->id()])) {
+            throw new ParticipantNotExistsInConversationException();
+        }
+
         $conversation->forceDelete();
 
         // TODO:: Broadcast

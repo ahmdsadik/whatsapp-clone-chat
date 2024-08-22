@@ -46,6 +46,8 @@ class MessageController extends Controller
             ],
                 'Message has been saved'
             );
+        } catch (UserNotHavePermissionException $exception) {
+            return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened while saving message.');

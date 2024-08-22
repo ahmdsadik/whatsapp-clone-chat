@@ -76,7 +76,7 @@ class User extends Authenticatable implements HasMedia
 
     public function conversations(): HasMany
     {
-        return $this->hasMany(Conversation::class, 'user_id')
+        return $this->hasMany(Conversation::class, 'created_by')
             ->orderByDesc('created_at');
     }
 

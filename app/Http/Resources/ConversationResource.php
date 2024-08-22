@@ -13,6 +13,7 @@ class ConversationResource extends JsonResource
         return [
             'id' => $this->id,
             'label' => $this->label ?? '',
+            'description' => $this->description ?? '',
             'type' => $this->type ?? '',
             'createdBy' => $this->when($this->created_by, UserResource::make($this->whenLoaded('owner'))),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

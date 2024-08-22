@@ -6,7 +6,6 @@ use App\Actions\CheckAddParticipantPermissionAction;
 use App\Actions\CheckParticipantLeaveAction;
 use App\Actions\CheckRemoveParticipantAction;
 use App\Actions\ConversationNeedsAdminsCheckAction;
-use App\Enums\ParticipantRole;
 use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Resources\ParticipantResource;
@@ -41,7 +40,7 @@ class ConversationParticipantService
 
         DB::transaction(function () use ($conversation, $users_ids) {
 
-            $conversation->participants()->attach($users_ids, ['role' => ParticipantRole::MEMBER]);
+            $conversation->participants()->attach($users_ids);
             $conversation->previousParticipants()->detach($users_ids);
 
         });

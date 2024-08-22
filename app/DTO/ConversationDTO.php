@@ -7,11 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 class ConversationDTO extends BaseDTO
 {
     public function __construct(
-        public string $label,
+        public ?string $label,
         public ?string $description,
         public  $avatar,
-        public array  $participants,
-        public array  $permissions
+        public ?array  $participants,
+        public ?array  $permissions
     )
     {
     }
