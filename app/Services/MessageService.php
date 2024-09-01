@@ -10,27 +10,25 @@ use App\Events\Message\MessageDeletedEvent;
 use App\Events\Message\MessageViewedEvent;
 use App\Events\Message\NewMessageEvent;
 use App\Exceptions\UserNotHavePermissionException;
-use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 
 class MessageService
 {
-    public function conversationMessages(Conversation $conversation): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function conversationMessages(Conversation $conversation)
     {
         $conversationMessages = $conversation->load(['messages.media', 'messages.user.media']);
 
-        return MessageResource::collection($conversationMessages->messages);
+        return $conversationMessages->messages;
     }
 
     public function saveMessage(NewMessageDTO $messageDTO)
     {
-
-        $message = DB::transaction(function () use ($messageDTO) {
+        return DB::transaction(function () use ($messageDTO) {
             $conversation = (new GetConversationOrMakeAction())->execute($messageDTO->to);
 
-            if (!$conversation->isAllowing(ConversationPermission::SEND_MESSAGES)) {
+            if (!$conversation->isAllowing(ConversationPermission::SEND_MESSAGES) && !$conversation->isAdmin(auth()->id())) {
                 throw new UserNotHavePermissionException("Sending Messages is not allowed");
             }
 
@@ -51,12 +49,11 @@ class MessageService
 
             return $message;
         });
-
-        return MessageResource::make($message);
     }
 
     public function deleteMessage(Message $message): void
     {
+        // Check if the user is the owner of this message
         if ($message->user_id !== auth()->id()) {
             throw new UserNotHavePermissionException('User Cannot Delete this Message');
         }

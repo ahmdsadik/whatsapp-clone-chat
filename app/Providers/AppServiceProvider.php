@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Services\OTP\IchtrojanOTP;
 use App\Services\OTP\OTP;
+use App\Services\SMS\SMS;
+use App\Services\SMS\TwilioSMS;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,12 +20,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }
 
-//        $this->app->bind(OTPService::class, function () {
-//            $otp = new IchtrojanOTP();
-//            return new OTPService($otp);
-//        });
 
         $this->app->bind(OTP::class, IchtrojanOTP::class);
+        $this->app->bind(SMS::class, TwilioSMS::class);
     }
 
     /**

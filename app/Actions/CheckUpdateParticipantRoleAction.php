@@ -13,7 +13,7 @@ class CheckUpdateParticipantRoleAction
      * @throws ParticipantNotExistsInConversationException
      * @throws UserNotHavePermissionException
      */
-    public function handle(Conversation $conversation, ParticipantRole $role, $participants_id): void
+    public function execute(Conversation $conversation, ParticipantRole $role, $participants_id): void
     {
         $this->checkUserPermissions($conversation);
 

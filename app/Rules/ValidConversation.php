@@ -22,14 +22,15 @@ class ValidConversation implements ValidationRule
             return;
         }
 
-        $conversation = Conversation::find('id', $value);
+        $conversation = Conversation::find($value);
+
         if (!$conversation) {
             $fail($attribute . ' is not a valid conversation.');
             return;
         }
 
-        if ($conversation->isParticipant([auth()->id()])) {
-            $fail(' User is not a participant in this conversation.');
+        if (!$conversation->isParticipant([auth()->id()])) {
+            $fail('User is not a participant in this conversation.');
         }
     }
 }

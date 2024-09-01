@@ -12,7 +12,7 @@ class ProcessStoryMediaAction
      * @throws FileIsTooBig
      * @throws FileDoesNotExist
      */
-    public function handle(Story $story): void
+    public function execute(Story $story): void
     {
 
         // TODO:: Optimize Image

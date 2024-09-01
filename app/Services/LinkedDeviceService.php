@@ -6,7 +6,6 @@ use App\DTO\LinkedDeviceDTO;
 use App\Events\LinkedDevice\DeviceLinkedEvent;
 use App\Events\LinkedDevice\DeviceUnlinkedEvent;
 use App\Exceptions\InvalidChannelLinkException;
-use App\Http\Resources\LinkedDeviceResource;
 use App\Models\LinkedDevice;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +17,9 @@ class LinkedDeviceService
      *
      * @return AnonymousResourceCollection
      */
-    public function allLinkedDevices(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function allLinkedDevices()
     {
-        $linked_devices = auth()->user()->linkedDevices()->with(['token:id,last_used_at'])->get();
-
-        return LinkedDeviceResource::collection($linked_devices);
+        return auth()->user()->linkedDevices()->with(['token:id,last_used_at'])->get();
     }
 
     /**
@@ -48,8 +45,6 @@ class LinkedDeviceService
             $user->linkedDevices()->create($data);
 
             broadcast(new DeviceLinkedEvent($linkedDeviceDTO->channel_name, $token));
-
-//            (new BroadcastLinkedTokenAction())->execute($linkedDeviceDTO->channel_name, $token);
         });
     }
 

@@ -9,10 +9,8 @@ use App\Enums\ConversationType;
 use App\Enums\ParticipantRole;
 use App\Events\Conversation\ConversationInfoUpdatedEvent;
 use App\Events\Conversation\NewConversationEvent;
-use App\Events\Conversation\PermissionUpdatedEvent;
 use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
-use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +18,9 @@ use Illuminate\Support\Facades\DB;
 class ConversationService
 {
 
-    public function userConversations(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function userConversations()
     {
-        return ConversationResource::collection(auth()->user()->conversations()->with(['participants.media', 'media'])->get());
+        return auth()->user()->conversations()->with(['participants.media', 'media'])->get();
     }
 
     public function createConversation(ConversationDTO $conversationDTO)
@@ -35,7 +33,7 @@ class ConversationService
             $conversation->permissions()->create($conversationDTO->permissions);
 
             if ($conversationDTO->avatar) {
-                (new ProcessConversationAvatarAction())->handle($conversation);
+                (new ProcessConversationAvatarAction())->execute($conversation);
                 $conversation->loadMissing('media');
             }
 
@@ -54,16 +52,14 @@ class ConversationService
             return $conversation;
         });
 
-
-//        (new BroadcastConversationAction())->execute($conversation);
-
-        return ConversationResource::make($conversation->loadMissing(['participants.media', 'permissions']));
+        return $conversation->loadMissing(['participants.media', 'permissions']);
     }
 
     public function updateConversation(ConversationDTO $conversationDTO, Conversation $conversation)
     {
         // TODO :: CHECK PERMISSION
-        $conversation = DB::transaction(function () use ($conversationDTO, $conversation) {
+
+        return DB::transaction(function () use ($conversationDTO, $conversation) {
 
             if (!$conversation->isAllowing(ConversationPermission::EDIT_GROUP_SETTINGS) || !$conversation->isAdmin(auth()->id())) {
                 throw new UserNotHavePermissionException('Only admins can update this conversation');
@@ -72,7 +68,7 @@ class ConversationService
             $conversation->update($conversationDTO->toArray());
 
             if ($conversationDTO->avatar) {
-                (new ProcessConversationAvatarAction())->handle($conversation);
+                (new ProcessConversationAvatarAction())->execute($conversation);
             }
 
             // TODO:: Broadcast Conversation updates
@@ -80,22 +76,6 @@ class ConversationService
 
             return $conversation;
         });
-
-
-//        (new BroadcastConversationAction())->update($conversation);
-
-        return ConversationResource::make($conversation);
-    }
-
-    public function updatePermissions(Conversation $conversation): void
-    {
-        if (!$conversation->isAdmin(auth()->id())) {
-            throw new UserNotHavePermissionException('Only admins can update this conversation\'s Permissions');
-        }
-
-        $conversation->permissions()->update($conversation->permissions);
-
-        broadcast(new PermissionUpdatedEvent($conversation));
     }
 
     public function deleteConversation(Conversation $conversation): void

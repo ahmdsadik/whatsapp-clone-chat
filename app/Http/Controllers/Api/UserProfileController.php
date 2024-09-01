@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\UserDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProfile\UpdateUserAvatarRequest;
 use App\Http\Requests\UserProfile\UpdateUserInfoRequest;
 use App\Http\Requests\UserProfile\UpdateUserNameRequest;
 use App\Http\Resources\UserResource;
+use App\Services\UserProfileService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UserProfileController extends Controller
 {
+    public function __construct(
+        private readonly UserProfileService $profileService
+    )
+    {
+    }
+
     /**
      * Get currently authenticated user
      *
@@ -40,8 +48,11 @@ class UserProfileController extends Controller
     {
 
         try {
-            $user = Auth::user();
-            $user->update($request->validated());
+
+            $this->profileService->updateName(
+                UserDTO::fromFormRequest($request->validated('name'), $request->validated('about')
+                )
+            );
 
             // TODO:: Broadcast event to contact users
 
@@ -63,9 +74,8 @@ class UserProfileController extends Controller
     public function updateAvatar(UpdateUserAvatarRequest $request)
     {
         try {
-            $user = Auth::user();
-            $user->addMediaFromRequest('avatar')
-                ->toMediaCollection('avatar');
+
+            $this->profileService->updateAvatar('avatar');
 
             // TODO:: Broadcast event to contact users
 
@@ -85,17 +95,14 @@ class UserProfileController extends Controller
     public function updateInfo(UpdateUserInfoRequest $request)
     {
         try {
-            $user = Auth::user()->load('registeredContacts');
 
-            $validatedData = $request->validated();
-            unset($validatedData['avatar']); // Remove 'avatar' key
-
-            if ($request->hasFile('avatar')) {
-                $user->addMediaFromRequest('avatar')
-                    ->toMediaCollection('avatar');
-            }
-
-            $user->update($validatedData);
+            $this->profileService->updateAllInfo(
+                UserDTO::fromFormRequest(
+                    $request->validated('name'),
+                    $request->validated('about')
+                ),
+                'avatar'
+            );
 
             // TODO:: Broadcast event to contact users
 

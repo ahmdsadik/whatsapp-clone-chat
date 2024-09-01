@@ -17,9 +17,8 @@ class VerifyOTPRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'otp' => ['required', 'string'],
-            'mobile_number' => ['required', 'string'],
-            'fcm_token' => ['required', 'string']
+            'otp' => 'required',
+            'mobile_number' => ['required', 'exists:users,mobile_number'],
         ];
     }
 }

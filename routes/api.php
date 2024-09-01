@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\TestEvent;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\ConversationParticipantController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\Api\ConversationParticipantRoleController;
 use App\Http\Controllers\Api\ConversationPermissionController;
 use App\Http\Controllers\Api\LinkedDeviceController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\OTPController;
 use App\Http\Controllers\Api\StoryController;
 use App\Http\Controllers\Api\StoryViewController;
 use App\Http\Controllers\Api\UserContactController;
@@ -15,11 +15,18 @@ use App\Http\Controllers\Api\UserProfileController;
 use App\Http\Controllers\Api\UserStoryPrivacyController;
 use Illuminate\Support\Facades\Route;
 
+
+
+Route::get('test', function (\App\Services\SMS\SMS $SMS) {
+});
+
 ################## Login and register users route ##################
 Route::post('login', [AuthenticationController::class, 'login']);
 
-Route::get('test',function (){
-    broadcast(new \App\Events\HelloEvent("Hello Ahmed"));
+################## OTP Routes ##################
+Route::prefix('otp')->group(function () {
+    Route::post('verify', [OtpController::class, 'verifyOTP']);
+    Route::post('resend', [OtpController::class, 'resendOtp']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -66,7 +73,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [ConversationController::class, 'store']);
         Route::post('/{conversation}', [ConversationController::class, 'update']);
         Route::delete('/{conversation}', [ConversationController::class, 'destroy']);
-        Route::post('/{conversation}/permissions', ConversationPermissionController::class);
+
+        ################## Conversations Permissions Routes ##################
+        Route::prefix('/{conversation}/permissions')->group(function () {
+            Route::get('', [ConversationPermissionController::class, 'permissions']);
+            Route::post('', [ConversationPermissionController::class, 'update']);
+        });
 
         ################## Conversations Participants Routes ##################
         Route::prefix('{conversation}/participants')->group(function () {

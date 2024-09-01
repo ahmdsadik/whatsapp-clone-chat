@@ -12,11 +12,8 @@ class ProcessConversationAvatarAction
      * @throws FileIsTooBig
      * @throws FileDoesNotExist
      */
-    public function handle(Conversation $conversation): void
+    public function execute(Conversation $conversation): void
     {
-
-        // TODO:: Optimize Image
-
         $conversation->addMediaFromRequest('avatar')
             ->toMediaCollection('avatar');
     }

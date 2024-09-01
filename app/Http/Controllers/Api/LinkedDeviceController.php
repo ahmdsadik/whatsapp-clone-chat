@@ -8,6 +8,7 @@ use App\Exceptions\InvalidChannelLinkException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LinkedDevice\LinkDeviceRequest;
 use App\Http\Requests\LinkedDevice\UnlinkDeviceRequest;
+use App\Http\Resources\LinkedDeviceResource;
 use App\Models\LinkedDevice;
 use App\Services\LinkedDeviceService;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -31,8 +32,10 @@ class LinkedDeviceController extends Controller
     {
         try {
 
+            $linkedDevices = $this->linkedDeviceService->allLinkedDevices();
+
             return $this->successResponse([
-                'linked_devices' => $this->linkedDeviceService->allLinkedDevices(),
+                'linked_devices' => LinkedDeviceResource::collection($linkedDevices),
             ], 'Linked devices retrieved Successfully!');
 
         } catch (\Throwable $throwable) {
@@ -74,15 +77,12 @@ class LinkedDeviceController extends Controller
 
             $this->linkedDeviceService->linkDevice(LinkedDeviceDTO::fromApiFormRequest($request));
 
-            // TODO:: Broadcast Token To web to login in
-
             return $this->successResponse(message: 'Device Linked Successfully!');
         } catch (InvalidChannelLinkException $channelException) {
             return $this->errorResponse($channelException->getMessage());
         } catch (UniqueConstraintViolationException) {
             return $this->errorResponse('This channel already linked.!');
         } catch (\Throwable $throwable) {
-            dd($throwable);
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened while linking your device.');
         }
@@ -97,9 +97,8 @@ class LinkedDeviceController extends Controller
      */
     public function unlinkDevice(UnlinkDeviceRequest $request, LinkedDevice $linkedDevice)
     {
-        // TODO:: Broadcast a logout Event to Linked Device
-
         try {
+
             // Delete Linked device and token
             $this->linkedDeviceService->unlinkDevice($linkedDevice);
 

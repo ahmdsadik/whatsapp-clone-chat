@@ -10,18 +10,24 @@ use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\User;
 
-class ConversationParticipantRoleService
+readonly class ConversationParticipantRoleService
 {
+    public function __construct(
+        private CheckUpdateParticipantRoleAction $action,
+    )
+    {
+    }
+
     /**
      * @throws ParticipantNotExistsInConversationException
      * @throws UserNotHavePermissionException
      */
     public function updateParticipantRole(ParticipantRoleDTO $participantRoleDTO, Conversation $conversation): void
     {
-        $participant = User::where('mobile_number', $participantRoleDTO->mobile_number)->get(['id', 'mobile_number'])->first();
+        $participant = User::firstWhere('mobile_number', $participantRoleDTO->mobile_number);
 
-        // Check User permission and participants
-        (new CheckUpdateParticipantRoleAction())->handle($conversation, $participantRoleDTO->role, $participant->id);
+        // Check User permission and participant
+        $this->action->execute($conversation, $participantRoleDTO->role, $participant->id);
 
         // Update participant role
         $conversation->participants()->updateExistingPivot($participant->id, ['role' => $participantRoleDTO->role->value]);

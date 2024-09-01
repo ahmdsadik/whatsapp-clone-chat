@@ -12,4 +12,5 @@ return [
     */
 
     'channel_time' => env('LINK_CHANNEL_TIME', 1),
+
 ];

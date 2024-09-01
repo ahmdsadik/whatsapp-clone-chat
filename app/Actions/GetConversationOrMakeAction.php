@@ -31,10 +31,8 @@ class GetConversationOrMakeAction
      * @param User $other_participant
      * @return Conversation
      */
-    public function oneToOneConversation(User $other_participant): Conversation
+    private function oneToOneConversation(User $other_participant): Conversation
     {
-//        dd(Conversation::Where('type', ConversationType::ONE_TO_ONE)->get()->toArray());
-
         $conversation = Conversation::Where('type', ConversationType::ONE_TO_ONE)
             ->whereHas('hasParticipants', function ($query) use ($other_participant) {
                 $query->where('user_id', $other_participant->id);

@@ -7,6 +7,7 @@ use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConversationParticipant\AddParticipantRequest;
 use App\Http\Requests\ConversationParticipant\RemoveParticipantRequest;
+use App\Http\Resources\ParticipantResource;
 use App\Models\Conversation;
 use App\Services\ConversationParticipantService;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -23,8 +24,10 @@ class ConversationParticipantController extends Controller
     public function participants(Conversation $conversation)
     {
         try {
+            $participants = $this->conversationParticipantService->conversationParticipants($conversation);
+
             return $this->successResponse([
-                'participants' => $this->conversationParticipantService->conversationParticipants($conversation)
+                'participants' => ParticipantResource::collection($participants)
             ],
                 'Conversation Participants List'
             );
@@ -41,8 +44,10 @@ class ConversationParticipantController extends Controller
 
             $this->conversationParticipantService->addParticipant($request, $conversation);
 
+            $participants = $this->conversationParticipantService->conversationParticipants($conversation);
+
             return $this->successResponse([
-                'participants' => $this->conversationParticipantService->conversationParticipants($conversation)
+                'participants' => ParticipantResource::collection($participants)
             ],
                 'Participants was added successfully.'
             );
@@ -60,8 +65,10 @@ class ConversationParticipantController extends Controller
             // TODO :: CHECK PERMISSION
             $this->conversationParticipantService->removeParticipant($request, $conversation);
 
+            $participants = $this->conversationParticipantService->conversationParticipants($conversation);
+
             return $this->successResponse([
-                'participants' => $this->conversationParticipantService->conversationParticipants($conversation)
+                'participants' => ParticipantResource::collection($participants)
             ],
                 'Participant was removed successfully.'
             );

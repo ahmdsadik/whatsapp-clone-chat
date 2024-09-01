@@ -6,6 +6,7 @@ use App\DTO\StoryDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Story\CreateStoryRequest;
 use App\Http\Requests\Story\DeleteStoryRequest;
+use App\Http\Resources\ContactsStoriesResource;
 use App\Models\Story;
 use App\Services\StoryService;
 use Illuminate\Http\JsonResponse;
@@ -29,8 +30,10 @@ class StoryController extends Controller
     {
         try {
 
+            $authorizedStories = $this->storyService->authorizedStories();
+
             return $this->successResponse([
-                'stories' => $this->storyService->authorizedStories(),
+                'stories' => ContactsStoriesResource::collection($authorizedStories),
             ], 'Stories retrieved Successfully!');
 
         } catch (Throwable $throwable) {
@@ -67,8 +70,8 @@ class StoryController extends Controller
      */
     public function destroy(DeleteStoryRequest $request, Story $story)
     {
-        // TODO:: broadcast the deleted story
         try {
+
             $this->storyService->deleteStory($story);
 
             return $this->successResponse(message: 'Story deleted Successfully!');

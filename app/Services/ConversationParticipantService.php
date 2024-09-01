@@ -11,30 +11,18 @@ use App\Events\Participant\ParticipantLeftEvent;
 use App\Events\Participant\ParticipantRemovedEvent;
 use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
-use App\Http\Resources\ParticipantResource;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class ConversationParticipantService
 {
-    /**
-     * @param Conversation $conversation
-     * @return AnonymousResourceCollection
-     */
-    public function conversationParticipants(Conversation $conversation): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function conversationParticipants(Conversation $conversation)
     {
-        return ParticipantResource::collection($conversation->participants()->with('media')->get());
+        return $conversation->participants()->with('media')->get();
     }
 
-    /**
-     * @param FormRequest $request
-     * @param Conversation $conversation
-     * @return void
-     * @throws UserNotHavePermissionException
-     */
     public function addParticipant(FormRequest $request, Conversation $conversation): void
     {
         $newParticipants = User::whereIn('mobile_number', $request->validated('participants'))->get();

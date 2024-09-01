@@ -25,8 +25,10 @@ class ConversationController extends Controller
     public function index()
     {
         try {
+            $conversations = $this->conversationService->userConversations();
+
             return $this->successResponse([
-                'conversations' => $this->conversationService->userConversations()
+                'conversations' => ConversationResource::collection($conversations)
             ],
                 'conversations retrieved successfully'
             );
@@ -40,8 +42,10 @@ class ConversationController extends Controller
     {
         try {
 
+            $conversation = $this->conversationService->createConversation(ConversationDTO::fromFormRequest($request));
+
             return $this->successResponse([
-                'conversation' => $this->conversationService->createConversation(ConversationDTO::fromFormRequest($request)),
+                'conversation' => ConversationResource::make($conversation),
             ],
                 'Conversation Created Successfully'
             );
@@ -63,8 +67,10 @@ class ConversationController extends Controller
     {
         try {
 
+            $updatedConversation = $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request), $conversation);
+
             return $this->successResponse([
-                'conversation' => $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request), $conversation),
+                'conversation' => ConversationResource::make($updatedConversation),
             ],
                 'Conversation Updated Successfully'
             );

@@ -6,6 +6,7 @@ use App\DTO\NewMessageDTO;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Message\StoreMessageRequest;
+use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Services\MessageService;
@@ -24,8 +25,10 @@ class MessageController extends Controller
     {
         try {
 
+            $messages = $this->messageService->conversationMessages($conversation);
+
             return $this->successResponse([
-                'messages' => $this->messageService->conversationMessages($conversation)
+                'messages' => MessageResource::collection($messages)
             ],
                 'Message received successfully'
             );
@@ -42,13 +45,14 @@ class MessageController extends Controller
             $message = $this->messageService->saveMessage(NewMessageDTO::fromFormRequest($request));
 
             return $this->successResponse([
-                'message' => $message
+                'message' => MessageResource::make($message)
             ],
                 'Message has been saved'
             );
         } catch (UserNotHavePermissionException $exception) {
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
+            dd('fff');
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened while saving message.');
         }
