@@ -15,6 +15,7 @@ This is a full-featured WhatsApp Clone built with Laravel and Pusher. The applic
 - **Online Status**: API endpoints to view and manage online status.
 - **Stories**: Users can share stories and control who can view them.
 - **Linked Devices**: Users can link other devices to their accounts.
+- **OTP Verification**: Users will receive an OTP to verify mobile number.
 
 ## Technologies Used
 
@@ -22,6 +23,7 @@ This is a full-featured WhatsApp Clone built with Laravel and Pusher. The applic
 - **Pusher**: Service for real-time WebSockets functionality.
 - **MySQL**: Database management.
 - **Laravel Sanctum**: API authentication.
+- **Twilio**: For Sending OTP to users.
 
 ## Contributing
 
