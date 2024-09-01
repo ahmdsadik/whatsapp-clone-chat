@@ -1,0 +1,2464 @@
+{
+	"info": {
+		"_postman_id": "47240c44-552d-449b-a2a2-7badb78012a6",
+		"name": "WhatsApp Clone",
+		"description": "WhatsApp Clone Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37382092",
+		"_collection_link": "https://projects-526253.postman.co/workspace/Team-Workspace~c4f592fd-8d41-4060-8945-3e6ed1e70048/collection/37382092-47240c44-552d-449b-a2a2-7badb78012a6?action=share&source=collection_link&creator=37382092"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "mobile_number",
+									"value": "+201113898102",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{url}}/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Login and logout routes",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User Profile",
+			"item": [
+				{
+					"name": "user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user's name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "about",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/user/update-name",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"update-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/ahmed/Downloads/ram.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/user/update-avatar",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"update-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Info",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "about",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/user/update-info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"update-info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Get and Update Authenticated User",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "OTP",
+			"item": [
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "mobile_number",
+									"value": "+201113898102",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "898254",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/otp/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"otp",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "mobile_number",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "fcm_token",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/otp/resend",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"otp",
+								"resend"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Send and Verify OTP"
+		},
+		{
+			"name": "User Contacts",
+			"item": [
+				{
+					"name": "Insert Contacts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contacts\" : [\r\n        {\r\n            \"mobile_number\" : \"+201113898102\",\r\n            \"name\": \"Ah011\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/contacts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Contacts List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/contacts-list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"contacts-list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Insert User Contacts",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Linked Devices",
+			"item": [
+				{
+					"name": "Linked Devices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/linked-device",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"linked-device"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Linked Devices",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/linked-device",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"linked-device"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.10"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2024 21:44:01 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Linked devices retrieved Successfully!\",\n    \"linked_devices\": [\n        {\n            \"device_name\": \"Test\",\n            \"last_active\": \"\",\n            \"linked_at\": \"2024-08-17 12:36:54\"\n        },\n        {\n            \"device_name\": \"Test\",\n            \"last_active\": \"\",\n            \"linked_at\": \"2024-08-17 13:30:00\"\n        },\n        {\n            \"device_name\": \"Test\",\n            \"last_active\": \"\",\n            \"linked_at\": \"2024-08-17 14:26:11\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Link Channel",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/linked-device/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"linked-device",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Link Channel",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/linked-device/create",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"linked-device",
+										"create"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.8"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Aug 2024 03:12:16 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Link Channel Generated Successfully!\",\n    \"channel_name\": \"6edc46cdac9484d12b2074f1f72a2bbe_1722827596\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Link Device",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "device_name",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "channel_name",
+									"value": "cb0f3f8f207c34e17fca817a0fb0529c_1724342455",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/linked-device/link",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"linked-device",
+								"link"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Link Device",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "device_name",
+											"value": "Test",
+											"type": "text"
+										},
+										{
+											"key": "channel_name",
+											"value": "6edc46cdac9484d12b2074f1f72a2bbe_1722827596",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/linked-device/link",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"linked-device",
+										"link"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.8"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Aug 2024 03:12:46 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Device Linked Successfully!\"\n}"
+						},
+						{
+							"name": "Link Device Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "device_name",
+											"value": "Test",
+											"type": "text"
+										},
+										{
+											"key": "channel_name",
+											"value": "a0e172d218c82d914da0ce31fb35d5c9_1723930025",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/linked-device/link",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"linked-device",
+										"link"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.10"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2024 21:45:31 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": [\n        \"The channel name field is required.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Unlink Device",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/linked-device/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"linked-device",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unlink Device",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/linked-device/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"linked-device",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.8"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Aug 2024 03:31:51 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Device Unlinked Successfully!\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Show, Add and Delete Linked Devices",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Conversations",
+			"item": [
+				{
+					"name": "CRUD",
+					"item": [
+						{
+							"name": "Conversations",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{url}}/conversations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations"
+									]
+								},
+								"description": "Get User Conversations"
+							},
+							"response": []
+						},
+						{
+							"name": "Make Conversations",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"label\": \"Test\",\r\n    \"description\" : \"\",\r\n    \"avatar\": null,\r\n    \"permissions\": {\r\n        \"edit_group_settings\": true,\r\n        \"send_messages\": true,\r\n        \"add_other_members\": true\r\n    },\r\n    \"participants\": [\r\n        \"+201098152219\"\r\n    ]\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/conversations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Make Conversations",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"label\": \"Test\",\r\n    \"description\" : \"\",\r\n    \"avatar\": null,\r\n    \"permissions\": {\r\n        \"edit_group_settings\": true,\r\n        \"send_messages\": true,\r\n        \"add_other_members\": true\r\n    },\r\n    \"participants\": [\r\n        \"+201098152219\"\r\n    ]\r\n    \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/conversations",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"conversations"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.10"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 22 Aug 2024 16:03:19 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Conversation Created Successfully\",\n    \"conversation\": {\n        \"id\": \"9cd3facf-2752-46bd-8b87-cbb9346356bb\",\n        \"label\": \"Test\",\n        \"description\": \"\",\n        \"type\": 2,\n        \"created_at\": \"2024-08-22 16:03:19\",\n        \"avatar\": [],\n        \"participants\": [\n            {\n                \"id\": \"9cd3f923-2814-4873-8b82-9582927c1d94\",\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201113898102\",\n                \"avatar\": [],\n                \"role\": \"Owner\",\n                \"join_at\": \"22-08-2024 19:03:19\"\n            },\n            {\n                \"id\": \"9cd3f943-dcdc-43b4-b8d9-9442e08f5d5d\",\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201098152219\",\n                \"avatar\": [],\n                \"role\": \"Member\",\n                \"join_at\": \"22-08-2024 19:03:19\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Conversations",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "label",
+											"value": "gg",
+											"type": "text"
+										},
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "/C:/Users/ahmed/Downloads/ram.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/conversations/9cd3facf-2752-46bd-8b87-cbb9346356bb",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9cd3facf-2752-46bd-8b87-cbb9346356bb"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Update Conversations",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "label",
+													"value": "gg",
+													"type": "text"
+												},
+												{
+													"key": "avatar",
+													"type": "file",
+													"src": "/C:/Users/ahmed/Downloads/ram.png"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/conversations/9cd3facf-2752-46bd-8b87-cbb9346356bb",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"conversations",
+												"9cd3facf-2752-46bd-8b87-cbb9346356bb"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.10"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 22 Aug 2024 16:04:46 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Conversation Updated Successfully\",\n    \"conversation\": {\n        \"id\": \"9cd3facf-2752-46bd-8b87-cbb9346356bb\",\n        \"label\": \"gg\",\n        \"description\": \"\",\n        \"type\": 2,\n        \"created_at\": \"2024-08-22 16:03:19\",\n        \"avatar\": [\n            {\n                \"name\": \"ram\",\n                \"file_name\": \"ram.png\",\n                \"mime_type\": \"image/png\",\n                \"type\": \"image\",\n                \"extension\": \"png\",\n                \"url\": \"https://whatsapp-clone.test/storage/conversations_avatar/43f5a8a0f9364ce864850a9bfab702fd/ram.png\",\n                \"size\": \"0.12 MB\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Conversation",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/conversations/9cd3facf-2752-46bd-8b87-cbb9346356bb",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9cd3facf-2752-46bd-8b87-cbb9346356bb"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Delete Conversation",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/conversations/9cd3facf-2752-46bd-8b87-cbb9346356bb",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"conversations",
+												"9cd3facf-2752-46bd-8b87-cbb9346356bb"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.10"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 22 Aug 2024 16:05:23 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Conversation Deleted Successfully\"\n}"
+								}
+							]
+						}
+					],
+					"description": "Conversation CRUD"
+				},
+				{
+					"name": "Participants",
+					"item": [
+						{
+							"name": "Conversation Participants",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/conversations/9cd28c58-1e34-496c-b116-6d0f17e08841/participants",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9cd28c58-1e34-496c-b116-6d0f17e08841",
+										"participants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Participants",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"participants\": [\r\n        \"+201098152218\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/conversations/9cd3fba9-1fed-469d-8d4d-b298de859639/participants",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9cd3fba9-1fed-469d-8d4d-b298de859639",
+										"participants"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add Participants",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"participants\": [\r\n        \"+201098152218\"\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/conversations/9cd3fba9-1fed-469d-8d4d-b298de859639/participants",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"conversations",
+												"9cd3fba9-1fed-469d-8d4d-b298de859639",
+												"participants"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.10"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 22 Aug 2024 16:07:46 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Participants was added successfully.\",\n    \"participants\": [\n        {\n            \"user\": {\n                \"id\": \"9cd3f923-2814-4873-8b82-9582927c1d94\",\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201113898102\",\n                \"avatar\": \"\"\n            },\n            \"role\": \"Owner\",\n            \"join_at\": \"2 hours from now\"\n        },\n        {\n            \"user\": {\n                \"id\": \"9cd3f943-dcdc-43b4-b8d9-9442e08f5d5d\",\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201098152219\",\n                \"avatar\": \"\"\n            },\n            \"role\": \"Member\",\n            \"join_at\": \"2 hours from now\"\n        },\n        {\n            \"user\": {\n                \"id\": \"9cd3fc5b-c66c-493f-a65a-ac2578a5bbef\",\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201098152218\",\n                \"avatar\": \"\"\n            },\n            \"role\": \"Member\",\n            \"join_at\": \"2 hours from now\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Remove Participant",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "participant",
+											"value": "+201098152218",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/conversations/9cd3fba9-1fed-469d-8d4d-b298de859639/participants/remove",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9cd3fba9-1fed-469d-8d4d-b298de859639",
+										"participants",
+										"remove"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User with no permission",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "participant",
+													"value": "+201098152218",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/conversations/9cd3fba9-1fed-469d-8d4d-b298de859639/participants/remove",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"conversations",
+												"9cd3fba9-1fed-469d-8d4d-b298de859639",
+												"participants",
+												"remove"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.10"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 22 Aug 2024 16:12:56 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"User does not have permission to this action\"\n}"
+								},
+								{
+									"name": "Remove Participant",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "participant",
+													"value": "+201098152218",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/conversations/9cd3fba9-1fed-469d-8d4d-b298de859639/participants/remove",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"conversations",
+												"9cd3fba9-1fed-469d-8d4d-b298de859639",
+												"participants",
+												"remove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.10"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 22 Aug 2024 16:23:07 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Participant was removed successfully.\",\n    \"participants\": [\n        {\n            \"user\": {\n                \"id\": \"9cd3f923-2814-4873-8b82-9582927c1d94\",\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201113898102\",\n                \"avatar\": \"\"\n            },\n            \"role\": \"Owner\",\n            \"join_at\": \"2 hours from now\"\n        },\n        {\n            \"user\": {\n                \"id\": \"9cd3f943-dcdc-43b4-b8d9-9442e08f5d5d\",\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201098152219\",\n                \"avatar\": \"\"\n            },\n            \"role\": \"Member\",\n            \"join_at\": \"2 hours from now\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Participant Leave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/conversations/9cd3fba9-1fed-469d-8d4d-b298de859639/participants/leave",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9cd3fba9-1fed-469d-8d4d-b298de859639",
+										"participants",
+										"leave"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Conversation Participants Actions"
+				},
+				{
+					"name": "Participants Role",
+					"item": [
+						{
+							"name": "Update Role",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"participant\": {\r\n        \"mobile_number\": \"+201113898102\",\r\n        \"role\": \"2\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/conversations/9cceed78-e673-4fef-a275-5f56b5fa798a/participants/role",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9cceed78-e673-4fef-a275-5f56b5fa798a",
+										"participants",
+										"role"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Control Participants Roles"
+				},
+				{
+					"name": "Permissions",
+					"item": [
+						{
+							"name": "Permissions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/conversations/9ce5f989-60cc-4213-a7cb-14198fd0846c/permissions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9ce5f989-60cc-4213-a7cb-14198fd0846c",
+										"permissions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Permission",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"edit_group_settings\": true,\n    \"send_messages\": true,\n    \"add_other_members\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/conversations/9ce5f989-60cc-4213-a7cb-14198fd0846c/permissions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"conversations",
+										"9ce5f989-60cc-4213-a7cb-14198fd0846c",
+										"permissions"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Update Conversation Permisions"
+				}
+			],
+			"description": "Make a one-to-one and one-to-many conversations routes",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Conversation Messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/messages/9cd16a6f-2f3d-4c07-96ca-4af68b19357e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"messages",
+								"9cd16a6f-2f3d-4c07-96ca-4af68b19357e"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Conversation Messages",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/messages/9cd16a6f-2f3d-4c07-96ca-4af68b19357e",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"messages",
+										"9cd16a6f-2f3d-4c07-96ca-4af68b19357e"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.10"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Aug 2024 09:31:29 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Message received successfully\",\n    \"messages\": [\n        {\n            \"id\": \"9cd16aba-1290-4f10-aefc-4d47684eed42\",\n            \"conversation_id\": \"9cd16a6f-2f3d-4c07-96ca-4af68b19357e\",\n            \"text\": \"Test\",\n            \"type\": \"text\",\n            \"user\": {\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201113898102\",\n                \"avatar\": \"\"\n            },\n            \"media\": [\n                {\n                    \"name\": \"Etmana\",\n                    \"file_name\": \"Etmana.png\",\n                    \"mime_type\": \"image/png\",\n                    \"type\": \"image\",\n                    \"extension\": \"png\",\n                    \"url\": \"http://whatsapp-clone.test/storage/messages/7e3e3c0be3a007e246f9c972dc27304a/Etmana.png\",\n                    \"size\": \"0.60 MB\"\n                },\n                {\n                    \"name\": \"AutoQA\",\n                    \"file_name\": \"AutoQA.png\",\n                    \"mime_type\": \"image/png\",\n                    \"type\": \"image\",\n                    \"extension\": \"png\",\n                    \"url\": \"http://whatsapp-clone.test/storage/messages/752ebcfa47ce0be4dff97cdff474d94a/AutoQA.png\",\n                    \"size\": \"0.21 MB\"\n                }\n            ]\n        },\n        {\n            \"id\": \"9cd16bac-b83d-4ada-8b4a-6c5193a58485\",\n            \"conversation_id\": \"9cd16a6f-2f3d-4c07-96ca-4af68b19357e\",\n            \"text\": \"Test\",\n            \"type\": \"text\",\n            \"user\": {\n                \"name\": \"\",\n                \"about\": \"\",\n                \"mobile_number\": \"+201113898102\",\n                \"avatar\": \"\"\n            },\n            \"media\": [\n                {\n                    \"name\": \"Etmana\",\n                    \"file_name\": \"Etmana.png\",\n                    \"mime_type\": \"image/png\",\n                    \"type\": \"image\",\n                    \"extension\": \"png\",\n                    \"url\": \"http://whatsapp-clone.test/storage/messages/853d19575e3c1d394f29ac4a67099944/Etmana.png\",\n                    \"size\": \"0.60 MB\"\n                },\n                {\n                    \"name\": \"AutoQA\",\n                    \"file_name\": \"AutoQA.png\",\n                    \"mime_type\": \"image/png\",\n                    \"type\": \"image\",\n                    \"extension\": \"png\",\n                    \"url\": \"http://whatsapp-clone.test/storage/messages/a51160f81aae2588d253850967b45bdf/AutoQA.png\",\n                    \"size\": \"0.21 MB\"\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Send Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "to",
+									"value": "9ce5f989-60cc-4213-a7cb-14198fd0846c",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "text",
+									"type": "text"
+								},
+								{
+									"key": "media[0]",
+									"type": "file",
+									"src": "/C:/Users/ahmed/Downloads/Etmana.png",
+									"disabled": true
+								},
+								{
+									"key": "media[1]",
+									"type": "file",
+									"src": "/C:/Users/ahmed/Downloads/AutoQA.png",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/messages",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Send Message",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "to",
+											"value": "user-+201098152219",
+											"type": "text"
+										},
+										{
+											"key": "text",
+											"value": "Test",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "text",
+											"type": "text"
+										},
+										{
+											"key": "media[0]",
+											"type": "file",
+											"src": "/C:/Users/ahmed/Downloads/Etmana.png"
+										},
+										{
+											"key": "media[1]",
+											"type": "file",
+											"src": "/C:/Users/ahmed/Downloads/AutoQA.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/messages",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"messages"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.10"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Aug 2024 09:27:57 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": {\n        \"id\": \"9cd16a6f-3305-44d3-85d7-497a2eaa0ac1\",\n        \"conversation_id\": \"9cd16a6f-2f3d-4c07-96ca-4af68b19357e\",\n        \"text\": \"Test\",\n        \"type\": \"text\",\n        \"media\": [\n            {\n                \"name\": \"Etmana\",\n                \"file_name\": \"Etmana.png\",\n                \"mime_type\": \"image/png\",\n                \"type\": \"image\",\n                \"extension\": \"png\",\n                \"url\": \"http://whatsapp-clone.test/storage/messages/c599226a6fa74e7e1cde510daba709b9/Etmana.png\",\n                \"size\": \"0.60 MB\"\n            },\n            {\n                \"name\": \"AutoQA\",\n                \"file_name\": \"AutoQA.png\",\n                \"mime_type\": \"image/png\",\n                \"type\": \"image\",\n                \"extension\": \"png\",\n                \"url\": \"http://whatsapp-clone.test/storage/messages/edcb908506194ae9e96d5c41755a75c1/AutoQA.png\",\n                \"size\": \"0.21 MB\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/messages/9cd16a6f-3305-44d3-85d7-497a2eaa0ac1/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"messages",
+								"9cd16a6f-3305-44d3-85d7-497a2eaa0ac1",
+								"delete"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/messages/9cd16a6f-3305-44d3-85d7-497a2eaa0ac1/delete",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"messages",
+										"9cd16a6f-3305-44d3-85d7-497a2eaa0ac1",
+										"delete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.10"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Aug 2024 09:28:24 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Message deleted successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "View Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/messages/9cd1723e-cc4a-451b-8aa8-49b2587d3c34/view",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"messages",
+								"9cd1723e-cc4a-451b-8aa8-49b2587d3c34",
+								"view"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Send Messages Routes",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Stories",
+			"item": [
+				{
+					"name": "CRUD",
+					"item": [
+						{
+							"name": "Get Stories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/stories",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"stories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create story",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "type",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "privacy",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "text",
+											"value": "Hello",
+											"type": "text"
+										},
+										{
+											"key": "media",
+											"type": "file",
+											"src": "/C:/Users/ahmed/Downloads/Etmana.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/stories",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"stories"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Create story",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "type",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "privacy",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "text",
+													"value": "Hello",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/stories",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stories"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.8"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 05 Aug 2024 08:19:03 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Story published Successfully!\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Story",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/stories/28fc8d1c-2d44-4f19-bbe9-07f76837f6b8",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"stories",
+										"28fc8d1c-2d44-4f19-bbe9-07f76837f6b8"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Delete Story",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/stories/0ac5f0d0-34f5-4fb9-859d-771793d33b12",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stories",
+												"0ac5f0d0-34f5-4fb9-859d-771793d33b12"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.8"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 05 Aug 2024 08:18:41 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Story deleted Successfully!\"\n}"
+								}
+							]
+						}
+					],
+					"description": "Stories CRUD Routes"
+				},
+				{
+					"name": "Privacy",
+					"item": [
+						{
+							"name": "update privacy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"privacy\": \"2\",\r\n    \"contacts\": [\r\n        \"+201098152219\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/stories/privacy",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"stories",
+										"privacy"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"privacy\": \"2\",\r\n    \"contacts\": [\r\n        \"+201098152219\"\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stories/update-privacy",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stories",
+												"update-privacy"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.25.2"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.10"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 19 Aug 2024 03:49:17 GMT"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Story Privacy Contacts updated successfully.\"\n}"
+								}
+							]
+						}
+					],
+					"description": "Set Stories Privacy"
+				},
+				{
+					"name": "Views",
+					"item": [
+						{
+							"name": "View Story",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/stories/28fc8d1c-2d44-4f19-bbe9-07f76837f6b8/view",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"stories",
+										"28fc8d1c-2d44-4f19-bbe9-07f76837f6b8",
+										"view"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "View Story Route"
+				}
+			],
+			"description": "User Storeies Routes",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/test",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
