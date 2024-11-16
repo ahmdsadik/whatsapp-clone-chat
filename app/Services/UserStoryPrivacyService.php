@@ -8,6 +8,12 @@ use App\Models\User;
 
 class UserStoryPrivacyService
 {
+    /**
+     * Update Story Privacy
+     *
+     * @param UserStoryPrivacyDTO $storyPrivacyDTO
+     * @return void
+     */
     public function updateStoryPrivacy(UserStoryPrivacyDTO $storyPrivacyDTO): void
     {
         $storyPrivacy = auth()->user()->storiesPrivacy()->firstOrCreate(['privacy' => $storyPrivacyDTO->privacy]);

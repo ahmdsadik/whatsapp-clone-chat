@@ -12,6 +12,8 @@ class TwilioSMS implements SMS
     protected Client $client;
 
     /**
+     * TwilioSMS constructor.
+     * 
      * @throws ConfigurationException
      */
     public function __construct()
@@ -24,6 +26,8 @@ class TwilioSMS implements SMS
     }
 
     /**
+     * Send SMS
+     * 
      * @throws TwilioException
      */
     public function send(string $to, string $message): void

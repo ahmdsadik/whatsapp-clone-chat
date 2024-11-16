@@ -19,6 +19,8 @@ readonly class ConversationParticipantRoleService
     }
 
     /**
+     * Update participant role in conversation
+     * 
      * @throws ParticipantNotExistsInConversationException
      * @throws UserNotHavePermissionException
      */

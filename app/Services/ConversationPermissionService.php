@@ -6,15 +6,24 @@ use App\DTO\ConversationPermissionDTO;
 use App\Events\Conversation\PermissionUpdatedEvent;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
+use App\Models\ConversationPermission;
 
 class ConversationPermissionService
 {
-    public function permissions(Conversation $conversation): array
+    /**
+     * Get conversation permissions
+     *
+     * @param Conversation $conversation
+     * @return ConversationPermission|null
+     */
+    public function permissions(Conversation $conversation): ?ConversationPermission
     {
         return $conversation->permissions;
     }
 
     /**
+     * Update conversation permissions
+     *
      * @throws UserNotHavePermissionException
      */
     public function updatePermissions(Conversation $conversation, ConversationPermissionDTO $permissions): void

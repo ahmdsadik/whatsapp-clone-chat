@@ -15,6 +15,12 @@ class UserService
     {
     }
 
+    /**
+     * Login or Create User
+     *
+     * @param UserDTO $userDTO
+     * @return void
+     */
     public function loginOrCreate(UserDTO $userDTO): void
     {
         $user = User::createOrFirst($userDTO->toArray(['mobile_number']));
@@ -22,6 +28,11 @@ class UserService
         $this->otpService->sendOTP($user->mobile_number);
     }
 
+    /**
+     * Logout User
+     *
+     * @return void
+     */
     public function logout(): void
     {
         $user = auth()->user();

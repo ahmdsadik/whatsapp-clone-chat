@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\DB;
 class ConversationService
 {
 
+    /**
+     * Get user conversations
+     *
+     * @return void
+     */
     public function userConversations()
     {
         return auth()->user()->conversations()->with(['participants.media', 'media'])->get();
@@ -55,6 +60,13 @@ class ConversationService
         return $conversation->loadMissing(['participants.media', 'permissions']);
     }
 
+    /**
+     * Update conversation
+     *
+     * @param ConversationDTO $conversationDTO
+     * @param Conversation $conversation
+     * @return void
+     */
     public function updateConversation(ConversationDTO $conversationDTO, Conversation $conversation)
     {
         // TODO :: CHECK PERMISSION
@@ -78,6 +90,12 @@ class ConversationService
         });
     }
 
+    /**
+     * Delete conversation
+     *
+     * @param Conversation $conversation
+     * @return void
+     */
     public function deleteConversation(Conversation $conversation): void
     {
         if (!$conversation->isParticipant([auth()->id()])) {

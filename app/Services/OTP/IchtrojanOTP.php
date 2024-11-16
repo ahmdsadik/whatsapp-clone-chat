@@ -15,7 +15,7 @@ class IchtrojanOTP implements OTPInterface
     }
 
     /**
-     *
+     * Generate OTP
      * @throws \Exception
      */
     public function generate(string $identifier, mixed $type = 'numeric', int $length = 6, mixed $expire_time = 10): mixed
@@ -23,6 +23,13 @@ class IchtrojanOTP implements OTPInterface
         return $this->otp->generate($identifier, $type, $length, $expire_time)?->token;
     }
 
+    /**
+     * Validate OTP
+     *
+     * @param [type] $identifier
+     * @param [type] $otp
+     * @return mixed
+     */
     public function validate($identifier, $otp): mixed
     {
         return $this->otp->validate($identifier, $otp)?->status;

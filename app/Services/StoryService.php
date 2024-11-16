@@ -23,6 +23,12 @@ class StoryService
         return auth()->user()->registeredContacts()->with(['registeredUser' => ['authorizedStories', 'media']])->get();
     }
 
+    /**
+     * Create Story
+     *
+     * @param StoryDTO $storyDTO
+     * @return void
+     */
     public function createStory(StoryDTO $storyDTO): void
     {
         DB::transaction(function () use ($storyDTO) {
@@ -41,6 +47,12 @@ class StoryService
         });
     }
 
+    /**
+     * Delete Story
+     *
+     * @param Story $story
+     * @return void
+     */
     public function deleteStory(Story $story): void
     {
         $story->delete();

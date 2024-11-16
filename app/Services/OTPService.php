@@ -16,11 +16,24 @@ readonly class OTPService
     {
     }
 
+    /**
+     * Generate OTP
+     *
+     * @param [type] $identifier
+     * @return string
+     */
     private function generateOtp($identifier): string
     {
         return $this->otp->generate($identifier);
     }
 
+    /**
+     * Verify OTP
+     *
+     * @param string $identifier
+     * @param string $otp
+     * @return array
+     */
     public function verifyOTP(string $identifier, string $otp): array
     {
 
@@ -35,6 +48,12 @@ readonly class OTPService
         return [$user, $token];
     }
 
+    /**
+     * Send OTP
+     *
+     * @param string $to
+     * @return void
+     */
     public function sendOTP(string $to): void
     {
         $otp = $this->generateOtp($to);

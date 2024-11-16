@@ -9,6 +9,12 @@ trait ApiValidation
 {
     use ApiResponse;
 
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param Validator $validator
+     * @return void
+     */
     protected function failedValidation(Validator $validator)
     {
         $response = $this->validationErrorResponse($validator->errors()->all());

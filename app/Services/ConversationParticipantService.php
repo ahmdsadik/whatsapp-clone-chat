@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\DB;
 
 class ConversationParticipantService
 {
+    /**
+     * Get conversation participants
+     *
+     * @param Conversation $conversation
+     * @return void
+     */
     public function conversationParticipants(Conversation $conversation)
     {
         return $conversation->participants()->with('media')->get();
@@ -43,6 +49,8 @@ class ConversationParticipantService
     }
 
     /**
+     * Remove participant from conversation
+     * 
      * @throws UserNotHavePermissionException|ParticipantNotExistsInConversationException
      */
     public function removeParticipant(FormRequest $request, Conversation $conversation): void
@@ -62,6 +70,8 @@ class ConversationParticipantService
     }
 
     /**
+     * Participant leave conversation
+     * 
      * @throws ParticipantNotExistsInConversationException
      */
     public function participantLeave(Conversation $conversation): void

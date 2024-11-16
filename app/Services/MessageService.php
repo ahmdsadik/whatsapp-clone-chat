@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\DB;
 
 class MessageService
 {
+    /**
+     * Get conversation messages
+     *
+     * @param Conversation $conversation
+     * @return void
+     */
     public function conversationMessages(Conversation $conversation)
     {
         $conversationMessages = $conversation->load(['messages.media', 'messages.user.media']);
@@ -51,6 +57,12 @@ class MessageService
         });
     }
 
+    /**
+     * Delete Message
+     *
+     * @param Message $message
+     * @return void
+     */
     public function deleteMessage(Message $message): void
     {
         // Check if the user is the owner of this message
