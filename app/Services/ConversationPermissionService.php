@@ -7,7 +7,6 @@ use App\Events\Conversation\PermissionUpdatedEvent;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\ConversationPermission;
-use Illuminate\Database\Eloquent\Collection;
 
 class ConversationPermissionService
 {

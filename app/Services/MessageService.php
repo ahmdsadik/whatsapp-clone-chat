@@ -31,7 +31,13 @@ class MessageService
         return $conversationMessages->messages;
     }
 
-    public function saveMessage(NewMessageDTO $messageDTO)
+    /**
+     * Save New Message
+     *
+     * @param NewMessageDTO $messageDTO
+     * @return Message
+     */
+    public function saveMessage(NewMessageDTO $messageDTO): Message
     {
         return DB::transaction(function () use ($messageDTO) {
             $conversation = (new GetConversationOrMakeAction())->execute($messageDTO->to);
@@ -81,6 +87,13 @@ class MessageService
         });
     }
 
+    /**
+     * View Message
+     *
+     * @param Message $message
+     * @return void
+     * @throws UserNotHavePermissionException
+     */
     public function viewMessage(Message $message): void
     {
         if ($message->user_id !== auth()->id()) {

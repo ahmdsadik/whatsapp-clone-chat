@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\DTO\UserDTO;
 use App\Models\User;
-use App\Services\OTP\OTP;
-use App\Services\SMS\SMS;
 
 class UserService
 {

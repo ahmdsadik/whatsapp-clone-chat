@@ -30,6 +30,12 @@ class ConversationService
         return auth()->user()->conversations()->with(['participants.media', 'media'])->get();
     }
 
+    /**
+     * Create a new conversation
+     *
+     * @param ConversationDTO $conversationDTO
+     * @return void
+     */
     public function createConversation(ConversationDTO $conversationDTO)
     {
         $conversation = DB::transaction(function () use ($conversationDTO) {
