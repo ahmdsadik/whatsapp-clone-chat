@@ -12,6 +12,7 @@ use App\Events\Message\NewMessageEvent;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\Message;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use LaravelIdea\Helper\App\Models\_IH_Message_C;
 
@@ -21,9 +22,9 @@ class MessageService
      * Get conversation messages
      *
      * @param Conversation $conversation
-     * @return Message[]|_IH_Message_C|mixed
+     * @return Message[]|Collection
      */
-    public function conversationMessages(Conversation $conversation): mixed
+    public function conversationMessages(Conversation $conversation): array|Collection
     {
         $conversationMessages = $conversation->load(['messages.media', 'messages.user.media']);
 
@@ -63,6 +64,7 @@ class MessageService
      *
      * @param Message $message
      * @return void
+     * @throws UserNotHavePermissionException
      */
     public function deleteMessage(Message $message): void
     {

@@ -14,13 +14,11 @@ readonly class ConversationParticipantRoleService
 {
     public function __construct(
         private CheckUpdateParticipantRoleAction $action,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Update participant role in conversation
-     * 
+     *
      * @throws ParticipantNotExistsInConversationException
      * @throws UserNotHavePermissionException
      */

@@ -11,9 +11,7 @@ class UserService
 {
     public function __construct(
         private readonly OTPService $otpService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Login or Create User

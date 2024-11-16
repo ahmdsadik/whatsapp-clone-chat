@@ -7,6 +7,7 @@ use App\Events\Conversation\PermissionUpdatedEvent;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\ConversationPermission;
+use Illuminate\Database\Eloquent\Collection;
 
 class ConversationPermissionService
 {
@@ -14,9 +15,9 @@ class ConversationPermissionService
      * Get conversation permissions
      *
      * @param Conversation $conversation
-     * @return ConversationPermission|null
+     * @return ConversationPermission[]|Collection
      */
-    public function permissions(Conversation $conversation): ?ConversationPermission
+    public function permissions(Conversation $conversation): array|Collection
     {
         return $conversation->permissions;
     }

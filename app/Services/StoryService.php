@@ -9,6 +9,7 @@ use App\Enums\StoryPrivacy;
 use App\Events\Story\NewStoryEvent;
 use App\Events\Story\StoryDeletedEvent;
 use App\Models\Story;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class StoryService
@@ -16,8 +17,9 @@ class StoryService
     /**
      * Retrieve User's authorized stories
      *
+     * @return array|Collection
      */
-    public function authorizedStories()
+    public function authorizedStories(): array|Collection
     {
         // TODO:: Check the order by story created at again
         return auth()->user()->registeredContacts()->with(['registeredUser' => ['authorizedStories', 'media']])->get();

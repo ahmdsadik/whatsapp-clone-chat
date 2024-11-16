@@ -7,6 +7,7 @@ use App\Events\LinkedDevice\DeviceLinkedEvent;
 use App\Events\LinkedDevice\DeviceUnlinkedEvent;
 use App\Exceptions\InvalidChannelLinkException;
 use App\Models\LinkedDevice;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
@@ -15,9 +16,9 @@ class LinkedDeviceService
     /**
      * User's Linked Devices
      *
-     * @return AnonymousResourceCollection
+     * @return LinkedDevice[]|Collection
      */
-    public function allLinkedDevices()
+    public function allLinkedDevices(): array|Collection
     {
         return auth()->user()->linkedDevices()->with(['token:id,last_used_at'])->get();
     }

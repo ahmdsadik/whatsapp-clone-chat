@@ -25,9 +25,9 @@ class ConversationParticipantService
      * Get conversation participants
      *
      * @param Conversation $conversation
-     * @return User[]|Collection|mixed
+     * @return User[]|Collection
      */
-    public function conversationParticipants(Conversation $conversation): mixed
+    public function conversationParticipants(Conversation $conversation): Collection|array
     {
         return $conversation->participants()->with('media')->get();
     }
