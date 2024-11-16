@@ -14,7 +14,7 @@ class MessageResource extends JsonResource
             'id' => $this->id,
             'conversation_id' => $this->conversation_id,
             'text' => $this->text ?? '',
-            'type' => $this->type,
+            'type' => $this->type->value,
             'user' => UserResource::make($this->whenLoaded('user')),
             'media' => MediaResource::collection($this->whenLoaded('media')),
         ];

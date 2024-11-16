@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MessageType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,7 +29,8 @@ class Message extends Model implements HasMedia
     protected function casts(): array
     {
         return [
-            'created_at' => 'datetime'
+            'created_at' => 'datetime',
+            'type' => MessageType::class,
         ];
     }
 
