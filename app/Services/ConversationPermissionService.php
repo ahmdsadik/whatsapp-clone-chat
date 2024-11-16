@@ -5,14 +5,13 @@ namespace App\Services;
 use App\DTO\ConversationPermissionDTO;
 use App\Events\Conversation\PermissionUpdatedEvent;
 use App\Exceptions\UserNotHavePermissionException;
-use App\Http\Resources\ConversationPermissionResource;
 use App\Models\Conversation;
 
 class ConversationPermissionService
 {
-    public function permissions(Conversation $conversation): ConversationPermissionResource
+    public function permissions(Conversation $conversation): array
     {
-        return ConversationPermissionResource::make($conversation->permissions);
+        return $conversation->permissions;
     }
 
     /**
