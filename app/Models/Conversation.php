@@ -112,12 +112,7 @@ class Conversation extends Model implements HasMedia
      */
     public function isOwner($user_id): bool
     {
-        return $this->hasParticipants()
-            ->where(function (Builder $query) {
-                $query->where('role', ParticipantRole::OWNER);
-            })
-            ->where('user_id', $user_id)
-            ->exists();
+        return $this->created_by === $user_id;
     }
 
     /**
