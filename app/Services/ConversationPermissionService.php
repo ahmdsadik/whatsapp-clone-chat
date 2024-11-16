@@ -15,9 +15,9 @@ class ConversationPermissionService
      * Get conversation permissions
      *
      * @param Conversation $conversation
-     * @return ConversationPermission[]|Collection
+     * @return ConversationPermission|null
      */
-    public function permissions(Conversation $conversation): array|Collection
+    public function permissions(Conversation $conversation): ?ConversationPermission
     {
         return $conversation->permissions;
     }
