@@ -104,6 +104,8 @@ class Conversation extends Model implements HasMedia
         return $this->belongsTo(Message::class);
     }
 
+    #################### Methods ####################
+    
     /**
      * Check if a given user is the owner of the  conversation
      *
