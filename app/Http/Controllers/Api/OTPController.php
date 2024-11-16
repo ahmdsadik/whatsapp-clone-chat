@@ -44,8 +44,10 @@ class OTPController extends Controller
     {
         try {
 
-            [$user, $token] = $this->OTPService->verifyOTP($request->validated('mobile_number'),
-                $request->validated('otp'));
+            [$user, $token] = $this->OTPService->verifyOTP(
+                $request->validated('mobile_number'),
+                $request->validated('otp')
+            );
 
             return $this->successResponse([
                 'user' => UserResource::make($user),
