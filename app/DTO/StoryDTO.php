@@ -9,23 +9,27 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoryDTO extends BaseDTO
 {
     public function __construct(
-        public StoryType    $type,
-        public ?string       $text,
-        public ?string       $duration,
+        public StoryType $type,
+        public ?string $text,
+        public ?string $duration,
         public StoryPrivacy $privacy,
-        public              $media,
-    )
-    {
+        public $media,
+    ) {
     }
 
-    public static function fromFormRequest(FormRequest $request): self
-    {
+    public static function fromFormRequest(
+        StoryType $type,
+        ?string $text,
+        ?string $duration,
+        StoryPrivacy $privacy,
+        $media,
+    ): self {
         return new self(
-            StoryType::from($request->validated('type')),
-            $request->validated('text'),
-            $request->validated('duration'),
-            StoryPrivacy::from($request->validated('privacy')),
-            $request->validated('media'),
+            $type,
+            $text,
+            $duration,
+            $privacy,
+            $media
         );
     }
 }

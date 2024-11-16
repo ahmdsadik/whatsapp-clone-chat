@@ -8,21 +8,23 @@ use Illuminate\Foundation\Http\FormRequest;
 class NewMessageDTO extends BaseDTO
 {
     public function __construct(
-        public string      $to,
-        public ?string     $text,
+        public string $to,
+        public ?string $text,
         public MessageType $Type,
-        public ?array      $media,
-    )
-    {
-    }
+        public ?array $media,
+    ) {}
 
-    public static function fromFormRequest(FormRequest $request): self
-    {
+    public static function fromFormRequest(
+        string $to,
+        ?string $text,
+        MessageType $ype,
+        ?array $media,
+    ): self {
         return new self(
-            $request->validated('to'),
-            $request->validated('text'),
-            MessageType::from($request->validated('type')),
-            $request->validated('media'),
+            $to,
+            $text,
+            $ype,
+            $media
         );
     }
 }

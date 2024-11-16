@@ -8,11 +8,9 @@ use Illuminate\Foundation\Http\FormRequest;
 class ViewStoryDTO extends BaseDTO
 {
     public function __construct(
-        public Story  $story,
+        public Story $story,
         public string $mobile_number
-    )
-    {
-    }
+    ) {}
 
     public static function fromFormRequest(FormRequest $formRequest): self
     {

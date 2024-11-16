@@ -24,7 +24,7 @@ class UserContactController extends Controller
     public function insertContacts(InsertUserContactRequest $request): JsonResponse
     {
         try {
-            $this->userContactService->insertContacts(UserContactsDTO::fromFormRequest($request));
+            $this->userContactService->insertContacts(UserContactsDTO::fromFormRequest($request->validated('contacts')));
 
             return $this->successResponse(message: 'User contacts updated successfully!');
 

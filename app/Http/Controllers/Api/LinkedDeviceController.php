@@ -73,7 +73,10 @@ class LinkedDeviceController extends Controller
     {
         try {
 
-            $this->linkedDeviceService->linkDevice(LinkedDeviceDTO::fromApiFormRequest($request));
+            $this->linkedDeviceService->linkDevice(LinkedDeviceDTO::fromApiFormRequest(
+                $request->validated('device_name'),
+                $request->validated('channel_name')
+            ));
 
             return $this->successResponse(message: 'Device Linked Successfully!');
         } catch (InvalidChannelLinkException $channelException) {

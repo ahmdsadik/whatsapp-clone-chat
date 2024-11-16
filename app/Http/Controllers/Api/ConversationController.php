@@ -18,7 +18,8 @@ class ConversationController extends Controller
 {
     public function __construct(
         private readonly ConversationService $conversationService
-    ) {}
+    ) {
+    }
 
     /**
      * Get user conversations
@@ -51,7 +52,14 @@ class ConversationController extends Controller
     {
         try {
 
-            $conversation = $this->conversationService->createConversation(ConversationDTO::fromFormRequest($request));
+            $conversation = $this->conversationService->createConversation(
+                ConversationDTO::fromFormRequest(
+                    $request->validated('label'),
+                    $request->validated('description'),
+                    $request->validated('avatar'),
+                    $request->validated('participants'),
+                    $request->validated('permissions'))
+            );
 
             return $this->successResponse([
                 'conversation' => ConversationResource::make($conversation),
@@ -78,7 +86,14 @@ class ConversationController extends Controller
     {
         try {
 
-            $updatedConversation = $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request),
+            $updatedConversation = $this->conversationService->updateConversation(
+                ConversationDTO::fromFormRequest(
+                    $request->validated('label'),
+                    $request->validated('description'),
+                    $request->validated('avatar'),
+                    $request->validated('participants'),
+                    $request->validated('permissions')
+                ),
                 $conversation);
 
             return $this->successResponse([

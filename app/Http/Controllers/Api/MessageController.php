@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\NewMessageDTO;
+use App\Enums\MessageType;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Message\StoreMessageRequest;
@@ -18,7 +19,8 @@ class MessageController extends Controller
 {
     public function __construct(
         private readonly MessageService $messageService
-    ) {}
+    ) {
+    }
 
     /**
      * Get conversation messages
@@ -53,7 +55,12 @@ class MessageController extends Controller
     public function store(StoreMessageRequest $request): JsonResponse
     {
         try {
-            $message = $this->messageService->saveMessage(NewMessageDTO::fromFormRequest($request));
+            $message = $this->messageService->saveMessage(NewMessageDTO::fromFormRequest(
+                $request->validated('to'),
+                $request->validated('text'),
+                MessageType::from($request->validated('type')),
+                $request->validated('media'),
+            ));
 
             return $this->successResponse([
                 'message' => MessageResource::make($message)

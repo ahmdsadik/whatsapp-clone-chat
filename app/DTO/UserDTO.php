@@ -10,9 +10,7 @@ class UserDTO extends BaseDTO
         public ?string $name,
         public ?string $mobile_number,
         public ?string $about,
-    )
-    {
-    }
+    ) {}
 
     public static function fromFormRequest(string $name = '', string $mobile_number = '', string $about = ''): self
     {

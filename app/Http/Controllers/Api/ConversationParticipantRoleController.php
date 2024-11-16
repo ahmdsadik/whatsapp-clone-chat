@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\ParticipantRoleDTO;
+use App\Enums\ParticipantRole;
 use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Controllers\Controller;
@@ -16,7 +17,8 @@ class ConversationParticipantRoleController extends Controller
 {
     public function __construct(
         private readonly ConversationParticipantRoleService $conversationParticipantRoleService
-    ) {}
+    ) {
+    }
 
     /**
      * Update participant role
@@ -29,8 +31,13 @@ class ConversationParticipantRoleController extends Controller
     {
         try {
 
-            $this->conversationParticipantRoleService->updateParticipantRole(ParticipantRoleDTO::fromFormRequest($request),
-                $conversation);
+            $this->conversationParticipantRoleService->updateParticipantRole(ParticipantRoleDTO::fromFormRequest(
+                $request->validated('participant'),
+                $request->validated('participant')['mobile_number'],
+                ParticipantRole::from($request->validated('participant')['role'])
+            ),
+                $conversation
+            );
 
             return $this->successResponse(message: 'Roles Updated Successfully');
 

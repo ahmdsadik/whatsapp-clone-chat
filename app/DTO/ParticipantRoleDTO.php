@@ -11,17 +11,18 @@ class ParticipantRoleDTO extends BaseDTO
         public array $participant,
         public string $mobile_number,
         public ParticipantRole $role,
-    )
-    {
-    }
+    ) {}
 
 
-    public static function fromFormRequest(FormRequest $request): self
-    {
+    public static function fromFormRequest(
+        array $participant,
+        string $mobile_number,
+        ParticipantRole $role,
+    ): self {
         return new self(
-            $request->validated('participant'),
-            $request->validated('participant')['mobile_number'],
-            ParticipantRole::from($request->validated('participant')['role']),
+            $participant,
+            $mobile_number,
+            $role,
         );
     }
 }

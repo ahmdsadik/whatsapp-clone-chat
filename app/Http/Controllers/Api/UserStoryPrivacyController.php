@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\UserStoryPrivacyDTO;
+use App\Enums\StoryPrivacy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Story\UpdateUserStoryPrivacyRequest;
 use App\Services\UserStoryPrivacyService;
@@ -13,7 +14,8 @@ class UserStoryPrivacyController extends Controller
 {
     public function __construct(
         private readonly UserStoryPrivacyService $userStoryPrivacyService
-    ) {}
+    ) {
+    }
 
     /**
      * Update user story privacy
@@ -24,7 +26,12 @@ class UserStoryPrivacyController extends Controller
     public function __invoke(UpdateUserStoryPrivacyRequest $request): JsonResponse
     {
         try {
-            $this->userStoryPrivacyService->updateStoryPrivacy(UserStoryPrivacyDTO::fromFormRequest($request));
+            $this->userStoryPrivacyService->updateStoryPrivacy(
+                UserStoryPrivacyDTO::fromFormRequest(
+                    StoryPrivacy::from($request->validated('privacy')),
+                    $request->validated('contacts')
+                )
+            );
 
             return $this->successResponse(message: 'Story Privacy Contacts updated successfully.');
 

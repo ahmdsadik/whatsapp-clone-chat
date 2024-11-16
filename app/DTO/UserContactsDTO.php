@@ -8,12 +8,12 @@ class UserContactsDTO extends BaseDTO
 {
     public function __construct(
         public array $contacts = [],
-    )
-    {
-    }
+    ) {}
 
-    public static function fromFormRequest(FormRequest $request): self
+    public static function fromFormRequest(array $contacts = []): self
     {
-        return new self($request->validated('contacts'));
+        return new self(
+            $contacts
+        );
     }
 }

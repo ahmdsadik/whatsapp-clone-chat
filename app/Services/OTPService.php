@@ -12,9 +12,7 @@ readonly class OTPService
     public function __construct(
         private SMS $sms,
         private OTP $otp,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Generate OTP
@@ -33,6 +31,7 @@ readonly class OTPService
      * @param string $identifier
      * @param string $otp
      * @return array
+     * @throws InvalidOTP
      */
     public function verifyOTP(string $identifier, string $otp): array
     {

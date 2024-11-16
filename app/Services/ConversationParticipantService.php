@@ -6,6 +6,7 @@ use App\Actions\CheckAddParticipantPermissionAction;
 use App\Actions\CheckParticipantLeaveAction;
 use App\Actions\CheckRemoveParticipantAction;
 use App\Actions\ConversationNeedsAdminsCheckAction;
+use App\DTO\ConversationDTO;
 use App\Events\Participant\NewParticipantEvent;
 use App\Events\Participant\ParticipantLeftEvent;
 use App\Events\Participant\ParticipantRemovedEvent;
@@ -13,8 +14,10 @@ use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
+use LaravelIdea\Helper\App\Models\_IH_User_C;
 
 class ConversationParticipantService
 {
@@ -22,16 +25,24 @@ class ConversationParticipantService
      * Get conversation participants
      *
      * @param Conversation $conversation
-     * @return void
+     * @return User[]|Collection|mixed
      */
-    public function conversationParticipants(Conversation $conversation)
+    public function conversationParticipants(Conversation $conversation): mixed
     {
         return $conversation->participants()->with('media')->get();
     }
 
-    public function addParticipant(FormRequest $request, Conversation $conversation): void
+    /**
+     * Add a participants to a conversation
+     *
+     * @param ConversationDTO $conversationDTO
+     * @param Conversation $conversation
+     * @return void
+     * @throws UserNotHavePermissionException
+     */
+    public function addParticipant(ConversationDTO $conversationDTO, Conversation $conversation): void
     {
-        $newParticipants = User::whereIn('mobile_number', $request->validated('participants'))->get();
+        $newParticipants = User::whereIn('mobile_number', $conversationDTO->participants)->get();
 
         (new CheckAddParticipantPermissionAction())->execute($conversation);
 
@@ -50,12 +61,12 @@ class ConversationParticipantService
 
     /**
      * Remove participant from conversation
-     * 
+     *
      * @throws UserNotHavePermissionException|ParticipantNotExistsInConversationException
      */
-    public function removeParticipant(FormRequest $request, Conversation $conversation): void
+    public function removeParticipant(ConversationDTO $conversationDTO, Conversation $conversation): void
     {
-        $participant = User::firstWhere('mobile_number', $request->validated('participant'));
+        $participant = User::firstWhere('mobile_number', $conversationDTO->participants);
 
         (new CheckRemoveParticipantAction())->execute($conversation, $participant->id);
 
@@ -71,7 +82,7 @@ class ConversationParticipantService
 
     /**
      * Participant leave conversation
-     * 
+     *
      * @throws ParticipantNotExistsInConversationException
      */
     public function participantLeave(Conversation $conversation): void

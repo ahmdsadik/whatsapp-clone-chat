@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\ConversationDTO;
 use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Http\Controllers\Controller;
@@ -18,7 +19,8 @@ class ConversationParticipantController extends Controller
 {
     public function __construct(
         private readonly ConversationParticipantService $conversationParticipantService
-    ) {}
+    ) {
+    }
 
     /**
      * Get conversation participants
@@ -54,7 +56,10 @@ class ConversationParticipantController extends Controller
         try {
             // TODO :: CHECK PERMISSION
 
-            $this->conversationParticipantService->addParticipant($request, $conversation);
+            $this->conversationParticipantService->addParticipant(
+                ConversationDTO::fromFormRequest(participants: $request->validated('participants')),
+                $conversation
+            );
 
             $participants = $this->conversationParticipantService->conversationParticipants($conversation);
 
@@ -82,7 +87,10 @@ class ConversationParticipantController extends Controller
     {
         try {
             // TODO :: CHECK PERMISSION
-            $this->conversationParticipantService->removeParticipant($request, $conversation);
+            $this->conversationParticipantService->removeParticipant(
+                ConversationDTO::fromFormRequest(participants: $request->validated('participants')),
+                $conversation
+            );
 
             $participants = $this->conversationParticipantService->conversationParticipants($conversation);
 

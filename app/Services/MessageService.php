@@ -13,6 +13,7 @@ use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
+use LaravelIdea\Helper\App\Models\_IH_Message_C;
 
 class MessageService
 {
@@ -20,9 +21,9 @@ class MessageService
      * Get conversation messages
      *
      * @param Conversation $conversation
-     * @return void
+     * @return Message[]|_IH_Message_C|mixed
      */
-    public function conversationMessages(Conversation $conversation)
+    public function conversationMessages(Conversation $conversation): mixed
     {
         $conversationMessages = $conversation->load(['messages.media', 'messages.user.media']);
 

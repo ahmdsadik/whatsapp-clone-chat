@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\StoryDTO;
+use App\Enums\StoryPrivacy;
+use App\Enums\StoryType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Story\CreateStoryRequest;
 use App\Http\Requests\Story\DeleteStoryRequest;
@@ -50,7 +52,13 @@ class StoryController extends Controller
     {
         try {
 
-            $this->storyService->createStory(StoryDTO::fromFormRequest($request));
+            $this->storyService->createStory(StoryDTO::fromFormRequest(
+                StoryType::from($request->validated('type')),
+                $request->validated('text'),
+                $request->validated('duration'),
+                StoryPrivacy::from($request->validated('privacy')),
+                $request->validated('media'),
+            ));
 
             return $this->successResponse(message: 'Story published Successfully!');
         } catch (Throwable $throwable) {

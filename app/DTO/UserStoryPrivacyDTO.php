@@ -9,16 +9,16 @@ class UserStoryPrivacyDTO extends BaseDTO
 {
     public function __construct(
         public StoryPrivacy $privacy,
-        public array        $contacts
-    )
-    {
-    }
+        public array $contacts
+    ) {}
 
-    public static function fromFormRequest(FormRequest $request): self
-    {
+    public static function fromFormRequest(
+        StoryPrivacy $privacy,
+        array $contacts
+    ): self {
         return new self(
-            StoryPrivacy::from($request->validated('privacy')),
-            $request->validated('contacts')
+            $privacy,
+            $contacts
         );
     }
 }

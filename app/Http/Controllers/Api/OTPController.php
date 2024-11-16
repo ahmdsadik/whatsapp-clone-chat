@@ -7,14 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OTP\ResendOTPRequest;
 use App\Http\Requests\OTP\VerifyOTPRequest;
 use App\Http\Resources\UserResource;
-use App\Models\User;
-use App\Services\OTP\OTP;
 use App\Services\OTPService;
-use App\Services\SMS\SMS;
-use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class OTPController extends Controller
 {
