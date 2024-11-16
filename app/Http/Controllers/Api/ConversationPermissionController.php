@@ -18,6 +18,12 @@ class ConversationPermissionController extends Controller
         private readonly ConversationPermissionService $service
     ) {}
 
+    /**
+     * Get conversation permissions
+     *
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function permissions(Conversation $conversation): JsonResponse
     {
         try {
@@ -38,6 +44,13 @@ class ConversationPermissionController extends Controller
         }
     }
 
+    /**
+     * Update conversation permissions
+     *
+     * @param UpdatePermissionRequest $request
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function update(UpdatePermissionRequest $request, Conversation $conversation): JsonResponse
     {
         try {

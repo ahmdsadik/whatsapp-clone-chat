@@ -20,6 +20,12 @@ class ConversationParticipantController extends Controller
         private readonly ConversationParticipantService $conversationParticipantService
     ) {}
 
+    /**
+     * Get conversation participants
+     *
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function participants(Conversation $conversation): JsonResponse
     {
         try {
@@ -36,6 +42,13 @@ class ConversationParticipantController extends Controller
         }
     }
 
+    /**
+     * Add participant to conversation
+     *
+     * @param AddParticipantRequest $request
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function addParticipant(AddParticipantRequest $request, Conversation $conversation): JsonResponse
     {
         try {
@@ -58,6 +71,13 @@ class ConversationParticipantController extends Controller
         }
     }
 
+    /**
+     * Remove participant from conversation
+     *
+     * @param RemoveParticipantRequest $request
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function removeParticipant(RemoveParticipantRequest $request, Conversation $conversation): JsonResponse
     {
         try {
@@ -79,6 +99,12 @@ class ConversationParticipantController extends Controller
         }
     }
 
+    /**
+     * Participant leave conversation
+     *
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function participantLeave(Conversation $conversation): JsonResponse
     {
         try {

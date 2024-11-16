@@ -105,7 +105,7 @@ class Conversation extends Model implements HasMedia
     }
 
     #################### Methods ####################
-    
+
     /**
      * Check if a given user is the owner of the  conversation
      *

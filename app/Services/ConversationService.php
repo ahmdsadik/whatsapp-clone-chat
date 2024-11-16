@@ -13,7 +13,9 @@ use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use LaravelIdea\Helper\App\Models\_IH_Conversation_C;
 
 class ConversationService
 {
@@ -21,9 +23,9 @@ class ConversationService
     /**
      * Get user conversations
      *
-     * @return void
+     * @return Conversation[]|Collection
      */
-    public function userConversations()
+    public function userConversations(): array|Collection
     {
         return auth()->user()->conversations()->with(['participants.media', 'media'])->get();
     }
@@ -46,8 +48,16 @@ class ConversationService
             $users_ids = User::whereIn('mobile_number', $conversationDTO->participants)->pluck('id');
 
             // Format participants to be inserted
-            $participants = $users_ids->map(fn($user_id) => ['user_id' => $user_id, 'role' => ParticipantRole::MEMBER->value, 'conversation_id' => $conversation->id]);
-            $participants->push(['user_id' => auth()->user()->id, 'role' => ParticipantRole::OWNER->value, 'conversation_id' => $conversation->id]);
+            $participants = $users_ids->map(fn($user_id) => [
+                'user_id' => $user_id,
+                'role' => ParticipantRole::MEMBER->value,
+                'conversation_id' => $conversation->id
+            ]);
+            $participants->push([
+                'user_id' => auth()->user()->id,
+                'role' => ParticipantRole::OWNER->value,
+                'conversation_id' => $conversation->id
+            ]);
 
             $conversation->hasParticipants()->insert($participants->toArray());
 
@@ -95,6 +105,7 @@ class ConversationService
      *
      * @param Conversation $conversation
      * @return void
+     * @throws ParticipantNotExistsInConversationException
      */
     public function deleteConversation(Conversation $conversation): void
     {

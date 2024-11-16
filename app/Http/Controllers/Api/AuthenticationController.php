@@ -17,6 +17,12 @@ class AuthenticationController extends Controller
         private readonly UserService $userService
     ) {}
 
+    /**
+     * Login or create a user
+     *
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         try {
@@ -36,6 +42,11 @@ class AuthenticationController extends Controller
         }
     }
 
+    /**
+     * Login user
+     *
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse
     {
         try {

@@ -15,6 +15,12 @@ class UserStoryPrivacyController extends Controller
         private readonly UserStoryPrivacyService $userStoryPrivacyService
     ) {}
 
+    /**
+     * Update user story privacy
+     *
+     * @param UpdateUserStoryPrivacyRequest $request
+     * @return JsonResponse
+     */
     public function __invoke(UpdateUserStoryPrivacyRequest $request): JsonResponse
     {
         try {

@@ -20,6 +20,12 @@ class MessageController extends Controller
         private readonly MessageService $messageService
     ) {}
 
+    /**
+     * Get conversation messages
+     *
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function index(Conversation $conversation): JsonResponse
     {
         try {
@@ -38,6 +44,12 @@ class MessageController extends Controller
         }
     }
 
+    /**
+     * Save a new message
+     *
+     * @param StoreMessageRequest $request
+     * @return JsonResponse
+     */
     public function store(StoreMessageRequest $request): JsonResponse
     {
         try {
@@ -56,6 +68,12 @@ class MessageController extends Controller
         }
     }
 
+    /**
+     * View a message
+     *
+     * @param Message $message
+     * @return JsonResponse
+     */
     public function view(Message $message): JsonResponse
     {
         try {
@@ -75,6 +93,12 @@ class MessageController extends Controller
         }
     }
 
+    /**
+     * Delete a message
+     *
+     * @param Message $message
+     * @return JsonResponse
+     */
     public function destroy(Message $message): JsonResponse
     {
         try {

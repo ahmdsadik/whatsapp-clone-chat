@@ -10,7 +10,6 @@ use App\Http\Requests\UserProfile\UpdateUserNameRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserProfileService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UserProfileController extends Controller

@@ -20,6 +20,11 @@ class ConversationController extends Controller
         private readonly ConversationService $conversationService
     ) {}
 
+    /**
+     * Get user conversations
+     *
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         try {
@@ -36,6 +41,12 @@ class ConversationController extends Controller
         }
     }
 
+    /**
+     * Make a new Conversation.
+     *
+     * @param CreateConversationsRequest $request
+     * @return JsonResponse
+     */
     public function store(CreateConversationsRequest $request): JsonResponse
     {
         try {
@@ -56,6 +67,13 @@ class ConversationController extends Controller
         }
     }
 
+    /**
+     * Update a conversation.
+     *
+     * @param UpdateConversationRequest $request
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function update(UpdateConversationRequest $request, Conversation $conversation): JsonResponse
     {
         try {
@@ -77,6 +95,12 @@ class ConversationController extends Controller
         }
     }
 
+    /**
+     * Delete a conversation.
+     *
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function destroy(Conversation $conversation): JsonResponse
     {
         try {

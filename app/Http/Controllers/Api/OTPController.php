@@ -22,6 +22,12 @@ class OTPController extends Controller
         private readonly OTPService $OTPService,
     ) {}
 
+    /**
+     * Resend OTP
+     *
+     * @param ResendOTPRequest $request
+     * @return JsonResponse
+     */
     public function resendOtp(ResendOTPRequest $request): JsonResponse
     {
         try {
@@ -34,6 +40,12 @@ class OTPController extends Controller
         }
     }
 
+    /**
+     * Verify OTP
+     *
+     * @param VerifyOTPRequest $request
+     * @return JsonResponse
+     */
     public function verifyOTP(VerifyOTPRequest $request): JsonResponse
     {
         try {

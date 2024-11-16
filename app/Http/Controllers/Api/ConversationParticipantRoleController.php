@@ -18,6 +18,13 @@ class ConversationParticipantRoleController extends Controller
         private readonly ConversationParticipantRoleService $conversationParticipantRoleService
     ) {}
 
+    /**
+     * Update participant role
+     *
+     * @param UpdateParticipantRoleRequest $request
+     * @param Conversation $conversation
+     * @return JsonResponse
+     */
     public function __invoke(UpdateParticipantRoleRequest $request, Conversation $conversation): JsonResponse
     {
         try {

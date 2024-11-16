@@ -15,6 +15,12 @@ class StoryViewController extends Controller
         private readonly StoryViewService $storyViewService
     ) {}
 
+    /**
+     * View story
+     *
+     * @param Story $story
+     * @return JsonResponse
+     */
     public function viewStory(Story $story): JsonResponse
     {
         try {
