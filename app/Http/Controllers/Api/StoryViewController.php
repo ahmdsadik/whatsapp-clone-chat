@@ -6,17 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Story;
 use App\Services\StoryViewService;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class StoryViewController extends Controller
 {
     public function __construct(
         private readonly StoryViewService $storyViewService
-    )
-    {
-    }
+    ) {}
 
-    public function viewStory(Story $story)
+    public function viewStory(Story $story): JsonResponse
     {
         try {
 
@@ -28,7 +27,7 @@ class StoryViewController extends Controller
             return $this->errorResponse('User Can\'t view story twice.');
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage());
-            $this->errorResponse('error happened while viewing story');
+            return $this->errorResponse('error happened while viewing story');
         }
     }
 }

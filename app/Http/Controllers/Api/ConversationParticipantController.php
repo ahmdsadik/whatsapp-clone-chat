@@ -11,17 +11,16 @@ use App\Http\Resources\ParticipantResource;
 use App\Models\Conversation;
 use App\Services\ConversationParticipantService;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class ConversationParticipantController extends Controller
 {
     public function __construct(
         private readonly ConversationParticipantService $conversationParticipantService
-    )
-    {
-    }
+    ) {}
 
-    public function participants(Conversation $conversation)
+    public function participants(Conversation $conversation): JsonResponse
     {
         try {
             $participants = $this->conversationParticipantService->conversationParticipants($conversation);
@@ -37,7 +36,7 @@ class ConversationParticipantController extends Controller
         }
     }
 
-    public function addParticipant(AddParticipantRequest $request, Conversation $conversation)
+    public function addParticipant(AddParticipantRequest $request, Conversation $conversation): JsonResponse
     {
         try {
             // TODO :: CHECK PERMISSION
@@ -59,7 +58,7 @@ class ConversationParticipantController extends Controller
         }
     }
 
-    public function removeParticipant(RemoveParticipantRequest $request, Conversation $conversation)
+    public function removeParticipant(RemoveParticipantRequest $request, Conversation $conversation): JsonResponse
     {
         try {
             // TODO :: CHECK PERMISSION
@@ -80,7 +79,7 @@ class ConversationParticipantController extends Controller
         }
     }
 
-    public function participantLeave(Conversation $conversation)
+    public function participantLeave(Conversation $conversation): JsonResponse
     {
         try {
             $this->conversationParticipantService->participantLeave($conversation);

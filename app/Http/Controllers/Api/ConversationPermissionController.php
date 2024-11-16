@@ -9,18 +9,16 @@ use App\Http\Requests\Conversation\UpdatePermissionRequest;
 use App\Http\Resources\ConversationPermissionResource;
 use App\Models\Conversation;
 use App\Services\ConversationPermissionService;
-use App\Services\ConversationService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class ConversationPermissionController extends Controller
 {
     public function __construct(
         private readonly ConversationPermissionService $service
-    )
-    {
-    }
+    ) {}
 
-    public function permissions(Conversation $conversation)
+    public function permissions(Conversation $conversation): JsonResponse
     {
         try {
 
@@ -40,7 +38,7 @@ class ConversationPermissionController extends Controller
         }
     }
 
-    public function update(UpdatePermissionRequest $request, Conversation $conversation)
+    public function update(UpdatePermissionRequest $request, Conversation $conversation): JsonResponse
     {
         try {
 

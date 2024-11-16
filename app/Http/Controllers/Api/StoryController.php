@@ -17,16 +17,14 @@ class StoryController extends Controller
 {
     public function __construct(
         private readonly StoryService $storyService
-    )
-    {
-    }
+    ) {}
 
     /**
      * Retrieve user's authorized stories
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         try {
 
@@ -48,7 +46,7 @@ class StoryController extends Controller
      * @param CreateStoryRequest $request
      * @return JsonResponse
      */
-    public function store(CreateStoryRequest $request)
+    public function store(CreateStoryRequest $request): JsonResponse
     {
         try {
 
@@ -68,7 +66,7 @@ class StoryController extends Controller
      * @param Story $story
      * @return JsonResponse
      */
-    public function destroy(DeleteStoryRequest $request, Story $story)
+    public function destroy(DeleteStoryRequest $request, Story $story): JsonResponse
     {
         try {
 

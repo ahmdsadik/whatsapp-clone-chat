@@ -12,6 +12,7 @@ use App\Services\OTP\OTP;
 use App\Services\OTPService;
 use App\Services\SMS\SMS;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,13 +20,10 @@ class OTPController extends Controller
 {
     public function __construct(
         private readonly OTPService $OTPService,
-    )
-    {
-    }
+    ) {}
 
-    public function resendOtp(ResendOTPRequest $request)
+    public function resendOtp(ResendOTPRequest $request): JsonResponse
     {
-
         try {
 
             $this->OTPService->sendOTP($request->validated('mobile_number'));
@@ -36,12 +34,12 @@ class OTPController extends Controller
         }
     }
 
-    public function verifyOTP(VerifyOTPRequest $request)
+    public function verifyOTP(VerifyOTPRequest $request): JsonResponse
     {
-
         try {
 
-            [$user, $token] = $this->OTPService->verifyOTP($request->validated('mobile_number'), $request->validated('otp'));
+            [$user, $token] = $this->OTPService->verifyOTP($request->validated('mobile_number'),
+                $request->validated('otp'));
 
             return $this->successResponse([
                 'user' => UserResource::make($user),

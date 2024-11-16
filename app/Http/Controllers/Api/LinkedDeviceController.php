@@ -19,16 +19,14 @@ class LinkedDeviceController extends Controller
 {
     public function __construct(
         private readonly LinkedDeviceService $linkedDeviceService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Retrieve user's linked devices
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         try {
 
@@ -49,7 +47,7 @@ class LinkedDeviceController extends Controller
      *
      * @return JsonResponse
      */
-    public function createLinkChannel()
+    public function createLinkChannel(): JsonResponse
     {
         try {
             // Generate channel name valid for a minute
@@ -71,7 +69,7 @@ class LinkedDeviceController extends Controller
      * @param LinkDeviceRequest $request
      * @return JsonResponse
      */
-    public function linkDevice(LinkDeviceRequest $request)
+    public function linkDevice(LinkDeviceRequest $request): JsonResponse
     {
         try {
 
@@ -95,7 +93,7 @@ class LinkedDeviceController extends Controller
      * @param LinkedDevice $linkedDevice
      * @return JsonResponse
      */
-    public function unlinkDevice(UnlinkDeviceRequest $request, LinkedDevice $linkedDevice)
+    public function unlinkDevice(UnlinkDeviceRequest $request, LinkedDevice $linkedDevice): JsonResponse
     {
         try {
 

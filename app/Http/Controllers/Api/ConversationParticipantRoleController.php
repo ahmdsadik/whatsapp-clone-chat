@@ -9,21 +9,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ConversationParticipantRole\UpdateParticipantRoleRequest;
 use App\Models\Conversation;
 use App\Services\ConversationParticipantRoleService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class ConversationParticipantRoleController extends Controller
 {
     public function __construct(
         private readonly ConversationParticipantRoleService $conversationParticipantRoleService
-    )
-    {
-    }
+    ) {}
 
-    public function __invoke(UpdateParticipantRoleRequest $request, Conversation $conversation)
+    public function __invoke(UpdateParticipantRoleRequest $request, Conversation $conversation): JsonResponse
     {
         try {
 
-            $this->conversationParticipantRoleService->updateParticipantRole(ParticipantRoleDTO::fromFormRequest($request), $conversation);
+            $this->conversationParticipantRoleService->updateParticipantRole(ParticipantRoleDTO::fromFormRequest($request),
+                $conversation);
 
             return $this->successResponse(message: 'Roles Updated Successfully');
 

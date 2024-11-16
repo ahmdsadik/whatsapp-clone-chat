@@ -17,16 +17,14 @@ class UserProfileController extends Controller
 {
     public function __construct(
         private readonly UserProfileService $profileService
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get currently authenticated user
      *
      * @return JsonResponse
      */
-    public function user()
+    public function user(): JsonResponse
     {
         try {
             return $this->successResponse([
@@ -44,7 +42,7 @@ class UserProfileController extends Controller
      * @param UpdateUserNameRequest $request
      * @return JsonResponse
      */
-    public function updateName(UpdateUserNameRequest $request)
+    public function updateName(UpdateUserNameRequest $request): JsonResponse
     {
 
         try {
@@ -71,7 +69,7 @@ class UserProfileController extends Controller
      * @param UpdateUserAvatarRequest $request
      * @return JsonResponse
      */
-    public function updateAvatar(UpdateUserAvatarRequest $request)
+    public function updateAvatar(UpdateUserAvatarRequest $request): JsonResponse
     {
         try {
 
@@ -92,7 +90,7 @@ class UserProfileController extends Controller
      * @param UpdateUserInfoRequest $request
      * @return JsonResponse
      */
-    public function updateInfo(UpdateUserInfoRequest $request)
+    public function updateInfo(UpdateUserInfoRequest $request): JsonResponse
     {
         try {
 

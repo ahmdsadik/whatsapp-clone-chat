@@ -13,9 +13,7 @@ class UserContactController extends Controller
 {
     public function __construct(
         private readonly UserContactService $userContactService
-    )
-    {
-    }
+    ) {}
 
     /**
      * Insert Contacts
@@ -23,7 +21,7 @@ class UserContactController extends Controller
      * @param InsertUserContactRequest $request
      * @return JsonResponse
      */
-    public function insertContacts(InsertUserContactRequest $request)
+    public function insertContacts(InsertUserContactRequest $request): JsonResponse
     {
         try {
             $this->userContactService->insertContacts(UserContactsDTO::fromFormRequest($request));
@@ -41,7 +39,7 @@ class UserContactController extends Controller
      *
      * @return JsonResponse
      */
-    public function contactsInfo()
+    public function contactsInfo(): JsonResponse
     {
         try {
 

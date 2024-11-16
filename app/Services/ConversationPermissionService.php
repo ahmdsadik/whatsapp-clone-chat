@@ -5,16 +5,19 @@ namespace App\Services;
 use App\DTO\ConversationPermissionDTO;
 use App\Events\Conversation\PermissionUpdatedEvent;
 use App\Exceptions\UserNotHavePermissionException;
+use App\Http\Resources\ConversationPermissionResource;
 use App\Models\Conversation;
 
 class ConversationPermissionService
 {
-
-    public function permissions(Conversation $conversation)
+    public function permissions(Conversation $conversation): ConversationPermissionResource
     {
-        return $conversation->permissions;
+        return ConversationPermissionResource::make($conversation->permissions);
     }
 
+    /**
+     * @throws UserNotHavePermissionException
+     */
     public function updatePermissions(Conversation $conversation, ConversationPermissionDTO $permissions): void
     {
         if (!$conversation->isAdmin(auth()->id())) {

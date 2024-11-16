@@ -7,19 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class AuthenticationController extends Controller
 {
-
     public function __construct(
         private readonly UserService $userService
-    )
-    {
-    }
+    ) {}
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         try {
 
@@ -38,7 +36,7 @@ class AuthenticationController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout(): JsonResponse
     {
         try {
 

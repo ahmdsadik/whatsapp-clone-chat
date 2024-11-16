@@ -11,18 +11,16 @@ use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use App\Services\ConversationService;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class ConversationController extends Controller
 {
-
     public function __construct(
         private readonly ConversationService $conversationService
-    )
-    {
-    }
+    ) {}
 
-    public function index()
+    public function index(): JsonResponse
     {
         try {
             $conversations = $this->conversationService->userConversations();
@@ -38,7 +36,7 @@ class ConversationController extends Controller
         }
     }
 
-    public function store(CreateConversationsRequest $request)
+    public function store(CreateConversationsRequest $request): JsonResponse
     {
         try {
 
@@ -58,16 +56,12 @@ class ConversationController extends Controller
         }
     }
 
-    public function show(Conversation $conversation)
-    {
-        return ConversationResource::make($conversation);
-    }
-
-    public function update(UpdateConversationRequest $request, Conversation $conversation)
+    public function update(UpdateConversationRequest $request, Conversation $conversation): JsonResponse
     {
         try {
 
-            $updatedConversation = $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request), $conversation);
+            $updatedConversation = $this->conversationService->updateConversation(ConversationDTO::fromFormRequest($request),
+                $conversation);
 
             return $this->successResponse([
                 'conversation' => ConversationResource::make($updatedConversation),
@@ -83,7 +77,7 @@ class ConversationController extends Controller
         }
     }
 
-    public function destroy(Conversation $conversation)
+    public function destroy(Conversation $conversation): JsonResponse
     {
         try {
             $this->conversationService->deleteConversation($conversation);

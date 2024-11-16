@@ -11,17 +11,16 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Services\MessageService;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
     public function __construct(
         private readonly MessageService $messageService
-    )
-    {
-    }
+    ) {}
 
-    public function index(Conversation $conversation)
+    public function index(Conversation $conversation): JsonResponse
     {
         try {
 
@@ -39,7 +38,7 @@ class MessageController extends Controller
         }
     }
 
-    public function store(StoreMessageRequest $request)
+    public function store(StoreMessageRequest $request): JsonResponse
     {
         try {
             $message = $this->messageService->saveMessage(NewMessageDTO::fromFormRequest($request));
@@ -52,13 +51,12 @@ class MessageController extends Controller
         } catch (UserNotHavePermissionException $exception) {
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
-            dd('fff');
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             return $this->errorResponse('Error happened while saving message.');
         }
     }
 
-    public function view(Message $message)
+    public function view(Message $message): JsonResponse
     {
         try {
             $this->messageService->viewMessage($message);
@@ -77,7 +75,7 @@ class MessageController extends Controller
         }
     }
 
-    public function destroy(Message $message)
+    public function destroy(Message $message): JsonResponse
     {
         try {
             $this->messageService->deleteMessage($message);
