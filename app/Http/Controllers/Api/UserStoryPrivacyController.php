@@ -14,8 +14,7 @@ class UserStoryPrivacyController extends Controller
 {
     public function __construct(
         private readonly UserStoryPrivacyService $userStoryPrivacyService
-    ) {
-    }
+    ) {}
 
     /**
      * Update user story privacy

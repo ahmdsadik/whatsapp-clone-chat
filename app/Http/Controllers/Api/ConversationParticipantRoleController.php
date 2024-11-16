@@ -17,8 +17,7 @@ class ConversationParticipantRoleController extends Controller
 {
     public function __construct(
         private readonly ConversationParticipantRoleService $conversationParticipantRoleService
-    ) {
-    }
+    ) {}
 
     /**
      * Update participant role

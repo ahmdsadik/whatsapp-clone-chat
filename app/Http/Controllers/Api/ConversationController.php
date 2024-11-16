@@ -18,8 +18,7 @@ class ConversationController extends Controller
 {
     public function __construct(
         private readonly ConversationService $conversationService
-    ) {
-    }
+    ) {}
 
     /**
      * Get user conversations
