@@ -25,8 +25,8 @@ Route::post('login', [AuthenticationController::class, 'login']);
 
 ################## OTP Routes ##################
 Route::prefix('otp')->group(function () {
-    Route::post('verify', [OtpController::class, 'verifyOTP']);
-    Route::post('resend', [OtpController::class, 'resendOtp']);
+    Route::post('verify', [OTPController::class, 'verifyOTP']);
+    Route::post('resend', [OTPController::class, 'resendOtp']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
