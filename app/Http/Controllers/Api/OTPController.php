@@ -18,9 +18,6 @@ class OTPController extends Controller
 
     /**
      * Resend OTP
-     *
-     * @param ResendOTPRequest $request
-     * @return JsonResponse
      */
     public function resendOtp(ResendOTPRequest $request): JsonResponse
     {
@@ -36,9 +33,6 @@ class OTPController extends Controller
 
     /**
      * Verify OTP
-     *
-     * @param VerifyOTPRequest $request
-     * @return JsonResponse
      */
     public function verifyOTP(VerifyOTPRequest $request): JsonResponse
     {
@@ -51,7 +45,7 @@ class OTPController extends Controller
 
             return $this->successResponse([
                 'user' => UserResource::make($user),
-                'token' => $token
+                'token' => $token,
             ], 'Valid Otp. You have been successfully logged In!');
 
         } catch (InvalidOTP $exception) {

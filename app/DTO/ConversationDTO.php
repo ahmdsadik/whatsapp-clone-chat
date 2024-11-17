@@ -27,5 +27,4 @@ class ConversationDTO extends BaseDTO
             $permissions
         );
     }
-
 }

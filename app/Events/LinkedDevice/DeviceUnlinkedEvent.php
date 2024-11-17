@@ -12,14 +12,12 @@ class DeviceUnlinkedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public string $linkChannel)
-    {
-    }
+    public function __construct(public string $linkChannel) {}
 
     public function broadcastOn(): array
     {
         return [
-            new Channel($this->linkChannel)
+            new Channel($this->linkChannel),
         ];
     }
 

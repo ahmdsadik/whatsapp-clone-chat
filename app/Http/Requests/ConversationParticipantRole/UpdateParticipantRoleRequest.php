@@ -18,7 +18,7 @@ class UpdateParticipantRoleRequest extends FormRequest
         return [
             'participant' => ['required', 'array', 'min:1'],
             'participant.mobile_number' => ['required', 'exists:users,mobile_number'],
-            'participant.role' => ['required', Rule::in([ParticipantRole::ADMIN->value, ParticipantRole::MEMBER->value])]
+            'participant.role' => ['required', Rule::in([ParticipantRole::ADMIN->value, ParticipantRole::MEMBER->value])],
         ];
     }
 }

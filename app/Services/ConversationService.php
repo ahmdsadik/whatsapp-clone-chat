@@ -15,11 +15,9 @@ use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use LaravelIdea\Helper\App\Models\_IH_Conversation_C;
 
 class ConversationService
 {
-
     /**
      * Get user conversations
      *
@@ -33,7 +31,6 @@ class ConversationService
     /**
      * Create a new conversation
      *
-     * @param ConversationDTO $conversationDTO
      * @return void
      */
     public function createConversation(ConversationDTO $conversationDTO)
@@ -46,7 +43,7 @@ class ConversationService
             $conversation->permissions()->create($conversationDTO->permissions);
 
             if ($conversationDTO->avatar) {
-                (new ProcessConversationAvatarAction())->execute($conversation);
+                (new ProcessConversationAvatarAction)->execute($conversation);
                 $conversation->loadMissing('media');
             }
 
@@ -54,15 +51,15 @@ class ConversationService
             $users_ids = User::whereIn('mobile_number', $conversationDTO->participants)->pluck('id');
 
             // Format participants to be inserted
-            $participants = $users_ids->map(fn($user_id) => [
+            $participants = $users_ids->map(fn ($user_id) => [
                 'user_id' => $user_id,
                 'role' => ParticipantRole::MEMBER->value,
-                'conversation_id' => $conversation->id
+                'conversation_id' => $conversation->id,
             ]);
             $participants->push([
                 'user_id' => auth()->user()->id,
                 'role' => ParticipantRole::OWNER->value,
-                'conversation_id' => $conversation->id
+                'conversation_id' => $conversation->id,
             ]);
 
             $conversation->hasParticipants()->insert($participants->toArray());
@@ -79,8 +76,6 @@ class ConversationService
     /**
      * Update conversation
      *
-     * @param ConversationDTO $conversationDTO
-     * @param Conversation $conversation
      * @return void
      */
     public function updateConversation(ConversationDTO $conversationDTO, Conversation $conversation)
@@ -89,14 +84,14 @@ class ConversationService
 
         return DB::transaction(function () use ($conversationDTO, $conversation) {
 
-            if (!$conversation->isAllowing(ConversationPermission::EDIT_GROUP_SETTINGS) || !$conversation->isAdmin(auth()->id())) {
+            if (! $conversation->isAllowing(ConversationPermission::EDIT_GROUP_SETTINGS) || ! $conversation->isAdmin(auth()->id())) {
                 throw new UserNotHavePermissionException('Only admins can update this conversation');
             }
 
             $conversation->update($conversationDTO->toArray());
 
             if ($conversationDTO->avatar) {
-                (new ProcessConversationAvatarAction())->execute($conversation);
+                (new ProcessConversationAvatarAction)->execute($conversation);
             }
 
             // TODO:: Broadcast Conversation updates
@@ -109,14 +104,12 @@ class ConversationService
     /**
      * Delete conversation
      *
-     * @param Conversation $conversation
-     * @return void
      * @throws ParticipantNotExistsInConversationException
      */
     public function deleteConversation(Conversation $conversation): void
     {
-        if (!$conversation->isParticipant([auth()->id()])) {
-            throw new ParticipantNotExistsInConversationException();
+        if (! $conversation->isParticipant([auth()->id()])) {
+            throw new ParticipantNotExistsInConversationException;
         }
 
         $conversation->forceDelete();

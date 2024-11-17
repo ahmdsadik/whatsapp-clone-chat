@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AddParticipantRequest extends FormRequest
 {
-    use  ApiValidation;
+    use ApiValidation;
 
     public function authorize(): bool
     {
@@ -18,7 +18,7 @@ class AddParticipantRequest extends FormRequest
     {
         return [
             'participants' => ['required', 'array', 'min:1'],
-            'participants.*' => ['required', 'exists:users,mobile_number']
+            'participants.*' => ['required', 'exists:users,mobile_number'],
         ];
     }
 }

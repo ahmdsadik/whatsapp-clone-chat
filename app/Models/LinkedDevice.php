@@ -28,7 +28,7 @@ class LinkedDevice extends Model
         ];
     }
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function user(): BelongsTo
     {
@@ -40,6 +40,3 @@ class LinkedDevice extends Model
         return $this->belongsTo(PersonalAccessToken::class, 'token_id');
     }
 }
-
-
-

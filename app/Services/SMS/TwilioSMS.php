@@ -2,7 +2,6 @@
 
 namespace App\Services\SMS;
 
-use App\Services\SMS\SMS;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
@@ -13,7 +12,7 @@ class TwilioSMS implements SMS
 
     /**
      * TwilioSMS constructor.
-     * 
+     *
      * @throws ConfigurationException
      */
     public function __construct()
@@ -21,13 +20,12 @@ class TwilioSMS implements SMS
         $sid = config('sms-service.twilio_sid');
         $token = config('sms-service.twilio_token');
 
-
         $this->client = new Client($sid, $token);
     }
 
     /**
      * Send SMS
-     * 
+     *
      * @throws TwilioException
      */
     public function send(string $to, string $message): void
@@ -36,7 +34,7 @@ class TwilioSMS implements SMS
 
         $this->client->messages->create($to, [
             'from' => $fromNumber,
-            'body' => $message
+            'body' => $message,
         ]);
     }
 }

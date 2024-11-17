@@ -17,9 +17,6 @@ class UserContactController extends Controller
 
     /**
      * Insert Contacts
-     *
-     * @param InsertUserContactRequest $request
-     * @return JsonResponse
      */
     public function insertContacts(InsertUserContactRequest $request): JsonResponse
     {
@@ -30,14 +27,13 @@ class UserContactController extends Controller
 
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Failed to update user contacts!');
         }
     }
 
     /**
      * Get Registered and not Registered Contacts
-     *
-     * @return JsonResponse
      */
     public function contactsInfo(): JsonResponse
     {
@@ -48,12 +44,13 @@ class UserContactController extends Controller
             return $this->successResponse(
                 [
                     'registeredContacts' => $registeredContacts,
-                    'notRegisteredUsers' => $notRegisteredContacts
+                    'notRegisteredUsers' => $notRegisteredContacts,
                 ]
             );
 
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Error happened while trying to get contacts!');
         }
     }

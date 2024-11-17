@@ -3,7 +3,6 @@
 namespace App\DTO;
 
 use App\Enums\MessageType;
-use Illuminate\Foundation\Http\FormRequest;
 
 class NewMessageDTO extends BaseDTO
 {

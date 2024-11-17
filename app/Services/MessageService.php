@@ -14,14 +14,12 @@ use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use LaravelIdea\Helper\App\Models\_IH_Message_C;
 
 class MessageService
 {
     /**
      * Get conversation messages
      *
-     * @param Conversation $conversation
      * @return Message[]|Collection
      */
     public function conversationMessages(Conversation $conversation): array|Collection
@@ -33,27 +31,24 @@ class MessageService
 
     /**
      * Save New Message
-     *
-     * @param NewMessageDTO $messageDTO
-     * @return Message
      */
     public function saveMessage(NewMessageDTO $messageDTO): Message
     {
         return DB::transaction(function () use ($messageDTO) {
-            $conversation = (new GetConversationOrMakeAction())->execute($messageDTO->to);
+            $conversation = (new GetConversationOrMakeAction)->execute($messageDTO->to);
 
-            if (!$conversation->isAllowing(ConversationPermission::SEND_MESSAGES) && !$conversation->isAdmin(auth()->id())) {
-                throw new UserNotHavePermissionException("Sending Messages is not allowed");
+            if (! $conversation->isAllowing(ConversationPermission::SEND_MESSAGES) && ! $conversation->isAdmin(auth()->id())) {
+                throw new UserNotHavePermissionException('Sending Messages is not allowed');
             }
 
             $message = $conversation->messages()->create([
                 'text' => $messageDTO->text,
                 'type' => $messageDTO->Type,
-                'user_id' => auth()->id()
+                'user_id' => auth()->id(),
             ]);
 
             if ($messageDTO->media) {
-                (new ProcessMessageMediaAction())->execute($message);
+                (new ProcessMessageMediaAction)->execute($message);
                 $message->load('media');
             }
 
@@ -68,8 +63,6 @@ class MessageService
     /**
      * Delete Message
      *
-     * @param Message $message
-     * @return void
      * @throws UserNotHavePermissionException
      */
     public function deleteMessage(Message $message): void
@@ -90,8 +83,6 @@ class MessageService
     /**
      * View Message
      *
-     * @param Message $message
-     * @return void
      * @throws UserNotHavePermissionException
      */
     public function viewMessage(Message $message): void

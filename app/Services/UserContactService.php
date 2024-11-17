@@ -10,8 +10,6 @@ class UserContactService
 {
     /**
      * Get User Contacts Details
-     *
-     * @return array
      */
     public function UserContactsDetails(): array
     {
@@ -34,14 +32,11 @@ class UserContactService
 
     /**
      * Insert User Contacts
-     *
-     * @param UserContactsDTO $userContactsDTO
-     * @return void
      */
     public function insertContacts(UserContactsDTO $userContactsDTO): void
     {
         // Format contacts to start with country code
-        $formated_contacts = (new FormatUserContactsAction())->execute($userContactsDTO->contacts);
+        $formated_contacts = (new FormatUserContactsAction)->execute($userContactsDTO->contacts);
 
         // Insert contacts and update contact name if found
         auth()->user()->contacts()->upsert($formated_contacts, ['mobile_number'], ['name']);

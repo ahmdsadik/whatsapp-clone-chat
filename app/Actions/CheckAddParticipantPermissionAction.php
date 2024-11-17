@@ -13,7 +13,7 @@ class CheckAddParticipantPermissionAction
      */
     public function execute(Conversation $conversation): void
     {
-        if (!$conversation->isAllowing(ConversationPermission::ADD_OTHER_PARTICIPANTS) || !$conversation->isAdmin(auth()->id())) {
+        if (! $conversation->isAllowing(ConversationPermission::ADD_OTHER_PARTICIPANTS) || ! $conversation->isAdmin(auth()->id())) {
             throw new UserNotHavePermissionException('Admins only can add others participants.');
         }
     }

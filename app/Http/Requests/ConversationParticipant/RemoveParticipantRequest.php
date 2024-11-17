@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RemoveParticipantRequest extends FormRequest
 {
-    use  ApiValidation;
+    use ApiValidation;
 
     public function authorize(): bool
     {
@@ -17,7 +17,7 @@ class RemoveParticipantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'participant' => ['required', 'exists:users,mobile_number']
+            'participant' => ['required', 'exists:users,mobile_number'],
         ];
     }
 }

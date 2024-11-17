@@ -3,7 +3,6 @@
 namespace App\DTO;
 
 use App\Enums\StoryPrivacy;
-use Illuminate\Foundation\Http\FormRequest;
 
 class UserStoryPrivacyDTO extends BaseDTO
 {

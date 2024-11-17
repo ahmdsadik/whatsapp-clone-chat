@@ -10,9 +10,6 @@ class UserStoryPrivacyService
 {
     /**
      * Update Story Privacy
-     *
-     * @param UserStoryPrivacyDTO $storyPrivacyDTO
-     * @return void
      */
     public function updateStoryPrivacy(UserStoryPrivacyDTO $storyPrivacyDTO): void
     {

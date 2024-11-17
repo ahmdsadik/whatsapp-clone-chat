@@ -21,7 +21,7 @@ class UpdateUserStoryPrivacyRequest extends FormRequest
     {
         return [
             'privacy' => ['required', Rule::enum(StoryPrivacy::class)],
-            'contacts' => ['required_unless:privacy,' . StoryPrivacy::ALL_CONTACTS->value, 'array'],
+            'contacts' => ['required_unless:privacy,'.StoryPrivacy::ALL_CONTACTS->value, 'array'],
             'contacts.*' => ['required', Rule::exists(User::class, 'mobile_number')],
         ];
     }

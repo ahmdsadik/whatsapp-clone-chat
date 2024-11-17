@@ -27,8 +27,8 @@ class CheckUpdateParticipantRoleAction
      */
     private function checkUserPermissions(Conversation $conversation): void
     {
-        if (!$conversation->isAdmin(auth()->id())) {
-            throw new UserNotHavePermissionException();
+        if (! $conversation->isAdmin(auth()->id())) {
+            throw new UserNotHavePermissionException;
         }
     }
 
@@ -37,8 +37,8 @@ class CheckUpdateParticipantRoleAction
      */
     private function checkParticipantsInConversation(Conversation $conversation, $participants_id): void
     {
-        if (!$conversation->isParticipant([$participants_id])) {
-            throw new ParticipantNotExistsInConversationException();
+        if (! $conversation->isParticipant([$participants_id])) {
+            throw new ParticipantNotExistsInConversationException;
         }
     }
 
@@ -47,8 +47,8 @@ class CheckUpdateParticipantRoleAction
      */
     private function checkIfUserHasRoleToAssignThisRole(Conversation $conversation, ParticipantRole $role): void
     {
-        if (!$conversation->userCanAssignRole(auth()->id(), $role)) {
-            throw new ParticipantNotExistsInConversationException();
+        if (! $conversation->userCanAssignRole(auth()->id(), $role)) {
+            throw new ParticipantNotExistsInConversationException;
         }
     }
 }

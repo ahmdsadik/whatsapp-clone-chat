@@ -23,8 +23,6 @@ class StoryController extends Controller
 
     /**
      * Retrieve user's authorized stories
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -38,15 +36,13 @@ class StoryController extends Controller
 
         } catch (Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Error happened While trying to retrieve Stories.');
         }
     }
 
     /**
      * Create a story
-     *
-     * @param CreateStoryRequest $request
-     * @return JsonResponse
      */
     public function store(CreateStoryRequest $request): JsonResponse
     {
@@ -63,16 +59,13 @@ class StoryController extends Controller
             return $this->successResponse(message: 'Story published Successfully!');
         } catch (Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Error happened While trying to publish user\'s Story.');
         }
     }
 
     /**
      * Delete a story
-     *
-     * @param DeleteStoryRequest $request
-     * @param Story $story
-     * @return JsonResponse
      */
     public function destroy(DeleteStoryRequest $request, Story $story): JsonResponse
     {
@@ -83,6 +76,7 @@ class StoryController extends Controller
             return $this->successResponse(message: 'Story deleted Successfully!');
         } catch (Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Error happened While trying to delete user\'s Story.');
         }
     }

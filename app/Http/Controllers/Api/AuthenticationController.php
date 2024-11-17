@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\DTO\UserDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\LoginRequest;
-use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class AuthenticationController extends Controller
@@ -19,9 +17,6 @@ class AuthenticationController extends Controller
 
     /**
      * Login or create a user
-     *
-     * @param LoginRequest $request
-     * @return JsonResponse
      */
     public function login(LoginRequest $request): JsonResponse
     {
@@ -38,14 +33,13 @@ class AuthenticationController extends Controller
             );
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Error happened while trying to log in.');
         }
     }
 
     /**
      * Login user
-     *
-     * @return JsonResponse
      */
     public function logout(): JsonResponse
     {
@@ -56,6 +50,7 @@ class AuthenticationController extends Controller
             return $this->successResponse(message: 'You have been successfully logged out!');
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Error happened while trying to log out.');
         }
     }

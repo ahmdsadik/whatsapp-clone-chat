@@ -16,8 +16,6 @@ class StoryService
 {
     /**
      * Retrieve User's authorized stories
-     *
-     * @return array|Collection
      */
     public function authorizedStories(): array|Collection
     {
@@ -27,9 +25,6 @@ class StoryService
 
     /**
      * Create Story
-     *
-     * @param StoryDTO $storyDTO
-     * @return void
      */
     public function createStory(StoryDTO $storyDTO): void
     {
@@ -37,11 +32,11 @@ class StoryService
             $story = auth()->user()->stories()->create($storyDTO->toArray());
 
             if ($storyDTO->media) {
-                (new ProcessStoryMediaAction())->execute($story);
+                (new ProcessStoryMediaAction)->execute($story);
             }
 
             if ($storyDTO->privacy !== StoryPrivacy::ALL_CONTACTS) {
-                (new SetStoryPrivacyContactsAction())->execute($story, $storyDTO->privacy);
+                (new SetStoryPrivacyContactsAction)->execute($story, $storyDTO->privacy);
             }
 
             // TODO:: Broadcast the story
@@ -51,9 +46,6 @@ class StoryService
 
     /**
      * Delete Story
-     *
-     * @param Story $story
-     * @return void
      */
     public function deleteStory(Story $story): void
     {

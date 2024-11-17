@@ -18,7 +18,6 @@ readonly class OTPService
      * Generate OTP
      *
      * @param [type] $identifier
-     * @return string
      */
     private function generateOtp($identifier): string
     {
@@ -28,9 +27,6 @@ readonly class OTPService
     /**
      * Verify OTP
      *
-     * @param string $identifier
-     * @param string $otp
-     * @return array
      * @throws InvalidOTP
      */
     public function verifyOTP(string $identifier, string $otp): array
@@ -38,8 +34,8 @@ readonly class OTPService
 
         $user = User::firstWhere('mobile_number', $identifier);
 
-        if (!$this->otp->validate($identifier, $otp)) {
-            throw new InvalidOTP();
+        if (! $this->otp->validate($identifier, $otp)) {
+            throw new InvalidOTP;
         }
 
         $token = $user->createToken('Laravel Password Grant Client')->plainTextToken;
@@ -49,9 +45,6 @@ readonly class OTPService
 
     /**
      * Send OTP
-     *
-     * @param string $to
-     * @return void
      */
     public function sendOTP(string $to): void
     {

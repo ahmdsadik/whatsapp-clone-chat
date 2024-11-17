@@ -16,18 +16,18 @@ class Participant extends Pivot
         'conversation_id',
         'user_id',
         'role',
-        'join_at'
+        'join_at',
     ];
 
     protected function casts(): array
     {
         return [
             'join_at' => 'datetime',
-            'role' => ParticipantRole::class
+            'role' => ParticipantRole::class,
         ];
     }
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function user(): BelongsTo
     {

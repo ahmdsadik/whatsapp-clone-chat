@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 #[ObservedBy(StoryObserver::class)]
 class Story extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasUuids;
+    use HasUuids, InteractsWithMedia;
 
     public $timestamps = false;
 
@@ -36,7 +36,7 @@ class Story extends Model implements HasMedia
         return [
             'created_at' => 'datetime',
             'type' => StoryType::class,
-            'privacy' => StoryPrivacy::class
+            'privacy' => StoryPrivacy::class,
         ];
     }
 
@@ -52,7 +52,7 @@ class Story extends Model implements HasMedia
         return $this->getFirstMedia('media');
     }
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function user(): BelongsTo
     {
@@ -77,10 +77,10 @@ class Story extends Model implements HasMedia
             ->using(StoryView::class);
     }
 
-//    public function privacyContacts(): HasMany
-//    {
-//        return $this->hasMany();
-//    }
+    //    public function privacyContacts(): HasMany
+    //    {
+    //        return $this->hasMany();
+    //    }
 
     public function privacyContacts(): BelongsToMany
     {

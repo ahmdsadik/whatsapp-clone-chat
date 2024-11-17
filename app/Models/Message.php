@@ -12,9 +12,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Message extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasUuids;
+    use HasUuids, InteractsWithMedia;
 
     public $timestamps = false;
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -40,7 +41,7 @@ class Message extends Model implements HasMedia
             ->useDisk('messages');
     }
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function user(): BelongsTo
     {

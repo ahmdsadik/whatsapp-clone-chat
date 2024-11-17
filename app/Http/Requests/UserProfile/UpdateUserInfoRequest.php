@@ -19,7 +19,7 @@ class UpdateUserInfoRequest extends FormRequest
         return [
             'name' => ['required'],
             'about' => ['nullable'],
-            'avatar' => ['required', 'image', 'mimes:jpg,png,jpeg,gif,svg']
+            'avatar' => ['required', 'image', 'mimes:jpg,png,jpeg,gif,svg'],
         ];
     }
 }

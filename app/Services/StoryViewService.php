@@ -9,9 +9,6 @@ class StoryViewService
 {
     /**
      * View Story
-     *
-     * @param Story $story
-     * @return void
      */
     public function viewStory(Story $story): void
     {

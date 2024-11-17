@@ -17,7 +17,7 @@ class UpdateUserAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => ['required', 'image', 'mimes:jpg,png,jpeg,gif,svg']
+            'avatar' => ['required', 'image', 'mimes:jpg,png,jpeg,gif,svg'],
         ];
     }
 }

@@ -24,7 +24,7 @@ class MessageView extends Pivot
         ];
     }
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function message(): BelongsTo
     {

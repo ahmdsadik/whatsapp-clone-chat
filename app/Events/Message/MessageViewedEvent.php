@@ -15,14 +15,12 @@ class MessageViewedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public Message $message, public User $viewer)
-    {
-    }
+    public function __construct(public Message $message, public User $viewer) {}
 
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("Messages-{$this->message->user_id}")
+            new PrivateChannel("Messages-{$this->message->user_id}"),
         ];
     }
 
@@ -30,7 +28,7 @@ class MessageViewedEvent implements ShouldBroadcast
     {
         return [
             'message' => $this->message->id,
-            'viewer' => UserResource::make($this->viewer)
+            'viewer' => UserResource::make($this->viewer),
         ];
     }
 

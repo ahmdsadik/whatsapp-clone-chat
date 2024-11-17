@@ -18,9 +18,6 @@ class UserStoryPrivacyController extends Controller
 
     /**
      * Update user story privacy
-     *
-     * @param UpdateUserStoryPrivacyRequest $request
-     * @return JsonResponse
      */
     public function __invoke(UpdateUserStoryPrivacyRequest $request): JsonResponse
     {
@@ -35,8 +32,9 @@ class UserStoryPrivacyController extends Controller
             return $this->successResponse(message: 'Story Privacy Contacts updated successfully.');
 
         } catch (\Throwable $throwable) {
-            Log::error('Story Privacy Contacts update failed [' . $throwable->getMessage() . ']',
+            Log::error('Story Privacy Contacts update failed ['.$throwable->getMessage().']',
                 ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened While updating Story Privacy Contacts.');
         }
     }

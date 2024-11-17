@@ -15,7 +15,7 @@ class ContactResource extends JsonResource
             'mobile_number' => $this->mobile_number,
 
             'user' => $this->when($this->registeredUser !== null, UserResource::make($this->whenLoaded('registeredUser'))),
-//            'registeredUser' => UserResource::make($this->whenLoaded('registeredUser')),
+            //            'registeredUser' => UserResource::make($this->whenLoaded('registeredUser')),
         ];
     }
 }

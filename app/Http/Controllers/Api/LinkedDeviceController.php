@@ -23,8 +23,6 @@ class LinkedDeviceController extends Controller
 
     /**
      * Retrieve user's linked devices
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -38,20 +36,19 @@ class LinkedDeviceController extends Controller
 
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened While trying to retrieve linked devices.');
         }
     }
 
     /**
      * Create a channel to link a device through it
-     *
-     * @return JsonResponse
      */
     public function createLinkChannel(): JsonResponse
     {
         try {
             // Generate channel name valid for a minute
-            $channelName = (new GenerateLinkChannelAction())->execute();
+            $channelName = (new GenerateLinkChannelAction)->execute();
 
             return $this->successResponse([
                 'channel_name' => $channelName,
@@ -59,15 +56,13 @@ class LinkedDeviceController extends Controller
 
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened While creating link channel.');
         }
     }
 
     /**
      * Link a device
-     *
-     * @param LinkDeviceRequest $request
-     * @return JsonResponse
      */
     public function linkDevice(LinkDeviceRequest $request): JsonResponse
     {
@@ -85,16 +80,13 @@ class LinkedDeviceController extends Controller
             return $this->errorResponse('This channel already linked.!');
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened while linking your device.');
         }
     }
 
     /**
      * unlink a given device
-     *
-     * @param UnlinkDeviceRequest $request
-     * @param LinkedDevice $linkedDevice
-     * @return JsonResponse
      */
     public function unlinkDevice(UnlinkDeviceRequest $request, LinkedDevice $linkedDevice): JsonResponse
     {
@@ -106,6 +98,7 @@ class LinkedDeviceController extends Controller
             return $this->successResponse(message: 'Device Unlinked Successfully!');
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error While trying to unlink device');
         }
     }

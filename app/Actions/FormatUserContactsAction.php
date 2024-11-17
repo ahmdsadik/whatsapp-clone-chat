@@ -17,6 +17,7 @@ class FormatUserContactsAction
     private function getAuthUserCountryCode(): string
     {
         $phone_number = new PhoneNumber(auth()->user()->mobile_number);
+
         return $phone_number->getCountry();
     }
 
@@ -25,7 +26,7 @@ class FormatUserContactsAction
         foreach ($contacts as &$contact) {
 
             try {
-                if (!str_starts_with($contact['mobile_number'], '+')) {
+                if (! str_starts_with($contact['mobile_number'], '+')) {
                     $contact['mobile_number'] = (new PhoneNumber($contact['mobile_number'], $country_code))->formatE164();
                 }
             } catch (\Throwable $throwable) {

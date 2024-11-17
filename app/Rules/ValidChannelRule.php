@@ -12,7 +12,7 @@ class ValidChannelRule implements ValidationRule
     {
         $timestamp = explode('_', $value)[1] ?? '';
 
-        if (!Carbon::now()->lessThanOrEqualTo(Carbon::createFromTimestamp($timestamp))) {
+        if (! Carbon::now()->lessThanOrEqualTo(Carbon::createFromTimestamp($timestamp))) {
             $fail('Invalid channel');
         }
     }

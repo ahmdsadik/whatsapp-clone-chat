@@ -11,7 +11,7 @@ class Contact extends Pivot
 
     protected $table = 'contacts';
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function user(): BelongsTo
     {

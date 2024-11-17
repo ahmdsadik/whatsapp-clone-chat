@@ -9,10 +9,6 @@ trait ApiResponse
 {
     /**
      * Return a JSON response
-     *
-     * @param array $data
-     * @param integer $code
-     * @return JsonResponse
      */
     public function response(array $data, int $code): JsonResponse
     {
@@ -21,8 +17,6 @@ trait ApiResponse
 
     /**
      * Return a unauthorized JSON response with the data
-     *
-     * @return JsonResponse
      */
     public function unauthorizedResponse(): JsonResponse
     {
@@ -31,10 +25,6 @@ trait ApiResponse
 
     /**
      * Return a success JSON response with the data
-     *
-     * @param array $data
-     * @param string $message
-     * @return JsonResponse
      */
     public function successResponse(array $data = [], string $message = ''): JsonResponse
     {
@@ -44,9 +34,8 @@ trait ApiResponse
     /**
      * Return a error JSON response with the message
      *
-     * @param string $message
+     * @param  string  $message
      * @param [type] $code
-     * @return JsonResponse
      */
     public function errorResponse($message = 'Error happened.', $code = Response::HTTP_UNPROCESSABLE_ENTITY): JsonResponse
     {
@@ -58,7 +47,6 @@ trait ApiResponse
      * Return a validation error JSON response with the errors
      *
      * @param [type] $errors
-     * @return JsonResponse
      */
     public function validationErrorResponse($errors): JsonResponse
     {
@@ -69,8 +57,7 @@ trait ApiResponse
     /**
      * Return a not found JSON response with the message
      *
-     * @param string $message
-     * @return JsonResponse
+     * @param  string  $message
      */
     public function notFoundErrorResponse($message = 'Not Found'): JsonResponse
     {

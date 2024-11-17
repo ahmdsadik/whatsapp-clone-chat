@@ -21,10 +21,6 @@ class ConversationParticipantRoleController extends Controller
 
     /**
      * Update participant role
-     *
-     * @param UpdateParticipantRoleRequest $request
-     * @param Conversation $conversation
-     * @return JsonResponse
      */
     public function __invoke(UpdateParticipantRoleRequest $request, Conversation $conversation): JsonResponse
     {
@@ -44,7 +40,8 @@ class ConversationParticipantRoleController extends Controller
             return $this->errorResponse($throwable->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
-            return $this->errorResponse("Error happened. while trying to update participant role");
+
+            return $this->errorResponse('Error happened. while trying to update participant role');
         }
     }
 }

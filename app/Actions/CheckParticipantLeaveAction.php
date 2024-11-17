@@ -12,8 +12,8 @@ class CheckParticipantLeaveAction
      */
     public function execute(Conversation $conversation): void
     {
-        if (!$conversation->isParticipant([auth()->id()])) {
-            throw new ParticipantNotExistsInConversationException();
+        if (! $conversation->isParticipant([auth()->id()])) {
+            throw new ParticipantNotExistsInConversationException;
         }
     }
 }

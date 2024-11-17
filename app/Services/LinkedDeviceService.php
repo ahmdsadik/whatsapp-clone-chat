@@ -8,7 +8,6 @@ use App\Events\LinkedDevice\DeviceUnlinkedEvent;
 use App\Exceptions\InvalidChannelLinkException;
 use App\Models\LinkedDevice;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class LinkedDeviceService
@@ -51,9 +50,6 @@ class LinkedDeviceService
 
     /**
      * Unlink Device
-     *
-     * @param LinkedDevice $linkedDevice
-     * @return void
      */
     public function unlinkDevice(LinkedDevice $linkedDevice): void
     {

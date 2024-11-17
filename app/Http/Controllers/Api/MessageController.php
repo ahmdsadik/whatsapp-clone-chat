@@ -23,9 +23,6 @@ class MessageController extends Controller
 
     /**
      * Get conversation messages
-     *
-     * @param Conversation $conversation
-     * @return JsonResponse
      */
     public function index(Conversation $conversation): JsonResponse
     {
@@ -34,22 +31,20 @@ class MessageController extends Controller
             $messages = $this->messageService->conversationMessages($conversation);
 
             return $this->successResponse([
-                'messages' => MessageResource::collection($messages)
+                'messages' => MessageResource::collection($messages),
             ],
                 'Message received successfully'
             );
 
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened while receiving messages.');
         }
     }
 
     /**
      * Save a new message
-     *
-     * @param StoreMessageRequest $request
-     * @return JsonResponse
      */
     public function store(StoreMessageRequest $request): JsonResponse
     {
@@ -62,7 +57,7 @@ class MessageController extends Controller
             ));
 
             return $this->successResponse([
-                'message' => MessageResource::make($message)
+                'message' => MessageResource::make($message),
             ],
                 'Message has been saved'
             );
@@ -70,15 +65,13 @@ class MessageController extends Controller
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened while saving message.');
         }
     }
 
     /**
      * View a message
-     *
-     * @param Message $message
-     * @return JsonResponse
      */
     public function view(Message $message): JsonResponse
     {
@@ -95,15 +88,13 @@ class MessageController extends Controller
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened while viewing a message.');
         }
     }
 
     /**
      * Delete a message
-     *
-     * @param Message $message
-     * @return JsonResponse
      */
     public function destroy(Message $message): JsonResponse
     {
@@ -117,6 +108,7 @@ class MessageController extends Controller
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened while saving message.');
         }
     }

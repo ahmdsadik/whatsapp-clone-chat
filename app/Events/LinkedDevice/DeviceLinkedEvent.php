@@ -3,7 +3,6 @@
 namespace App\Events\LinkedDevice;
 
 use App\Http\Resources\UserResource;
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -15,14 +14,12 @@ class DeviceLinkedEvent implements ShouldBroadcast, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public string $linkChannel, public string $token)
-    {
-    }
+    public function __construct(public string $linkChannel, public string $token) {}
 
     public function broadcastOn(): array
     {
         return [
-            new Channel($this->linkChannel)
+            new Channel($this->linkChannel),
         ];
     }
 

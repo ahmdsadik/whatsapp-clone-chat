@@ -6,8 +6,6 @@ trait EnumHelpers
 {
     /**
      * Transform the enum to array
-     *
-     * @return array
      */
     public static function values(): array
     {
@@ -16,8 +14,6 @@ trait EnumHelpers
 
     /**
      * Transform the enum to string comma separated
-     *
-     * @return string
      */
     public static function comment(): string
     {

@@ -20,26 +20,22 @@ class UserProfileController extends Controller
 
     /**
      * Get currently authenticated user
-     *
-     * @return JsonResponse
      */
     public function user(): JsonResponse
     {
         try {
             return $this->successResponse([
-                'user' => UserResource::make(auth()->user())
+                'user' => UserResource::make(auth()->user()),
             ]);
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('Error happened while trying to log in.');
         }
     }
 
     /**
      * Update user's name
-     *
-     * @param UpdateUserNameRequest $request
-     * @return JsonResponse
      */
     public function updateName(UpdateUserNameRequest $request): JsonResponse
     {
@@ -61,12 +57,8 @@ class UserProfileController extends Controller
 
     }
 
-
     /**
      * Update user's avatar
-     *
-     * @param UpdateUserAvatarRequest $request
-     * @return JsonResponse
      */
     public function updateAvatar(UpdateUserAvatarRequest $request): JsonResponse
     {
@@ -85,9 +77,6 @@ class UserProfileController extends Controller
 
     /**
      * Update name, about and avatar
-     *
-     * @param UpdateUserInfoRequest $request
-     * @return JsonResponse
      */
     public function updateInfo(UpdateUserInfoRequest $request): JsonResponse
     {
@@ -102,7 +91,6 @@ class UserProfileController extends Controller
             );
 
             // TODO:: Broadcast event to contact users
-
 
             return $this->successResponse(message: 'Updated successfully!');
 

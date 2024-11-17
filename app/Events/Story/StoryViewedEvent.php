@@ -15,14 +15,12 @@ class StoryViewedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public Story $story, public User $viewer)
-    {
-    }
+    public function __construct(public Story $story, public User $viewer) {}
 
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("stories-{$this->story->user_id}")
+            new PrivateChannel("stories-{$this->story->user_id}"),
         ];
     }
 

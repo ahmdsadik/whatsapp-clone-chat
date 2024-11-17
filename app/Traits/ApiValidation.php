@@ -12,7 +12,6 @@ trait ApiValidation
     /**
      * Handle a failed validation attempt.
      *
-     * @param Validator $validator
      * @return void
      */
     protected function failedValidation(Validator $validator)

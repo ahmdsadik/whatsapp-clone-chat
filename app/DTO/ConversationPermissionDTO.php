@@ -2,8 +2,6 @@
 
 namespace App\DTO;
 
-use App\DTO\BaseDTO;
-
 class ConversationPermissionDTO extends BaseDTO
 {
     public function __construct(

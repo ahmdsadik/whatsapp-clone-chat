@@ -8,9 +8,6 @@ class UserProfileService
 {
     /**
      * Update User Name
-     *
-     * @param UserDTO $user
-     * @return void
      */
     public function updateName(UserDTO $user): void
     {
@@ -19,9 +16,6 @@ class UserProfileService
 
     /**
      * Update User Avatar
-     *
-     * @param string $file_key
-     * @return void
      */
     public function updateAvatar(string $file_key): void
     {
@@ -31,10 +25,6 @@ class UserProfileService
 
     /**
      * Update User Account Information
-     *
-     * @param UserDTO $userDTO
-     * @param string $file_key
-     * @return void
      */
     public function updateAllInfo(UserDTO $userDTO, string $file_key): void
     {

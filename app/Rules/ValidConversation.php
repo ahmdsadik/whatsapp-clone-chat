@@ -15,21 +15,22 @@ class ValidConversation implements ValidationRule
         if (str_starts_with($value, 'user-')) {
             $mobile_number = Str::after($value, 'user-');
 
-            if (!User::where('mobile_number', $mobile_number)->exists()) {
-                $fail($attribute . ' is not a valid User.');
-            };
+            if (! User::where('mobile_number', $mobile_number)->exists()) {
+                $fail($attribute.' is not a valid User.');
+            }
 
             return;
         }
 
         $conversation = Conversation::find($value);
 
-        if (!$conversation) {
-            $fail($attribute . ' is not a valid conversation.');
+        if (! $conversation) {
+            $fail($attribute.' is not a valid conversation.');
+
             return;
         }
 
-        if (!$conversation->isParticipant([auth()->id()])) {
+        if (! $conversation->isParticipant([auth()->id()])) {
             $fail('User is not a participant in this conversation.');
         }
     }

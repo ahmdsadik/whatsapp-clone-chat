@@ -11,7 +11,7 @@ class ConversationNeedsAdminsCheckAction
     {
         if ($conversation->created_by === auth()->id()) {
 
-            if (!$conversation->hasAdmins()) {
+            if (! $conversation->hasAdmins()) {
 
                 $this->makeOldestParticipantAdmin($conversation);
 

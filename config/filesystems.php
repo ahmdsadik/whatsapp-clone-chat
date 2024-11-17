@@ -47,7 +47,7 @@ return [
         'users_avatar' => [
             'driver' => 'local',
             'root' => storage_path('app/public/users_avatar'),
-            'url' => env('APP_URL') . '/storage/users_avatar',
+            'url' => env('APP_URL').'/storage/users_avatar',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -55,7 +55,7 @@ return [
         'conversations_avatar' => [
             'driver' => 'local',
             'root' => storage_path('app/public/conversations_avatar'),
-            'url' => env('APP_URL') . '/storage/conversations_avatar',
+            'url' => env('APP_URL').'/storage/conversations_avatar',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -63,7 +63,7 @@ return [
         'story_media' => [
             'driver' => 'local',
             'root' => storage_path('app/public/story_media'),
-            'url' => env('APP_URL') . '/storage/story_media',
+            'url' => env('APP_URL').'/storage/story_media',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -71,7 +71,7 @@ return [
         'messages' => [
             'driver' => 'local',
             'root' => storage_path('app/public/messages'),
-            'url' => env('APP_URL') . '/storage/messages',
+            'url' => env('APP_URL').'/storage/messages',
             'visibility' => 'public',
             'throw' => false,
         ],

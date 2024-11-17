@@ -19,11 +19,11 @@ class UserStoryPrivacy extends Model
     protected function casts(): array
     {
         return [
-            'privacy' => StoryPrivacy::class
+            'privacy' => StoryPrivacy::class,
         ];
     }
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function user(): BelongsTo
     {

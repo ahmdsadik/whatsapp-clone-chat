@@ -12,9 +12,6 @@ class ConversationPermissionService
 {
     /**
      * Get conversation permissions
-     *
-     * @param Conversation $conversation
-     * @return ConversationPermission|null
      */
     public function permissions(Conversation $conversation): ?ConversationPermission
     {
@@ -28,7 +25,7 @@ class ConversationPermissionService
      */
     public function updatePermissions(Conversation $conversation, ConversationPermissionDTO $permissions): void
     {
-        if (!$conversation->isAdmin(auth()->id())) {
+        if (! $conversation->isAdmin(auth()->id())) {
             throw new UserNotHavePermissionException('Only admins can update this conversation\'s Permissions');
         }
 

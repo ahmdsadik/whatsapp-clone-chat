@@ -3,7 +3,6 @@
 namespace App\DTO;
 
 use App\Enums\ParticipantRole;
-use Illuminate\Foundation\Http\FormRequest;
 
 class ParticipantRoleDTO extends BaseDTO
 {
@@ -12,7 +11,6 @@ class ParticipantRoleDTO extends BaseDTO
         public string $mobile_number,
         public ParticipantRole $role,
     ) {}
-
 
     public static function fromFormRequest(
         array $participant,

@@ -18,4 +18,3 @@ enum MessageType: string
     case PHONE = 'phone';
     case DELETED = 'deleted';
 }
-

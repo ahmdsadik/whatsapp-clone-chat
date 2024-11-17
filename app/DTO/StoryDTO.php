@@ -4,7 +4,6 @@ namespace App\DTO;
 
 use App\Enums\StoryPrivacy;
 use App\Enums\StoryType;
-use Illuminate\Foundation\Http\FormRequest;
 
 class StoryDTO extends BaseDTO
 {
@@ -14,8 +13,7 @@ class StoryDTO extends BaseDTO
         public ?string $duration,
         public StoryPrivacy $privacy,
         public $media,
-    ) {
-    }
+    ) {}
 
     public static function fromFormRequest(
         StoryType $type,

@@ -15,16 +15,13 @@ use App\Exceptions\UserNotHavePermissionException;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
-use LaravelIdea\Helper\App\Models\_IH_User_C;
 
 class ConversationParticipantService
 {
     /**
      * Get conversation participants
      *
-     * @param Conversation $conversation
      * @return User[]|Collection
      */
     public function conversationParticipants(Conversation $conversation): Collection|array
@@ -35,16 +32,13 @@ class ConversationParticipantService
     /**
      * Add a participants to a conversation
      *
-     * @param ConversationDTO $conversationDTO
-     * @param Conversation $conversation
-     * @return void
      * @throws UserNotHavePermissionException
      */
     public function addParticipant(ConversationDTO $conversationDTO, Conversation $conversation): void
     {
         $newParticipants = User::whereIn('mobile_number', $conversationDTO->participants)->get();
 
-        (new CheckAddParticipantPermissionAction())->execute($conversation);
+        (new CheckAddParticipantPermissionAction)->execute($conversation);
 
         DB::transaction(function () use ($conversation, $newParticipants) {
 
@@ -68,7 +62,7 @@ class ConversationParticipantService
     {
         $participant = User::firstWhere('mobile_number', $conversationDTO->participants);
 
-        (new CheckRemoveParticipantAction())->execute($conversation, $participant->id);
+        (new CheckRemoveParticipantAction)->execute($conversation, $participant->id);
 
         DB::transaction(function () use ($conversation, $participant) {
 
@@ -87,8 +81,7 @@ class ConversationParticipantService
      */
     public function participantLeave(Conversation $conversation): void
     {
-
-        (new CheckParticipantLeaveAction())->execute($conversation);
+        (new CheckParticipantLeaveAction)->execute($conversation);
 
         DB::transaction(function () use ($conversation) {
 
@@ -98,7 +91,7 @@ class ConversationParticipantService
             // TODO: Broadcast
             broadcast(new ParticipantLeftEvent($conversation, auth()->user()));
 
-            (new ConversationNeedsAdminsCheckAction())->execute($conversation);
+            (new ConversationNeedsAdminsCheckAction)->execute($conversation);
         });
     }
 }

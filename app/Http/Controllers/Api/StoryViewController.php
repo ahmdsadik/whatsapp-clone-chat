@@ -17,9 +17,6 @@ class StoryViewController extends Controller
 
     /**
      * View story
-     *
-     * @param Story $story
-     * @return JsonResponse
      */
     public function viewStory(Story $story): JsonResponse
     {
@@ -33,6 +30,7 @@ class StoryViewController extends Controller
             return $this->errorResponse('User Can\'t view story twice.');
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage());
+
             return $this->errorResponse('error happened while viewing story');
         }
     }

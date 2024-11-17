@@ -16,9 +16,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, HasApiTokens, InteractsWithMedia, HasUuids;
+    use HasApiTokens, HasFactory, HasUuids, InteractsWithMedia, Notifiable;
 
     public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -37,7 +38,7 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $hidden = [
-        'fcm_token'
+        'fcm_token',
     ];
 
     /**
@@ -48,7 +49,7 @@ class User extends Authenticatable implements HasMedia
     protected function casts(): array
     {
         return [
-            'fcm_token' => 'encrypted'
+            'fcm_token' => 'encrypted',
         ];
     }
 
@@ -64,7 +65,7 @@ class User extends Authenticatable implements HasMedia
         return $this->getFirstMediaUrl('avatar') ?? '';
     }
 
-    #################### Relations ####################
+    //################### Relations ####################
 
     public function contacts(): HasMany
     {

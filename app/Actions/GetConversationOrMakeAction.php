@@ -3,17 +3,12 @@
 namespace App\Actions;
 
 use App\Enums\ConversationType;
-use App\Exceptions\ParticipantNotExistsInConversationException;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Support\Str;
 
 class GetConversationOrMakeAction
 {
-    /**
-     * @param string $to
-     * @return Conversation
-     */
     public function execute(string $to): Conversation
     {
         if (str_starts_with($to, 'user-')) {
@@ -27,10 +22,6 @@ class GetConversationOrMakeAction
         return Conversation::findOrFail($to);
     }
 
-    /**
-     * @param User $other_participant
-     * @return Conversation
-     */
     private function oneToOneConversation(User $other_participant): Conversation
     {
         $conversation = Conversation::Where('type', ConversationType::ONE_TO_ONE)
@@ -45,9 +36,8 @@ class GetConversationOrMakeAction
             return $conversation;
         }
 
-
         $conversation = Conversation::create([
-            'type' => ConversationType::ONE_TO_ONE
+            'type' => ConversationType::ONE_TO_ONE,
         ]);
 
         $conversation->participants()->attach([$other_participant->id, auth()->id()]);

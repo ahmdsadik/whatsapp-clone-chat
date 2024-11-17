@@ -11,11 +11,12 @@ class IchtrojanOTP implements OTPInterface
 
     public function __construct()
     {
-        $this->otp = new Otp();
+        $this->otp = new Otp;
     }
 
     /**
      * Generate OTP
+     *
      * @throws \Exception
      */
     public function generate(string $identifier, mixed $type = 'numeric', int $length = 6, mixed $expire_time = 10): mixed
@@ -28,7 +29,6 @@ class IchtrojanOTP implements OTPInterface
      *
      * @param [type] $identifier
      * @param [type] $otp
-     * @return mixed
      */
     public function validate($identifier, $otp): mixed
     {

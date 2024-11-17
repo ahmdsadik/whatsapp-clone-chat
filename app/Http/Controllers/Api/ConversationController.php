@@ -22,8 +22,6 @@ class ConversationController extends Controller
 
     /**
      * Get user conversations
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -31,21 +29,19 @@ class ConversationController extends Controller
             $conversations = $this->conversationService->userConversations();
 
             return $this->successResponse([
-                'conversations' => ConversationResource::collection($conversations)
+                'conversations' => ConversationResource::collection($conversations),
             ],
                 'conversations retrieved successfully'
             );
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened While trying to retrieve conversations.');
         }
     }
 
     /**
      * Make a new Conversation.
-     *
-     * @param CreateConversationsRequest $request
-     * @return JsonResponse
      */
     public function store(CreateConversationsRequest $request): JsonResponse
     {
@@ -70,16 +66,13 @@ class ConversationController extends Controller
             return $this->errorResponse('Can\'t add the same participant twice.');
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened While trying to create conversation.');
         }
     }
 
     /**
      * Update a conversation.
-     *
-     * @param UpdateConversationRequest $request
-     * @param Conversation $conversation
-     * @return JsonResponse
      */
     public function update(UpdateConversationRequest $request, Conversation $conversation): JsonResponse
     {
@@ -105,15 +98,13 @@ class ConversationController extends Controller
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened While trying to create conversation.');
         }
     }
 
     /**
      * Delete a conversation.
-     *
-     * @param Conversation $conversation
-     * @return JsonResponse
      */
     public function destroy(Conversation $conversation): JsonResponse
     {
@@ -124,6 +115,7 @@ class ConversationController extends Controller
 
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened While trying to delete conversation.');
         }
     }

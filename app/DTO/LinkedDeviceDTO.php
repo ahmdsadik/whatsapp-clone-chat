@@ -2,8 +2,6 @@
 
 namespace App\DTO;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class LinkedDeviceDTO extends BaseDTO
 {
     public function __construct(

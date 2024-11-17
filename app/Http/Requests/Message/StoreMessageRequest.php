@@ -21,7 +21,7 @@ class StoreMessageRequest extends FormRequest
             'text' => ['required_unless:media,null', 'string'],
             'type' => ['required', Rule::enum(MessageType::class)],
             'media' => ['nullable', 'array', 'min:1'],
-            'media.*' => ['file']
+            'media.*' => ['file'],
         ];
     }
 }

@@ -20,9 +20,6 @@ class ConversationPermissionController extends Controller
 
     /**
      * Get conversation permissions
-     *
-     * @param Conversation $conversation
-     * @return JsonResponse
      */
     public function permissions(Conversation $conversation): JsonResponse
     {
@@ -32,7 +29,7 @@ class ConversationPermissionController extends Controller
 
             return $this->successResponse(
                 [
-                    'permissions' => ConversationPermissionResource::make($permissions)
+                    'permissions' => ConversationPermissionResource::make($permissions),
                 ],
                 'Conversation Permission Retrieved Successfully.');
 
@@ -40,16 +37,13 @@ class ConversationPermissionController extends Controller
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened retrieving conversation permissions.');
         }
     }
 
     /**
      * Update conversation permissions
-     *
-     * @param UpdatePermissionRequest $request
-     * @param Conversation $conversation
-     * @return JsonResponse
      */
     public function update(UpdatePermissionRequest $request, Conversation $conversation): JsonResponse
     {
@@ -70,6 +64,7 @@ class ConversationPermissionController extends Controller
             return $this->errorResponse($exception->getMessage());
         } catch (\Throwable $throwable) {
             Log::error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
+
             return $this->errorResponse('Error happened while updating conversation permissions.');
         }
     }

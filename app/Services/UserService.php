@@ -13,9 +13,6 @@ class UserService
 
     /**
      * Login or Create User
-     *
-     * @param UserDTO $userDTO
-     * @return void
      */
     public function loginOrCreate(UserDTO $userDTO): void
     {
@@ -26,8 +23,6 @@ class UserService
 
     /**
      * Logout User
-     *
-     * @return void
      */
     public function logout(): void
     {
