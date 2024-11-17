@@ -28,7 +28,7 @@ This is a full-featured WhatsApp Clone built with Laravel and Pusher. The applic
 
 1. **Clone the repository**:
     ```sh
-    https://github.com/ahmdsadik/whatsapp-clone-chat.git
+    git clone https://github.com/ahmdsadik/whatsapp-clone-chat.git
     cd whatsapp-clone-chat
     ```
 
