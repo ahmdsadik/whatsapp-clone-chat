@@ -24,36 +24,43 @@ This is a full-featured WhatsApp Clone built with Laravel and Pusher. The applic
 - **MySQL**: Database management.
 - **Laravel Sanctum**: API authentication.
 - **Twilio**: For Sending OTP to users.
+
 ## Installation
 
 1. **Clone the repository**:
+
     ```sh
     git clone https://github.com/ahmdsadik/whatsapp-clone-chat.git
     cd whatsapp-clone-chat
     ```
 
 2. **Install dependencies**:
+
     ```sh
     composer install
     npm install
     ```
 
 3. **Copy the example environment file and configure the environment variables**:
+
     ```sh
     cp .env.example .env
     ```
 
 4. **Generate an application key**:
+
     ```sh
     php artisan key:generate
     ```
 
 5. **Run database migrations**:
+
     ```sh
     php artisan migrate
     ```
 
 6. **Run the development server**:
+
     ```sh
     php artisan serve
     npm run dev
