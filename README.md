@@ -63,7 +63,7 @@ This is a full-featured WhatsApp Clone built with Laravel and Pusher. The applic
 
     ```sh
     php artisan serve
-    npm run dev
+    php artisan queue:work
     ```
 
 Your application should now be up and running on `http://localhost:8000`.
