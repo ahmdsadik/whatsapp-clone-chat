@@ -20,8 +20,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }
 
-        //        $this->app->bind(OTP::class, IchtrojanOTP::class);
-        //        $this->app->bind(SMS::class, TwilioSMS::class);
+        $this->app->bind(OTP::class, IchtrojanOTP::class);
+        $this->app->bind(SMS::class, TwilioSMS::class);
     }
 
     /**
